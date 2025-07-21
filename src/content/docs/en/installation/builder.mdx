@@ -1,0 +1,142 @@
+---
+title: Builder Description Work
+description: ...
+---
+
+import { Steps, FileTree } from '@astrojs/starlight/components';
+
+# Preinstallation (install.sh)
+Running `install.sh` starts the builder preinstallation process:
+
+<Steps>
+
+1. **Installing base packages**
+   
+   Installing `python` and `python-pip` packages needed for the main part of the builder to work correctly.
+
+2. **Installing Python libraries**
+   
+   Installing libraries needed for both the builder and the system:
+   - inquirer
+   - loguru
+   - psutil
+   - gputil
+   - pyamdgpuinfo
+   - pyyaml
+   - pillow
+
+3. **Starting the main part of the builder**
+   
+   After successful installation of all dependencies, the main part of the builder starts.
+
+</Steps>
+
+# Package Structure
+
+In the `Builder` folder you can find the `packages.py` file, which contains all the packages to be installed.
+
+## Builder Directory Structure
+
+<FileTree>
+
+- Builder/
+  - packages.py
+  - main.py
+  - config/
+    - base_packages.yaml
+    - drivers.yaml
+  - scripts/
+    - install.sh
+    - setup.py
+
+</FileTree>
+
+## Package Organization
+
+The `packages.py` file contains instances of the `Packages` class with the following structure:
+
+- **pacman** - packages from official repositories
+- **aur** - packages from Arch User Repository
+
+Inside each category is an instance of the `DistributionPackages` class with attributes:
+- `common` - packages for all window managers
+- `hyprland_packages` - packages only for Hyprland
+- `bspwm_packages` - packages only for bspwm
+
+### Main constants:
+- **BASE** - base packages required for correct system operation
+- **CUSTOM** - package categories (games, social networks)
+- **DRIVERS** - drivers for various vendors
+
+# Installation Process
+
+The installation begins by collecting answers from the user, based on which system components will be installed.
+
+## Types of Questions
+
+- **Single answer** - simply press Enter to select the desired option
+- **Multiple choice** - use space to select, Enter to finish
+
+## Configuration Steps
+
+<Steps>
+
+1. **Enable multilib repository**
+   
+   ```
+   Should I enable the multilib repository?
+   ```
+   
+   multilib is an official repository that allows users to run and build 32-bit applications on a 64-bit version of Arch Linux.
+   
+   :::tip[Recommendation]
+   **It's recommended to accept** this setting for full compatibility.
+   :::
+
+2. **Update package database**
+   
+   ```
+   Update Arch DataBase?
+   ```
+   
+   Update the package database to the current version.
+   
+   :::tip[Recommendation]
+   **It's recommended to accept** to get the latest package versions.
+   :::
+
+3. **Install game dependencies**
+   
+   ```
+   Install game dependencies?
+   ```
+   
+   Install packages related to games and their optimization.
+   
+   Details in [packages.py file](https://github.com/meowrch/meowrch/blob/main/Builder/packages.py).
+
+4. **Install social media dependencies**
+   
+   ```
+   Install social-media dependencies?
+   ```
+   
+   Install social media applications.
+   
+   Details in [packages.py file](https://github.com/meowrch/meowrch/blob/main/Builder/packages.py).
+
+5. **Select drivers**
+   
+   ```
+   What drivers do you want to install?
+   ```
+   
+   Select drivers for graphics card and processor. In most cases, the vendor is detected automatically.
+   
+   Details in [packages.py file](https://github.com/meowrch/meowrch/blob/main/Builder/packages.py).
+
+</Steps>
+
+:::caution[Important to Know]
+This page has not been completed. 
+:::

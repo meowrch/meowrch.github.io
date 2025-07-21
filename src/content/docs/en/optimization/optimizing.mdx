@@ -3,6 +3,8 @@ title: Tips for optimizing the system
 description: ...
 ---
 
+import { Steps, FileTree } from '@astrojs/starlight/components';
+
 # System boot
 To find out which process is slowing down your system startup the most, run the `systemd-analyze blame` command
 
@@ -12,27 +14,38 @@ sudo systemctl mask NetworkManager-wait-online.service
 ```
 
 # Speeding up initramfs unpacking
-Is the initial boot environment that completes the Linux kernel image, including all the necessary modules and utilities to boot it, especially for mounting the root partition. To save space, it is presented as a self-extracting archive that is unpacked at boot time. In Arch Linux, the mkinitcpio utility creates initramfs and by default uses the zstd compression algorithm, which is optimal for speed. However, to speed up boot time, it is better to use the lz4 algorithm, which provides faster decompression. 
 
-To set lz4 as the compression algorithm for initramfs, you need to edit the /etc/mkinitcpio.conf file by adding the following lines:
-```ini
-COMPRESSION="lz4"
-COMPRESSION_OPTIONS=(-9)
-```
+This is the initial boot environment that completes the Linux kernel image. To save space, it is presented as a self-extracting archive. In Arch Linux, the mkinitcpio utility creates initramfs and by default uses the zstd compression algorithm. To speed up loading, it is better to use the lz4 algorithm.
 
-Additionally, you can speed up boot by replacing the base and udev hooks with systemd in the same config file. This will increase the size of initramfs, but may reduce boot time by a few seconds:
-```ini
-HOOKS=(systemd autodetect microcode modconf kms keyboard sd-vconsole block filesystems fsck)
-```
+<Steps>
 
-:::caution[Attention]
-For systems with an encrypted root partition, you should also add sd-encrypt with a space immediately after the sd-vconsole hook to the list of hooks provided.
-:::
+1. **Change compression algorithm**
+   
+   Edit the `/etc/mkinitcpio.conf` file, adding the following lines:
+   ```ini
+   COMPRESSION="lz4"
+   COMPRESSION_OPTIONS=(-9)
+   ```
 
-After making the changes, update the initramfs images with the command:
-```bash
-sudo mkinitcpio -P
-```
+2. **Replace hooks with systemd (optional)**
+   
+   For additional acceleration, replace base and udev hooks with systemd:
+   ```ini
+   HOOKS=(systemd autodetect microcode modconf kms keyboard sd-vconsole block filesystems fsck)
+   ```
+   
+   :::caution[Attention]
+   For systems with an encrypted root partition, add `sd-encrypt` after the `sd-vconsole` hook.
+   :::
+
+3. **Update initramfs images**
+   
+   After making changes, run the command:
+   ```bash
+   sudo mkinitcpio -P
+   ```
+
+</Steps>
 
 
 # Compilation flags
@@ -95,26 +108,44 @@ sudo systemctl enable --now systemd-oomd
 
 
 # Ananicy CPP
-[Ananicy](https://github.com/Nefelim4ag/Ananicy) is a task prioritization daemon, and installing it greatly improves system responsiveness.
 
-But we will install its fork, namely [Ananicy CPP](https://gitlab.com/ananicy-cpp/ananicy-cpp).
-Unlike the original Ananicy, this fork is rewritten entirely in C++, which results in a speed boost.
+[Ananicy](https://github.com/Nefelim4ag/Ananicy) is a task prioritization daemon that greatly improves system responsiveness. We will install [Ananicy CPP](https://gitlab.com/ananicy-cpp/ananicy-cpp), rewritten in C++ for increased performance.
 
-To install it, run the following commands:
-```bash
-git clone https://aur.archlinux.org/ananicy-cpp.git
-cd ananicy-cpp  
-makepkg -sric 
-sudo systemctl enable --now ananicy-cpp
-```
+<Steps>
 
-I would also advise you to set up additional rules for re-prioritizing processes
-```bash
-git clone https://aur.archlinux.org/cachyos-ananicy-rules-git.git
-cd cachyos-ananicy-rules-git
-makepkg -sric
-sudo systemctl restart ananicy-cpp
-```
+1. **Install Ananicy CPP**
+   
+   Clone and build the package from AUR:
+   ```bash
+   git clone https://aur.archlinux.org/ananicy-cpp.git
+   cd ananicy-cpp
+   makepkg -sric
+   ```
+
+2. **Enable the service**
+   
+   Enable and start the service:
+   ```bash
+   sudo systemctl enable --now ananicy-cpp
+   ```
+
+3. **Install additional rules (recommended)**
+   
+   Install extended rules for better optimization:
+   ```bash
+   git clone https://aur.archlinux.org/cachyos-ananicy-rules-git.git
+   cd cachyos-ananicy-rules-git
+   makepkg -sric
+   ```
+
+4. **Restart the service**
+   
+   Restart the service to apply new rules:
+   ```bash
+   sudo systemctl restart ananicy-cpp
+   ```
+
+</Steps>
 
 # Haveged
 I can also recommend the package [Haveged](https://wiki.archlinux.org/title/Haveged_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)).
@@ -140,33 +171,61 @@ Not to be used in conjunction with Ananicy CPP
 :::
 
 # Cpu Power
-By default, the processor dynamically changes its frequency, which is basically correct and gives a balance between power saving and performance, but if you still want to squeeze all the juice, you need to fix the maximum performance mode.
 
-To set it, run the following commands:
-```bash
-sudo pacman -S cpupower
-sudo cpupower frequency-set -g performance
-```
+By default, the processor dynamically changes its frequency, which provides a balance between power saving and performance. However, for maximum performance, you can lock the maximum frequency mode.
 
-Set up the cpupower configuration
+<Steps>
 
-```bash
-sudo nano /etc/default/cpupower
-```
+1. **Install CPUPower utility**
+   ```bash
+   sudo pacman -S cpupower
+   ```
 
-Edit the `governor='performance'` line and enable the service
-```bash
-sudo systemctl enable cpupower
-```
+2. **Set performance mode**
+   ```bash
+   sudo cpupower frequency-set -g performance
+   ```
+
+3. **Configure settings**
+   
+   Open the configuration file:
+   ```bash
+   sudo nano /etc/default/cpupower
+   ```
+   
+   Find and edit the line:
+   ```ini
+   governor='performance'
+   ```
+
+4. **Enable the service**
+   ```bash
+   sudo systemctl enable cpupower
+   ```
+
+</Steps>
 
 # Auto CpuFreq
-This is a utility for Linux designed to automatically optimize CPU speed and power consumption. It actively monitors battery status, CPU utilization, temperature and overall system load, allowing you to dynamically switch between power saving and high performance modes. Is probably the best option.
 
-To install it, run the following commands:
-```bash
-yay -S auto-cpufreq
-sudo systemctl enable --now auto-cpufreq
-```
+This is a utility for automatically optimizing CPU speed and power consumption. It monitors battery status, CPU utilization, temperature and system load, dynamically switching between power saving and high performance modes.
+
+:::tip[Recommendation]
+This is the best option for most users.
+:::
+
+<Steps>
+
+1. **Install from AUR**
+   ```bash
+   yay -S auto-cpufreq
+   ```
+
+2. **Enable the service**
+   ```bash
+   sudo systemctl enable --now auto-cpufreq
+   ```
+
+</Steps>
 
 # Optimizing kernel loading
 You can change the kernel boot parameters in GRUB a bit, change the following line in `/etc/default/grub` adding the following parameters to your own:
