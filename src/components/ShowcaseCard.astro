@@ -1,0 +1,120 @@
+---
+export interface Props {
+  name: string;
+  author: string;
+  description: string;
+  imageSrc: string;
+  src: string;
+}
+
+const { name, author, description, imageSrc, src } = Astro.props;
+---
+
+<div class="showcase-card">
+  <article class="card">
+    <div class="image-container" onclick="openModal(this)">
+      <img src={imageSrc} alt={name} class="showcase-image" data-full-src={imageSrc} />
+    </div>
+  </article>
+</div>
+
+<!-- Modal для полноразмерного просмотра -->
+<div id="image-modal" class="image-modal" onclick="closeModal()">
+  <span class="modal-close">&times;</span>
+  <img class="modal-image" id="modal-img" />
+  <div class="modal-caption" id="modal-caption"></div>
+</div>
+
+<style>
+  .showcase-card {
+    height: 100%;
+  }
+
+  .card {
+    border: 1px solid var(--ctp-surface2);
+    background: rgba(49, 50, 68, 0.7);
+    backdrop-filter: blur(16px);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .card:hover {
+    border-color: var(--ctp-mauve);
+    transform: translateY(-4px);
+    background: rgba(49, 50, 68, 0.9);
+  }
+
+  .image-container {
+    position: relative;
+    overflow: hidden;
+    height: 280px;
+    cursor: pointer;
+  }
+
+  .showcase-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .card:hover .showcase-image {
+    transform: scale(1.05);
+  }
+
+
+  /* Modal стили */
+  .image-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(17, 17, 27, 0.95);
+    backdrop-filter: blur(10px);
+  }
+
+  .modal-image {
+    margin: auto;
+    display: block;
+    width: 90%;
+    max-width: 1200px;
+    max-height: calc(100vh - 200px);
+    object-fit: contain;
+    margin-top: 120px;
+    margin-bottom: 80px;
+    border-radius: 12px;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 80px;
+    right: calc(5% + 20px);
+    color: var(--ctp-text);
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+    z-index: 1001;
+  }
+
+  .modal-close:hover,
+  .modal-close:focus {
+    color: var(--ctp-mauve);
+  }
+
+  .modal-caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: var(--ctp-subtext1);
+    padding: 10px 0;
+    height: 50px;
+  }
+</style>
