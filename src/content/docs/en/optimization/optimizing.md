@@ -25,8 +25,9 @@ Additionally, you can speed up boot by replacing the base and udev hooks with sy
 HOOKS=(systemd autodetect microcode modconf kms keyboard sd-vconsole block filesystems fsck)
 ```
 
-> [!WARNING]
-> For systems with an encrypted root partition, you should also add sd-encrypt with a space immediately after the sd-vconsole hook to the list of hooks provided.
+:::caution[Attention]
+For systems with an encrypted root partition, you should also add sd-encrypt with a space immediately after the sd-vconsole hook to the list of hooks provided.
+:::
 
 After making the changes, update the initramfs images with the command:
 ```bash
@@ -47,8 +48,9 @@ RUSTFLAGS="-C opt-level=3 -C target-cpu=native -C link-arg=-z -C link-arg=pack-r
 MAKEFLAGS="-j$(nproc) -l$(nproc)"
 ```
 
-> [!WARNING]
-> These compiler flags maximize compilation performance, but may cause build errors in very rare applications. If this happens, disable the 'lto' parameter in the options line by adding an exclamation mark character in front of it ! (“!lto”).
+:::caution[Important]
+These compiler flags maximize compilation performance, but may cause build errors in very rare applications. If this happens, disable the 'lto' parameter in the options line by adding an exclamation mark character in front of it ! ("!lto").
+:::
 
 # Ccache
 Linux has programs that can take more than two hours to build, and ccache can be used to speed up the recompilation of applications such as Wine or Proton-GE.
@@ -65,8 +67,9 @@ After installation, it still needs to be activated in your makepkg settings. To 
 BUILDENV=(!distcc color ccache check !sign)
 ```
 
-> [!WARNING]
-> ccache can break the build of some programs, so be careful with its use.
+:::caution[Warning]
+ccache can break the build of some programs, so be careful with its use.
+:::
 
 
 # TRIM 
@@ -78,8 +81,9 @@ sudo systemctl enable fstrim.timer
 sudo fstrim -v /
 ```
 
-> [!WARNING]
-> If you use the Btrfs file system and have kernel version 6.2 or higher, you do not need to enable the service to periodically execute the TRIM command, because Btrfs itself executes it asynchronously.
+:::caution[Btrfs Users]
+If you use the Btrfs file system and have kernel version 6.2 or higher, you do not need to enable the service to periodically execute the TRIM command, because Btrfs itself executes it asynchronously.
+:::
 
 # OOM
 Out-Of-Memory Killer (OOM) is a Linux process that terminates an application to save the kernel from crashing. It sacrifices the application to keep the OS running.
@@ -131,8 +135,9 @@ sudo pacman -S rng-tools
 sudo systemctl enable --now rngd
 ```
 
-> [!WARNING]
-> Not to be used in conjunction with Ananicy CPP
+:::caution[Warning]
+Not to be used in conjunction with Ananicy CPP
+:::
 
 # Cpu Power
 By default, the processor dynamically changes its frequency, which is basically correct and gives a balance between power saving and performance, but if you still want to squeeze all the juice, you need to fix the maximum performance mode.
@@ -173,26 +178,17 @@ And finally update grub
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-> [!WARNING]
-> Changes to kernel boot parameters in GRUB can affect security and overall system behavior. Do so at your own risk.
->
-> Impact on safety
->    Disabling safety mechanisms:
->        Parameters such as nowatchdog and `split_lock_detect=off` can reduce the level of protection against hangs and conflicts, which could potentially be used by attackers to attack the system.
->       For example, disabling `watchdog` can allow a system to hang without automatically rebooting, allowing attackers to gain access to the system.
->    Ignoring certain checks:
->        The `module.sig_unenforce` parameter disables kernel module signature checking, which allows unsigned modules to be loaded. This can be risky, as unsigned modules may contain malicious code.
->
->    Simplifying access to the system:
->        Disabling parameters such as `rcupdate.rcu_expedited=1` can result in less efficient processing in multi-threaded environments, which can also be used for attack.
->
->Impact on productivity
->   Optimization of system performance:
->        Parameters such as `pcie_aspm=force` and `page_alloc.shuffle=1` can improve system performance and power management, which is especially important for mobile devices.
->    Improved stability:
->        Settings like `tsc=reliable` help provide more accurate time synchronization on multi-core systems, which can improve application stability.
-> Process Management:
->        Disabling process migration with `migrations=off` can improve performance in some scenarios, but can also lead to worse load balancing between cores
+:::danger[Careful!]
+Changes to kernel boot parameters in GRUB can affect security and overall system behavior. **Do so at your own risk.**
+
+**Impact on Safety:**
+- **Disabling safety mechanisms**: `nowatchdog` and `split_lock_detect=off` reduce protection against hangs
+- **Ignoring checks**: `module.sig_unenforce` allows loading unsigned modules
+
+**Impact on Performance:**
+- **System optimization**: `pcie_aspm=force` and `page_alloc.shuffle=1` improve performance
+- **Stability**: `tsc=reliable` provides better time synchronization
+:::
 
 # You want more?
 I suggest you visit [this repo](https://github.com/ventureoo/ARU). 

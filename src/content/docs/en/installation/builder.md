@@ -58,6 +58,6 @@ Questions:
   This option prompts you to select the vendor of the video card and processor for which you want to install drivers. In most cases, the vendor is detected and selected automatically. \
    You can learn more about installable packages in [this](https://github.com/meowrch/meowrch/blob/main/Builder/packages.py) file.
 
-> [!WARNING]
-> This page has not been completed. 
-  
+:::caution[Important to Know]
+This page has not been completed. 
+:::

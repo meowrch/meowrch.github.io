@@ -26,40 +26,29 @@ export default defineConfig({
 			},
 			sidebar: [
 				{
-					label: 'Guides',
-					translations: {
-						ru: 'Гайды'
-					},
-					items: [
-						{
-							label: 'Builder',
-							translations: {
-								ru: 'Установщик'
-							},
-							link: '/guides/builder/'
-						},
-						{
-							label: 'Customization',
-							translations: {
-								ru: 'Кастомизация'
-							},
-							link: '/guides/customization/'
-						},
-						{
-							label: 'Hotkeys',
-							translations: {
-								ru: 'Горячие клавиши'
-							},
-							link: '/guides/hotkeys/'
-						},
-						{
-							label: 'Optimizing',
-							translations: {
-								ru: 'Оптимизация'
-							},
-							link: '/guides/optimizing/'
-						}
-					]
+					label: 'Introduction',
+					translations: { ru: 'Введение' },
+					autogenerate: { directory: 'introduction' }
+				},
+				{
+					label: 'Installation',
+					translations: { ru: 'Установка' },
+					autogenerate: { directory: 'installation' }
+				},
+				{
+					label: 'Customization', 
+					translations: { ru: 'Кастомизация' },
+					autogenerate: { directory: 'customization' }
+				},
+				{
+					label: 'Usage',
+					translations: { ru: 'Использование' },
+					autogenerate: { directory: 'usage' }
+				},
+				{
+					label: 'Optimization',
+					translations: { ru: 'Оптимизация' },
+					autogenerate: { directory: 'optimization' }
 				}
 			],
 			customCss: [

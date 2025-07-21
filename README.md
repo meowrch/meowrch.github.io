@@ -1,54 +1,148 @@
-# Starlight Starter Kit: Basics
+# Meowrch Wiki
 
 [![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
 
+Общественная wiki для дистрибутива meowrch Linux — место, где собираются знания, гайды, туториалы и полезная информация от сообщества.
+
+## 📖 Как внести свой вклад
+
+### 1. Создание форка
+
+```bash
+# Создайте форк репозитория через GitHub интерфейс или используйте gh CLI
+gh repo fork meowrch/meowrch.github.io --clone
+
+# Или через утилиту git
+git clone https://github.com/meowrch/meowrch.github.io
+
+cd meowrch.github.io
 ```
-npm create astro@latest -- --template starlight
+
+### 2. Установка зависимостей
+
+```bash
+npm install
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/starlight/tree/main/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/starlight/tree/main/examples/basics)
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/withastro/starlight&create_from_path=examples/basics)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwithastro%2Fstarlight%2Ftree%2Fmain%2Fexamples%2Fbasics&project-name=my-starlight-docs&repository-name=my-starlight-docs)
+### 3. Создание и редактирование контента
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+#### Структура контента:
+```
+src/content/docs/
+├── en/                  # Английская версия
+│   ├── installation/    # Установка и настройка
+│   ├── customization/   # Кастомизация и темы
+│   ├── usage/          # Использование системы
+│   └── optimization/   # Оптимизация производительности
+└── ru/                 # Русская версия
+    ├── installation/   # Установка и настройка
+    ├── customization/  # Кастомизация и темы
+    ├── usage/         # Использование системы
+    └── optimization/  # Оптимизация производительности
+```
 
-## 🚀 Project Structure
+#### Добавление новой статьи:
 
-Inside of your Astro + Starlight project, you'll see the following folders and files:
+1. **Создайте новый `.md` файл** в соответствующей категории:
+   - Для установки: `src/content/docs/ru/installation/my-guide.md`
+   - Для кастомизации: `src/content/docs/ru/customization/my-guide.md`
+   - Для оптимизации: `src/content/docs/ru/optimization/my-guide.md`
+   - Для использования: `src/content/docs/ru/usage/my-guide.md`
+
+2. **Добавьте frontmatter** в начало файла:
+   ```markdown
+   ---
+   title: "Название статьи"
+   description: "Краткое описание статьи"
+   ---
+   
+   # Название статьи
+   
+   Ваш контент здесь...
+   ```
+
+3. **Используйте изображения** (если нужно):
+   - Поместите изображения в `src/assets/`
+   - Вставьте в markdown: `![Alt текст](../../assets/image.png)`
+
+### 4. Запуск сервера разработки
+
+```bash
+npm run dev
+```
+
+Откройте `http://localhost:4321` чтобы увидеть изменения в реальном времени.
+
+### 5. Добавление новых статей
+
+**Для новых статей в существующих категориях**: Ничего особенного делать не нужно! Просто создайте `.md` файл в нужной папке — Starlight автоматически добавит его в сайдбар.
+
+### 6. Добавление новой категории
+
+Если нужна новая категория (например, "troubleshooting"):
+
+1. **Создайте папки для обоих языков:**
+   ```bash
+   mkdir -p src/content/docs/ru/troubleshooting
+   mkdir -p src/content/docs/en/troubleshooting
+   ```
+
+2. **Добавьте категорию в конфигурацию** `astro.config.mjs`:
+   ```js
+   sidebar: [
+       // ... существующие категории
+       {
+           label: 'Troubleshooting',
+           autogenerate: { directory: 'troubleshooting' },
+           translations: { ru: 'Решение проблем' }
+       }
+   ]
+   ```
+
+3. **Перезапустите dev сервер** чтобы увидеть изменения.
+
+### 6. Создание Pull Request
+
+```bash
+# Закоммитьте изменения
+git add .
+git commit -m "Добавлена статья: Название статьи"
+git push origin main
+
+# Создайте PR через GitHub или gh CLI
+gh pr create --title "Добавлена статья: Название статьи" --body "Описание изменений"
+```
+
+## 🛠️ Команды разработки
+
+| Команда              | Действие                                          |
+| :------------------- | :------------------------------------------------ |
+| `npm install`        | Установка зависимостей                            |
+| `npm run dev`        | Запуск dev сервера на `localhost:4321`           |
+| `npm run build`      | Сборка production версии в `./dist/`              |
+| `npm run preview`    | Предпросмотр собранной версии                     |
+
+## 📝 Советы по написанию
+
+- **Используйте понятный язык** — помните, что статьи читают пользователи с разным уровнем подготовки
+- **Добавляйте примеры команд** — практические примеры всегда полезны
+- **Структурируйте контент** — используйте заголовки, списки, блоки кода
+- **Проверяйте ссылки** — убедитесь что все ссылки работают
+- **Добавляйте скриншоты** — визуальные примеры упрощают понимание
+
+## 🚀 Структура проекта
 
 ```
 .
-├── public/
+├── public/              # Статические файлы (favicon, etc.)
 ├── src/
-│   ├── assets/
+│   ├── assets/          # Изображения и медиа файлы
 │   ├── content/
-│   │   └── docs/
+│   │   └── docs/        # Markdown файлы с контентом
+│   │       ├── en/      # Английская версия
+│   │       └── ru/      # Русская версия
 │   └── content.config.ts
-├── astro.config.mjs
+├── astro.config.mjs     # Конфигурация Astro и Starlight
 ├── package.json
 └── tsconfig.json
 ```
-
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
-
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
-
-Static assets, like favicons, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).

@@ -30,18 +30,20 @@ To do this, open the `.config/meowrch/config.yaml` file and:
 				- <way_to_wallpaper_for_the_current_theme>.
 	```
 
-> [!IMPORTANT]
-> Use the “*” mask in paths to specify all png and jpg images from your folder. For example:
-> `.config/meowrch/wallpapers/my-wallpapers/*`.
+:::tip[Helpful hint]
+Use the “*” mask in paths to specify all png and jpg images from your folder. For example:
+`.config/meowrch/wallpapers/my-wallpapers/*`.
+:::
 
 Your wallpapers will then be available for all themes.
 
 # How to create your own theme
 You can also create your own theme. To do this, simply copy one of the standard themes (e.g. `.config/meowrch/themes/catppuccin-mocha`), place it in the path `.config/meowrch/themes/` and give the new folder a unique name. You will then be able to make changes to all available configurations of your new theme.
 
-> [!WARNING]
-> Only existing configurations can be modified. You should not change their name, as they will simply not be detected.
-> Adding extraneous files will not affect the theme in any way. They will be ignored.
+:::caution[Important to Know]
+Only existing configurations can be modified. You should not change their name, as they will simply not be detected.
+Adding extraneous files will not affect the theme in any way. They will be ignored.
+:::
 
 The next step is to add your theme to the list of available themes. This can be done by editing the `.config/meowrch/config.yaml` file. \
 The sample format for adding a new theme is as follows:
