@@ -1,22 +1,22 @@
 ---
-title: Builder Description Work
+title: Job Description Builder
 description: ...
 ---
 
 import { Steps, FileTree } from '@astrojs/starlight/components';
 
-# Preinstallation (install.sh)
-Running `install.sh` starts the builder preinstallation process:
+# Preset
+At startup `install.sh` the process of pre-installing the builder begins:
 
 <Steps>
 
-1. **Installing base packages**
+1. **Installation of basic packages**
    
-   Installing `python` and `python-pip` packages needed for the main part of the builder to work correctly.
+   The python and python-pip packages are installed, which are necessary for the main part of the builder to work correctly.
 
 2. **Installing Python libraries**
    
-   Installing libraries needed for both the builder and the system:
+   Libraries are installed that are necessary for both the builder and the system operation.:
    - inquirer
    - loguru
    - psutil
@@ -24,119 +24,185 @@ Running `install.sh` starts the builder preinstallation process:
    - pyamdgpuinfo
    - pyyaml
    - pillow
+   - colorama
 
-3. **Starting the main part of the builder**
+3. **Launching the main part of the builder**
    
-   After successful installation of all dependencies, the main part of the builder starts.
+   After successful installation of all dependencies, the main part of the builder is started, and the user survey process is initialized.
 
 </Steps>
 
-# Package Structure
+# Basic installation process
 
-In the `Builder` folder you can find the `packages.py` file, which contains all the packages to be installed.
+**Installation Steps:**
+<Steps>
+1. **Creating a backup copy of configurations**
+   - Starts if the user has selected the backup option.
+   - Configurations and important files are copied to the `./backup` directory.
 
-## Builder Directory Structure
+2. **Create folders and copy dotfiles**
+   - Create base folders in the user's home directory.
+   - Dotfiles are copied depending on the selected WM (bspwm or Hyprland).
+
+3. **Pacman setup and AUR Manager installation**
+   - The pacman configuration file is updated to include new features and multilib (if selected).
+   - Yay or paru is installed to manage AUR packages.
+
+4. **Installing packages and drivers**
+   - All basic packages are installed from `packages.py `.
+   - Drivers are selected and installed based on hardware auto-detection.
+
+5. **Application Configuration**
+   - Configuring GRUB: adding a custom theme.
+   - SDDM Setup: Set custom greeting theme.
+   - Configuring Firefox: installing selected plugins, configurations, and themes.
+   - Setting up VS Code: installing the `meowrch-code-theme` plugin to adapt vscode to meowrch themes.
+
+6. **Configuring Daemons**
+   - Enabling and launching the main daemons of the system: `NetworkManager`, `bluetooth`, `SDDM`.
+
+7. **Post-installation**
+   - Change the shell to fish.
+   - Adding a user to groups: gamemode.
+   - Install `kitty` as the default terminal.
+   - Installation of the locale `en_US.UTF-8`.
+   - A report is printed on packages that are not installed and a restart of the computer is suggested.
+</Steps>
+
+# Structure of the builder directory
 
 <FileTree>
 
 - Builder/
+  - \_\_init\_\_.py
+  - install.py
   - packages.py
-  - main.py
-  - config/
-    - base_packages.yaml
-    - drivers.yaml
-  - scripts/
-    - install.sh
-    - setup.py
+  - question.py
+  - managers/
+    - \_\_init\_\_.py
+    - apps_manager.py
+    - drivers_manager.py
+    - filesystem_manager.py
+    - package_manager.py
+    - post_install_manager.py
+  - utils/
+    - \_\_init__.py
+    - banner.py
+    - schemes.py
 
 </FileTree>
 
-## Package Organization
+## Package organization
 
-The `packages.py` file contains instances of the `Packages` class with the following structure:
+The file `packages.py` contains different package categories:
 
-- **pacman** - packages from official repositories
-- **aur** - packages from Arch User Repository
+### BASE
 
-Inside each category is an instance of the `DistributionPackages` class with attributes:
-- `common` - packages for all window managers
-- `hyprland_packages` - packages only for Hyprland
-- `bspwm_packages` - packages only for bspwm
+These are the basic packages needed for the entire system to work.:
 
-### Main constants:
-- **BASE** - base packages required for correct system operation
-- **CUSTOM** - package categories (games, social networks)
-- **DRIVERS** - drivers for various vendors
+- **pacman common**:  
+  `pacman-contrib`, `downgrade`, `libnotify`, `ffmpeg`, `ffmpegthumbnailer`, `jq`, `parallel`, `kitty`, `fastfetch`, `lsd`, `bat`,  
+  `brightnessctl`, `automake`, `blueman`, `bluez`, `bluez-utils`, `dunst`, `fakeroot`, `firefox`, `fish`, `fisher`, `dpkg`, `gcc`,  
+  `git`, `gnu-netcat`, `btop`, `micro`, `mat2`, `nemo`, `papirus-icon-theme`, `pavucontrol`, `pamixer`, `pipewire`, `pipewire-pulse`,  
+  `pipewire-audio`, `pipewire-jack`, `pipewire-alsa`, `wireplumber`, `python-pyalsa`, `ranger`, `redshift`, `reflector`, `sudo`, `tree`,  
+  `unrar`, `zip`, `unzip`, `uthash`, `ark`, `cmake`, `clang`, `gzip`, `imagemagick`, `make`, `openssh`, `shellcheck`, `vlc`, `loupe`,  
+  `usbutils`, `openvpn`, `networkmanager-openvpn`, `p7zip`, `gparted`, `sshfs`, `wget`, `netctl`,  
+  `libreoffice`, `ttf-jetbrains-mono`, `ttf-jetbrains-mono-nerd`, `ttf-fira-code`, `ttf-iosevka-nerd`, `playerctl`,  
+  `starship`, `upower`, `udiskie`, `zenity`, `gvfs`, `qt5ct`, `qt6ct`, `timeshift`, `sddm`, `qt5-graphicaleffects`, `qt5-svg`,  
+  `qt5-quickcontrols2`, `clipnotify`, `xdg-desktop-portal-gtk`, `gnome-disk-utility`, `evince`, `neovim`, `tmux`, `cowsay`,  
+  `polkit-gnome`, `rofimoji`, `wmname`, `pyenv`, `xdg-desktop-portal`, `ttf-hack-nerd`, `networkmanager`, `noto-fonts`,  
+  `noto-fonts-cjk`, `noto-fonts-emoji`, `noto-fonts-extra`
 
-# Installation Process
+### bspwm
 
-The installation begins by collecting answers from the user, based on which system components will be installed.
+- `xorg`, `bspwm`, `sxhkd`, `xorg-xinit`, `xclip`, `feh`, `lxappearance`, `polybar`, `xorg-xrandr`, `xsettingsd`
 
-## Types of Questions
+### hyprland
 
-- **Single answer** - simply press Enter to select the desired option
-- **Multiple choice** - use space to select, Enter to finish
+- `hyprland`, `waybar`, `swww`, `cliphist`, `wl-clipboard`, `xdg-desktop-portal-hyprland`, `qt5-wayland`, `qt6-wayland`,  
+  `xdg-desktop-portal-wlr`, `hypridle`
 
-## Configuration Steps
+### CUSTOM
 
-<Steps>
+Packages that can be selected according to your needs:
 
-1. **Enable multilib repository**
-   
-   ```
-   Should I enable the multilib repository?
-   ```
-   
-   multilib is an official repository that allows users to run and build 32-bit applications on a 64-bit version of Arch Linux.
-   
-   :::tip[Recommendation]
-   **It's recommended to accept** this setting for full compatibility.
-   :::
+- **games**:  
+  `steam`, `gamemode`, `mangohud`, `portproton`
 
-2. **Update package database**
-   
-   ```
-   Update Arch DataBase?
-   ```
-   
-   Update the package database to the current version.
-   
-   :::tip[Recommendation]
-   **It's recommended to accept** to get the latest package versions.
-   :::
+- **development**:  
+  `obsidian`, `postgresql`, `pgadmin4-desktop`, `redis`
 
-3. **Install game dependencies**
-   
-   ```
-   Install game dependencies?
-   ```
-   
-   Install packages related to games and their optimization.
-   
-   Details in [packages.py file](https://github.com/meowrch/meowrch/blob/main/Builder/packages.py).
+- **social_media**:  
+  `telegram-desktop`, `discord`, `vesktop`
 
-4. **Install social media dependencies**
-   
-   ```
-   Install social-media dependencies?
-   ```
-   
-   Install social media applications.
-   
-   Details in [packages.py file](https://github.com/meowrch/meowrch/blob/main/Builder/packages.py).
+- **entertainment**:  
+  `yandex-music`, `spotify`
 
-5. **Select drivers**
-   
-   ```
-   What drivers do you want to install?
-   ```
-   
-   Select drivers for graphics card and processor. In most cases, the vendor is detected automatically.
-   
-   Details in [packages.py file](https://github.com/meowrch/meowrch/blob/main/Builder/packages.py).
+- **office**:  
+  `libreoffice-fresh`, `onlyoffice-bin`
 
-</Steps>
+### DRIVERS
 
-:::caution[Important to Know]
-This page has not been completed. 
-:::
+Drivers for various vendors:
+
+- **intel**:  
+  `lib32-mesa`, `vulkan-intel`, `lib32-vulkan-intel`, `vulkan-icd-loader`, `lib32-vulkan-icd-loader`, `intel-media-driver`,  
+  `libva-intel-driver`, `xf86-video-intel`
+
+- **amd**:  
+  `lib32-mesa`, `vulkan-radeon`, `lib32-vulkan-radeon`, `vulkan-icd-loader`, `lib32-vulkan-icd-loader`
+
+- **nvidia**:  
+  `nvidia-dkms`, `nvidia-utils`, `lib32-nvidia-utils`, `nvidia-settings`, `vulkan-icd-loader`, `lib32-vulkan-icd-loader`,  
+  `lib32-opencl-nvidia`, `opencl-nvidia`, `libxnvctrl`
+
+### When are they installed?
+
+- **BASE** is always installed.
+- **bspwm and hyprland** are installed depending on the selected window manager.
+- **CUSTOM** and **DRIVERS** are selected during the installation process by the builder.
+
+### Builder Components
+
+- **PackageManager**: Manages package installation, database update, pacman configuration.
+- **DriversManager**: Automatic detection and installation of drivers for GPU and CPU.
+- **FileSystemManager**: File system management, creating backups and copying dotfiles.
+- **AppsManager**: Configure applications, including GRUB, SDDM, Firefox, VS Code.
+- **PostInstallation**: Final system setup after installation. Applies default settings for the terminal, shell, and locales and adds the user to the `gamemode` group.
+
+# Questions before installation
+
+The builder asks a number of questions to set up the installation.:
+
+1. **Configuration Backup**
+- **Answers**: Yes, No
+- **Details**: If "Yes" is selected, a backup of all configuration files is created.
+
+2. **Choosing a Window Manager (WM)**
+- **Answers**: bspwm, hyprland
+   - **Details**: The choice of WM determines which packages will be installed (bspwm or hyprland and related components).
+
+3. **Choosing an AUR Manager**
+   - **Answers**: yay, paru
+- **Details**: Determines which AUR assistant will be installed to manage packages from the Arch User Repository.
+
+4. **Activation of the multilib repository**
+- **Answers**: Yes, No
+- **Details**: Includes a repository to support 32-bit applications.
+
+5. **Updating the package database**
+   - **Answers**: Yes, No
+- **Details**: If "Yes" is selected, the package database will be updated to the current version.
+
+6. **Installing drivers**
+   - **Answers**: Intel, Nvidia, AMD
+- **Details**: Driver selection depending on hardware. Auto-detection is recommended for proper selection.
+
+7. **Choosing plugins for Firefox**
+   - **Answers**: Dark Reader, uBlock Origin, TWP, Unpaywall, Tamper Monkey
+- **Details**:
+- **Dark Reader**: Changes light themes of websites to dark ones, improving visual perception and reducing eye strain.
+     - **uBlock Origin**: Blocks ads, increases page loading speed, and protects against malware.
+     - **TWP**: A tool for translating text and entire pages, useful for users working with many languages.
+     - **Unpaywall**: Allows you to access the content of paid articles legally through alternative sources.
+     - **Tamper Monkey**: A user script manager for personalizing the browser, for example, to add new functions or modify existing ones. In our case, it is used to add real-time video translation using a model from Yandex Browser.
