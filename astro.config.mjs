@@ -183,6 +183,58 @@ export default defineConfig({
 						src: '/tilt.js',
 						defer: true
 					}
+				},
+				{
+					tag: 'script',
+					content: `
+						// Отслеживание изменений языка через Starlight
+						document.addEventListener('DOMContentLoaded', function() {
+							// Сохраняем текущий язык при загрузке страницы
+							const currentPath = window.location.pathname;
+							let currentLang = 'en'; // по умолчанию
+							
+							if (currentPath.startsWith('/ru/')) {
+								currentLang = 'ru';
+							} else if (currentPath.startsWith('/en/')) {
+								currentLang = 'en';
+							}
+							
+							// Сохраняем в localStorage
+							localStorage.setItem('meowrch-language', currentLang);
+							
+							// Отслеживаем клики по ссылкам смены языка
+							function handleLanguageLinks() {
+								const languageLinks = document.querySelectorAll('a[href*="/en/"], a[href*="/ru/"]');
+								languageLinks.forEach(link => {
+									link.addEventListener('click', function() {
+										const href = this.getAttribute('href');
+										if (href.includes('/ru/')) {
+											localStorage.setItem('meowrch-language', 'ru');
+										} else if (href.includes('/en/')) {
+											localStorage.setItem('meowrch-language', 'en');
+										}
+									});
+								});
+							}
+							
+							// Вызываем сразу и при изменениях DOM
+							handleLanguageLinks();
+							
+							// Наблюдаем за изменениями DOM для динамически добавляемых ссылок
+							const observer = new MutationObserver(function(mutations) {
+								mutations.forEach(function(mutation) {
+									if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+										handleLanguageLinks();
+									}
+								});
+							});
+							
+							observer.observe(document.body, {
+								childList: true,
+								subtree: true
+							});
+						});
+					`
 				}
 			],
 			social: [

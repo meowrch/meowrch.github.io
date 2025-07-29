@@ -20,6 +20,7 @@ hero:
 import { Card, CardGrid, Icon } from '@astrojs/starlight/components';
 import FeatureCard from '../../../components/FeatureCard.astro';
 import ShowcaseCard from '../../../components/ShowcaseCard.astro';
+import ContributorCard from '../../../components/ContributorCard.astro';
 import screenshot1 from '../../../assets/screenshots/1.png';
 import screenshot2 from '../../../assets/screenshots/2.png';
 import screenshot3 from '../../../assets/screenshots/3.png';
@@ -127,5 +128,30 @@ import screenshot7 from '../../../assets/screenshots/7.png';
     author="Meowrch"
     imageSrc={screenshot7.src}
     src="https://github.com/meowrch/meowrch"
+  />
+</CardGrid>
+
+<div style="margin-top: 4rem; margin-bottom: 3rem;">
+  <h1 style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 3rem; color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
+    <Icon name="heart" style="color: var(--ctp-mauve); width: 2.5rem; height: 2.5rem;" />
+    Благодарности
+  </h1>
+  <p style="color: var(--ctp-subtext1); font-size: 1.125rem; line-height: 1.7; max-width: 800px; margin: 0 auto 2rem auto; text-align: center;">
+    Мы выражаем огромную благодарность всем участникам, которые помогли в разработке проекта!
+  </p>
+</div>
+
+<CardGrid>
+  <ContributorCard
+    username="K1rsN7"
+    contribution="Активно участвует в развитии проекта с самого начала, помогает с разработкой и решением проблем."
+  />
+  <ContributorCard
+    username="haru2503"
+    contribution="Всегда готов прийти на помощь другим пользователям, решает проблемы сообщества."
+  />
+  <ContributorCard
+    username="Redm00us"
+    contribution="Расширяет границы проекта, создавая версию для NixOS и адаптируя под новые платформы."
   />
 </CardGrid>

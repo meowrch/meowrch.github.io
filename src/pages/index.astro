@@ -1,0 +1,187 @@
+---
+// Редирект страница для определения языка
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meowrch Wiki - Redirecting...</title>
+    <meta name="description" content="Beautiful dots for Arch hyprland and bspwm">
+    
+    <!-- Favicons and theme setup -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <meta name="theme-color" content="#1e1e2e" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#eff1f5" media="(prefers-color-scheme: light)">
+    
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e1e2e 0%, #313244 100%);
+            color: #cdd6f4;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 400px;
+            padding: 2rem;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: url('/logo.png') no-repeat center/contain;
+            border-radius: 50%;
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #cba6f7;
+        }
+        
+        p {
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(203, 166, 247, 0.3);
+            border-top: 3px solid #cba6f7;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .links {
+            margin-top: 2rem;
+            opacity: 0.6;
+        }
+        
+        .links a {
+            color: #cba6f7;
+            text-decoration: none;
+            margin: 0 1rem;
+            transition: opacity 0.3s;
+        }
+        
+        .links a:hover {
+            opacity: 1;
+        }
+        
+        @media (prefers-color-scheme: light) {
+            body {
+                background: linear-gradient(135deg, #eff1f5 0%, #dce0e8 100%);
+                color: #4c4f69;
+            }
+            
+            h1 {
+                color: #8839ef;
+            }
+            
+            .spinner {
+                border: 3px solid rgba(136, 57, 239, 0.3);
+                border-top: 3px solid #8839ef;
+            }
+            
+            .links a {
+                color: #8839ef;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo" role="img" aria-label="Meowrch Logo"></div>
+        <h1>Meowrch Wiki</h1>
+        <p>Detecting your language and redirecting...</p>
+        <div class="spinner" aria-label="Loading"></div>
+        
+        <div class="links">
+            <a href="/en/">English</a>
+            <a href="/ru/">Русский</a>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // Функция для получения предпочитаемого языка
+            function getPreferredLanguage() {
+                // Проверяем сохраненный язык в localStorage
+                const savedLang = localStorage.getItem('meowrch-language');
+                if (savedLang && (savedLang === 'en' || savedLang === 'ru')) {
+                    return savedLang;
+                }
+                
+                // Получаем языки браузера
+                const browserLanguages = navigator.languages || [navigator.language || navigator.userLanguage];
+                
+                // Проверяем каждый язык браузера
+                for (const lang of browserLanguages) {
+                    const langCode = lang.toLowerCase().split('-')[0];
+                    
+                    // Если русский язык
+                    if (langCode === 'ru') {
+                        return 'ru';
+                    }
+                }
+                
+                // По умолчанию английский
+                return 'en';
+            }
+            
+            // Функция редиректа
+            function redirect() {
+                const preferredLang = getPreferredLanguage();
+                
+                // Сохраняем выбранный язык
+                localStorage.setItem('meowrch-language', preferredLang);
+                
+                // Выполняем редирект
+                const targetUrl = `/${preferredLang}/`;
+                
+                // Используем replace, чтобы не создавать запись в истории
+                window.location.replace(targetUrl);
+            }
+            
+            // Добавляем обработчики для ссылок, чтобы сохранять выбор языка
+            document.addEventListener('DOMContentLoaded', function() {
+                const links = document.querySelectorAll('.links a');
+                links.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        const href = this.getAttribute('href');
+                        const lang = href.includes('/ru/') ? 'ru' : 'en';
+                        localStorage.setItem('meowrch-language', lang);
+                    });
+                });
+            });
+            
+            // Выполняем редирект через небольшую задержку для UX
+            setTimeout(redirect, 800);
+            
+            // Fallback редирект на случай, если что-то пойдет не так
+            setTimeout(function() {
+                if (window.location.pathname === '/') {
+                    window.location.replace('/en/');
+                }
+            }, 3000);
+        })();
+    </script>
+</body>
+</html>
