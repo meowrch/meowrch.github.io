@@ -32,7 +32,7 @@ const { name, author, description, imageSrc, src } = Astro.props;
 
   .card {
     border: 1px solid var(--ctp-surface2);
-    background: rgba(49, 50, 68, 0.7);
+    background: var(--showcase-card-background);
     backdrop-filter: blur(16px);
     border-radius: 0.75rem;
     overflow: hidden;
@@ -42,8 +42,18 @@ const { name, author, description, imageSrc, src } = Astro.props;
   .card:hover {
     border-color: var(--ctp-mauve);
     transform: translateY(-4px);
-    background: rgba(49, 50, 68, 0.9);
+    background: var(--showcase-card-background-hover);
   }
+
+:root {
+  --showcase-card-background: rgba(49, 50, 68, 0.7);
+  --showcase-card-background-hover: rgba(49, 50, 68, 0.9);
+}
+
+:root[data-theme="light"] {
+  --showcase-card-background: #DCE0E8;
+  --showcase-card-background-hover: #E5E9F0;
+}
 
   .image-container {
     position: relative;
@@ -74,8 +84,16 @@ const { name, author, description, imageSrc, src } = Astro.props;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(17, 17, 27, 0.95);
+    background-color: var(--modal-background);
     backdrop-filter: blur(10px);
+  }
+
+  :root {
+    --modal-background: rgba(17, 17, 27, 0.95);
+  }
+
+  :root[data-theme="light"] {
+    --modal-background: rgba(255, 255, 255, 0.95);
   }
 
   .modal-image {

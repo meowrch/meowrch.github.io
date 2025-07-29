@@ -1,4 +1,24 @@
-/* Catppuccin Mocha Color Palette */
+/* Условная блокировка DarkReader - только для темной темы */
+:root[data-theme="dark"] {
+  --darkreader-neutral-background: var(--ctp-base) !important;
+  --darkreader-neutral-text: var(--ctp-text) !important;
+}
+
+/* Принудительная блокировка DarkReader только для темной темы */
+:root[data-theme="dark"][data-darkreader-mode="dark"] {
+  filter: none !important;
+}
+
+:root[data-theme="dark"][data-darkreader-scheme="dark"] {
+  filter: none !important;
+}
+
+/* Для светлой темы - разрешаем DarkReader работать */
+:root[data-theme="light"] {
+  /* DarkReader может свободно работать */
+}
+
+/* Catppuccin Mocha Color Palette (Dark Theme) */
 :root {
   --ctp-rosewater: #f5e0dc;
   --ctp-flamingo: #f2cdcd;
@@ -27,6 +47,37 @@
   --ctp-mantle: #181825;
   --ctp-crust: #11111b;
 }
+
+/* Catppuccin Latte Color Palette (Light Theme) */
+:root[data-theme="light"] {
+  --ctp-rosewater: #dc8a78;
+  --ctp-flamingo: #dd7878;
+  --ctp-pink: #ea76cb;
+  --ctp-mauve: #8839ef;
+  --ctp-red: #d20f39;
+  --ctp-maroon: #e64553;
+  --ctp-peach: #fe640b;
+  --ctp-yellow: #df8e1d;
+  --ctp-green: #40a02b;
+  --ctp-teal: #179299;
+  --ctp-sky: #04a5e5;
+  --ctp-sapphire: #209fb5;
+  --ctp-blue: #1e66f5;
+  --ctp-lavender: #7287fd;
+  --ctp-text: #4c4f69;
+  --ctp-subtext1: #5c5f77;
+  --ctp-subtext0: #6c6f85;
+  --ctp-overlay2: #7c7f93;
+  --ctp-overlay1: #8c8fa1;
+  --ctp-overlay0: #9ca0b0;
+  --ctp-surface2: #acb0be;
+  --ctp-surface1: #bcc0cc;
+  --ctp-surface0: #ccd0da;
+  --ctp-base: #eff1f5;
+  --ctp-mantle: #e6e9ef;
+  --ctp-crust: #dce0e8;
+}
+
 
 h1 p {
   margin: 0;
@@ -104,7 +155,7 @@ h1 p {
 }
 
 
-/* Кнопка "Гайды" - диагональный градиент */
+/* Кнопка "Wiki" - анимированный градиент с постоянным диагональным блеском */
 .hero .sl-link-button.primary {
   position: relative;
   overflow: hidden;
@@ -115,18 +166,46 @@ h1 p {
   transition: all 0.3s ease !important;
   z-index: 1;
   color: var(--ctp-crust) !important;
+  padding: 1rem 2.5rem !important;
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  min-width: 180px !important;
+  text-align: center !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.hero .sl-link-button.primary::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(-45deg, 
+    transparent 0%, 
+    transparent 35%, 
+    rgba(255, 255, 255, 0.1) 45%, 
+    rgba(255, 255, 255, 0.3) 50%, 
+    rgba(255, 255, 255, 0.1) 55%, 
+    transparent 65%, 
+    transparent 100%);
+  filter: blur(1px);
+  animation: diagonalShine 3s linear infinite;
+  z-index: 1;
 }
 
 .hero .sl-link-button.primary:hover {
   transform: translateY(-2px) scale(1.05) !important;
-  box-shadow: none !important;
+  box-shadow: 0 8px 25px rgba(203, 166, 247, 0.4) !important;
 }
 
 .hero .sl-link-button.primary:active {
   transform: translateY(0) scale(0.98) !important;
 }
 
-/* Кнопка "Справочник" - темный фон с lavender border */
+/* Кнопка "Новости" - увеличена */
 .hero .sl-link-button.secondary {
   position: relative;
   overflow: hidden;
@@ -137,16 +216,56 @@ h1 p {
   transition: all 0.3s ease !important;
   z-index: 1;
   color: var(--ctp-lavender) !important;
+  padding: 1rem 2rem !important;
+  font-size: 1.05rem !important;
+  min-width: 140px !important;
+  text-align: center !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .hero .sl-link-button.secondary:hover {
   transform: translateY(-2px) scale(1.05) !important;
-  box-shadow: none !important;
+  box-shadow: 0 4px 15px rgba(114, 135, 253, 0.3) !important;
   background: var(--ctp-surface1) !important;
 }
 
 .hero .sl-link-button.secondary:active {
   transform: translateY(0) scale(0.98) !important;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes diagonalShine {
+  0% {
+    transform: translateX(-300%) translateY(-300%);
+  }
+  100% {
+    transform: translateX(300%) translateY(300%);
+  }
+}
+
+@keyframes shine {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 0%;
+  }
+  100% {
+    left: 100%;
+  }
 }
 
 @keyframes gradientFlow {
@@ -194,6 +313,9 @@ h1 p {
   background-clip: text;
   text-shadow: none;
   letter-spacing: -0.02em;
+  /* Защита от Dark Reader */
+  filter: none !important;
+  backdrop-filter: none !important;
 }
 
 /* Section headings - FIXED */
@@ -249,7 +371,7 @@ h1 p {
 
 /* Card styling improvements */
 .sl-card {
-  background: rgba(49, 50, 68, 0.8) !important;
+  background: #DCE0E8 !important;
   border: 1px solid rgba(203, 166, 247, 0.2) !important;
   border-radius: 12px !important;
   backdrop-filter: blur(10px) !important;
@@ -261,6 +383,17 @@ h1 p {
   color: var(--ctp-text) !important;
   box-shadow: none !important;
   transform: translateY(-2px) !important;
+}
+
+/* Темная тема для карточек */
+:root:not([data-theme="light"]) .sl-card {
+  background: rgba(49, 50, 68, 0.8) !important;
+}
+
+/* Светлая тема для карточек */
+:root[data-theme="light"] .sl-card {
+  background: #DCE0E8 !important;
+  color: var(--ctp-text) !important;
 }
 
 /* Logo styling */
