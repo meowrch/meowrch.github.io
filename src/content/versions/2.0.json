@@ -1,0 +1,10 @@
+{
+  "sidebar": [
+    { "label": "Introduction", "translations": { "ru": "Введение" }, "autogenerate": { "directory": "introduction" } },
+    { "label": "Installation", "translations": { "ru": "Установка" }, "autogenerate": { "directory": "installation" } },
+    { "label": "Customization", "translations": { "ru": "Кастомизация" }, "autogenerate": { "directory": "customization" } },
+    { "label": "Usage", "translations": { "ru": "Использование" }, "autogenerate": { "directory": "usage" } },
+    { "label": "Optimization", "translations": { "ru": "Оптимизация" }, "autogenerate": { "directory": "optimization" } }
+  ]
+}
+

@@ -1,0 +1,209 @@
+---
+title: Описание работы установщика
+description: ...
+slug: ru/2.0/installation/builder
+---
+
+import { Steps, FileTree } from '@astrojs/starlight/components';
+
+# Предустановка
+При запуске `install.sh` начинается процесс предустановки билдера:
+
+<Steps>
+
+1. **Установка базовых пакетов**
+   
+   Устанавливаются пакеты `python` и `python-pip`, необходимые для корректной работы основной части билдера.
+
+2. **Установка Python библиотек**
+   
+   Устанавливаются библиотеки, необходимые как для билдера, так и для работы системы:
+   - inquirer
+   - loguru
+   - psutil
+   - gputil
+   - pyamdgpuinfo
+   - pyyaml
+   - pillow
+   - colorama
+
+3. **Запуск основной части билдера**
+   
+   После успешной установки всех зависимостей запускается основная часть билдера, инициализируется процесс опроса пользователя.
+
+</Steps>
+
+# Основной процесс установки
+
+**Этапы установки:**
+<Steps>
+1. **Создание резервной копии конфигураций**
+   - Запускается, если пользователь выбрал опцию резервного копирования.
+   - Копируются конфигурации и важные файлы в директорию `./backup`.
+
+2. **Создание папок и копирование dotfiles**
+   - Создаются базовые папки в домашней директории пользователя.
+   - Копируются dotfiles в зависимости от выбранного WM (bspwm или Hyprland).
+
+3. **Настройка Pacman и установка AUR менеджера**
+   - Файл конфигурации pacman обновляется для включения новых функций и multilib (если выбрано).
+   - Устанавливается yay или paru для управления AUR пакетами.
+
+4. **Установка пакетов и драйверов**
+   - Устанавливаются все базовые пакеты из `packages.py`.
+   - Выбираются и устанавливаются драйверы, основываясь на автоопределении оборудования.
+
+5. **Конфигурация приложений**
+   - Настройка GRUB: добавление кастомной темы.
+   - Настройка SDDM: установка кастомной темы приветствия.
+   - Настройка Firefox: установка выбранных плагинов, конфигураций, а так-же тем.
+   - Настройка VS Code: установка плагина `meowrch-code-theme` для адаптации vscode под темы meowrch.
+
+6. **Настройка демонов**
+   - Включение и запуск основных демонов системы: `NetworkManager`, `bluetooth`, `SDDM`.
+
+7. **Пост-установка**
+   - Изменение оболочки на fish.
+   - Добавление пользователя в группы: gamemode.
+   - Установка `kitty` в качестве терминала по умолчанию.
+   - Установка локали `en_US.UTF-8`.
+   - Печатается отчет о не установленных пакетах и предлагается перезагрузка компьютера.
+</Steps>
+
+# Структура директории билдера
+
+<FileTree>
+
+- Builder/
+  - \_\_init\_\_.py
+  - install.py
+  - packages.py
+  - question.py
+  - managers/
+    - \_\_init\_\_.py
+    - apps_manager.py
+    - drivers_manager.py
+    - filesystem_manager.py
+    - package_manager.py
+    - post_install_manager.py
+  - utils/
+    - \_\_init__.py
+    - banner.py
+    - schemes.py
+
+</FileTree>
+
+## Организация пакетов
+
+Файл `packages.py` содержит разные категории пакетов:
+
+### BASE
+
+Это основные пакеты, необходимые для работы всей системы:
+
+- **pacman common**:  
+  `pacman-contrib`, `downgrade`, `libnotify`, `ffmpeg`, `ffmpegthumbnailer`, `jq`, `parallel`, `kitty`, `fastfetch`, `lsd`, `bat`,  
+  `brightnessctl`, `automake`, `blueman`, `bluez`, `bluez-utils`, `dunst`, `fakeroot`, `firefox`, `fish`, `fisher`, `dpkg`, `gcc`,  
+  `git`, `gnu-netcat`, `btop`, `micro`, `mat2`, `nemo`, `papirus-icon-theme`, `pavucontrol`, `pamixer`, `pipewire`, `pipewire-pulse`,  
+  `pipewire-audio`, `pipewire-jack`, `pipewire-alsa`, `wireplumber`, `python-pyalsa`, `ranger`, `redshift`, `reflector`, `sudo`, `tree`,  
+  `unrar`, `zip`, `unzip`, `uthash`, `ark`, `cmake`, `clang`, `gzip`, `imagemagick`, `make`, `openssh`, `shellcheck`, `vlc`, `loupe`,  
+  `usbutils`, `openvpn`, `networkmanager-openvpn`, `p7zip`, `gparted`, `sshfs`, `wget`, `netctl`,  
+  `libreoffice`, `ttf-jetbrains-mono`, `ttf-jetbrains-mono-nerd`, `ttf-fira-code`, `ttf-iosevka-nerd`, `playerctl`,  
+  `starship`, `upower`, `udiskie`, `zenity`, `gvfs`, `qt5ct`, `qt6ct`, `timeshift`, `sddm`, `qt5-graphicaleffects`, `qt5-svg`,  
+  `qt5-quickcontrols2`, `clipnotify`, `xdg-desktop-portal-gtk`, `gnome-disk-utility`, `evince`, `neovim`, `tmux`, `cowsay`,  
+  `polkit-gnome`, `rofimoji`, `wmname`, `pyenv`, `xdg-desktop-portal`, `ttf-hack-nerd`, `networkmanager`, `noto-fonts`,  
+  `noto-fonts-cjk`, `noto-fonts-emoji`, `noto-fonts-extra`
+
+### bspwm
+
+- `xorg`, `bspwm`, `sxhkd`, `xorg-xinit`, `xclip`, `feh`, `lxappearance`, `polybar`, `xorg-xrandr`, `xsettingsd`
+
+### hyprland
+
+- `hyprland`, `waybar`, `swww`, `cliphist`, `wl-clipboard`, `xdg-desktop-portal-hyprland`, `qt5-wayland`, `qt6-wayland`,  
+  `xdg-desktop-portal-wlr`, `hypridle`
+
+### CUSTOM
+
+Пакеты, которые можно выбрать в зависимости от потребностей:
+
+- **games**:  
+  `steam`, `gamemode`, `mangohud`, `portproton`
+
+- **development**:  
+  `obsidian`, `postgresql`, `pgadmin4-desktop`, `redis`
+
+- **social_media**:  
+  `telegram-desktop`, `discord`, `vesktop`
+
+- **entertainment**:  
+  `yandex-music`, `spotify`
+
+- **office**:  
+  `libreoffice-fresh`, `onlyoffice-bin`
+
+### DRIVERS
+
+Драйвера для различных вендоров:
+
+- **intel**:  
+  `lib32-mesa`, `vulkan-intel`, `lib32-vulkan-intel`, `vulkan-icd-loader`, `lib32-vulkan-icd-loader`, `intel-media-driver`,  
+  `libva-intel-driver`, `xf86-video-intel`
+
+- **amd**:  
+  `lib32-mesa`, `vulkan-radeon`, `lib32-vulkan-radeon`, `vulkan-icd-loader`, `lib32-vulkan-icd-loader`
+
+- **nvidia**:  
+  `nvidia-dkms`, `nvidia-utils`, `lib32-nvidia-utils`, `nvidia-settings`, `vulkan-icd-loader`, `lib32-vulkan-icd-loader`,  
+  `lib32-opencl-nvidia`, `opencl-nvidia`, `libxnvctrl`
+
+### Когда устанавливаются?
+
+- **BASE** устанавливаются всегда.
+- **bspwm и hyprland** устанавливаются в зависимости от выбранного оконного менеджера.
+- **CUSTOM** и **DRIVERS** выбираются в процессе установки билдером.
+
+### Компоненты билдера
+
+- **PackageManager**: управляет установкой пакетов, обновлением базы данных, настройкой pacman.
+- **DriversManager**: автоматическое определение и установка драйверов для GPU и CPU.
+- **FileSystemManager**: управление файловой системой, создание резервных копий и копирование dotfiles.
+- **AppsManager**: настройка приложений, включая GRUB, SDDM, Firefox, VS Code.
+- **PostInstallation**: финальная настройка системы после установки. Применяет настройки по умолчанию для терминала, оболочки, локалей и добавляет пользователя в группу `gamemode`.
+
+# Вопросы перед установкой
+
+Билдер задает ряд вопросов, чтобы настроить установку:
+
+1. **Резервное копирование конфигураций**
+   - **Ответы**: Да, Нет
+   - **Детали**: Если выбрано "Да", создается резервная копия всех конфигурационных файлов.
+
+2. **Выбор оконного менеджера (WM)**
+   - **Ответы**: bspwm, hyprland
+   - **Детали**: Выбор WM определяет, какие пакеты будут установлены (bspwm или hyprland и связанные компоненты).
+
+3. **Выбор AUR менеджера**
+   - **Ответы**: yay, paru
+   - **Детали**: Определяет, какой AUR помощник будет установлен для управления пакетами из Arch User Repository.
+
+4. **Активация multilib репозитория**
+   - **Ответы**: Да, Нет
+   - **Детали**: Включает репозиторий для поддержки 32-битных приложений.
+
+5. **Обновление базы данных пакетов**
+   - **Ответы**: Да, Нет
+   - **Детали**: Если выбрано "Да", будет обновлена база пакетов до актуальной версии.
+
+6. **Установка драйверов**
+   - **Ответы**: Intel, Nvidia, AMD
+   - **Детали**: Выбор драйверов в зависимости от оборудования. Автоопределение рекомендуется для правильного выбора.
+
+7. **Выбор плагинов для Firefox**
+   - **Ответы**: Dark Reader, uBlock Origin, TWP, Unpaywall, Tamper Monkey
+   - **Детали**:
+     - **Dark Reader**: Изменяет светлые темы сайтов на темные, улучшая визуальное восприятие и снижая нагрузку на глаза.
+     - **uBlock Origin**: Блокирует рекламу, повышает скорость загрузки страниц и защищает от вредоносного ПО.
+     - **TWP**: Инструмент для перевода текста и целых страниц, полезен для пользователей, работающих с многими языками.
+     - **Unpaywall**: Позволяет получать доступ к контенту платных статей легально через альтернативные источники.
+     - **Tamper Monkey**: Менеджер пользовательских скриптов для персонализации работы браузера, например, для добавления новых функций или изменения существующих. В нашем случае - используется для добавления перевода видео в реальном времени с помощью модели от Yandex Browser.

@@ -1,0 +1,62 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import { Icon } from '@astrojs/starlight/components';
+---
+
+<StarlightPage hasSidebar={true} frontmatter={{ title: '404', description: 'Use the sidebar to browse available pages in this version.' }}>
+  <!-- RU -->
+  <section data-locale="ru">
+    <p>
+      Похоже, этой страницы нет в выбранной версии документации. Используйте левое меню (sidebar),
+      чтобы перейти к доступным страницам этой версии, или выберите другую версию в шапке сайта.
+    </p>
+    <ul>
+      <li><a data-root-link href="/ru/">К корню русской документации</a></li>
+      <li><a data-archive-link href="/ru/2.0/">К корню версии 2.0 (архив)</a></li>
+    </ul>
+  </section>
+
+  <!-- EN -->
+  <section data-locale="en">
+    <p>
+      It looks like this page doesn’t exist in the selected version. Use the left sidebar to browse
+      available pages for this version, or pick a different version from the header.
+    </p>
+    <ul>
+      <li><a data-root-link href="/en/">Go to English docs root</a></li>
+      <li><a data-archive-link href="/en/2.0/">Go to version 2.0 (archive)</a></li>
+    </ul>
+  </section>
+
+  <script>
+    (() => {
+      function detectLocale() {
+        try {
+          const path = window.location.pathname || '';
+          if (path.startsWith('/ru/')) return 'ru';
+          if (path.startsWith('/en/')) return 'en';
+          const stored = localStorage.getItem('meowrch-language');
+          if (stored === 'ru' || stored === 'en') return stored;
+          const nav = navigator.language || (navigator.languages && navigator.languages[0]) || 'en';
+          return String(nav).toLowerCase().startsWith('ru') ? 'ru' : 'en';
+        } catch (_) {
+          return 'en';
+        }
+      }
+
+      const locale = detectLocale();
+      document.querySelectorAll('[data-locale]')?.forEach((el) => {
+        el.style.display = el.getAttribute('data-locale') === locale ? '' : 'none';
+      });
+
+      // Update helpful links to match detected locale
+      document.querySelectorAll('[data-root-link]')?.forEach((a) => {
+        a.setAttribute('href', `/${locale}/`);
+      });
+      document.querySelectorAll('[data-archive-link]')?.forEach((a) => {
+        a.setAttribute('href', `/${locale}/2.0/`);
+      });
+    })();
+  </script>
+</StarlightPage>
+

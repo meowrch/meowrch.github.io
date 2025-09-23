@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import catppuccin from "@catppuccin/starlight";
+import starlightVersions from 'starlight-versions';
 
 // https://astro.build/config
 export default defineConfig({
@@ -242,6 +243,12 @@ export default defineConfig({
 				{ icon: 'telegram', label: 'Telegram', href: 'https://t.me/meowrch' },
 			],
 			plugins: [
+				starlightVersions({
+					current: { label: '3.0' },
+					versions: [
+						{ slug: '2.0', redirect: 'root' }
+					],
+				}),
 				catppuccin({
 					dark: { flavor: "mocha", accent: "mauve" },
 					light: { flavor: "latte", accent: "mauve" }
