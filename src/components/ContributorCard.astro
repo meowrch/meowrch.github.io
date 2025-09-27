@@ -9,23 +9,13 @@ export interface Props {
 
 const { username, contribution } = Astro.props;
 
-// Получаем данные с GitHub API
-let userData = null;
-try {
-  const response = await fetch(`https://api.github.com/users/${username}`);
-  if (response.ok) {
-    userData = await response.json();
-  }
-} catch (error) {
-  console.error(`Failed to fetch data for ${username}:`, error);
-}
-
-const name = userData?.name || username;
-const bio = userData?.bio || 'I use @meowrch';
-const avatarUrl = userData?.avatar_url || `https://github.com/${username}.png?size=128`;
+// Серверный рендер без удалённых запросов (что бы не падало при оффлайне)
+const name = username;
+const bio = 'I use @meowrch';
+const avatarUrl = `https://github.com/${username}.png?size=128`;
 ---
 
-<div class="contributor-card">
+<div class="contributor-card" data-username={username}>
   <div 
     class="contributor-card-inner tilt-element"
     data-tilt
@@ -63,6 +53,63 @@ const avatarUrl = userData?.avatar_url || `https://github.com/${username}.png?si
     </article>
   </div>
 </div>
+
+<script is:inline>
+(() => {
+  const CACHE_TTL = 24 * 60 * 60 * 1000; // 24h
+  function getCacheKey(u) { return `gh_user_${u}`; }
+  function readCache(u) {
+    try {
+      const raw = localStorage.getItem(getCacheKey(u));
+      if (!raw) return null;
+      const { data, ts } = JSON.parse(raw);
+      if (!ts || (Date.now() - ts) > CACHE_TTL) return null;
+      return data;
+    } catch { return null; }
+  }
+  function writeCache(u, data) {
+    try { localStorage.setItem(getCacheKey(u), JSON.stringify({ data, ts: Date.now() })); } catch {}
+  }
+  function enhance(card) {
+    const username = card?.dataset?.username;
+    if (!username) return;
+
+    const cached = readCache(username);
+    if (cached) {
+      const nameEl = card.querySelector('.name');
+      const statusEl = card.querySelector('.status');
+      const avatarImg = card.querySelector('.avatar img');
+      if (nameEl && cached?.name) nameEl.textContent = cached.name;
+      if (statusEl && cached?.bio) statusEl.textContent = cached.bio;
+      if (avatarImg && cached?.avatar_url) avatarImg.src = cached.avatar_url;
+      return;
+    }
+
+    fetch(`https://api.github.com/users/${username}`)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (!data) return;
+        writeCache(username, data);
+        const nameEl = card.querySelector('.name');
+        const statusEl = card.querySelector('.status');
+        const avatarImg = card.querySelector('.avatar img');
+        if (nameEl && data?.name) nameEl.textContent = data.name;
+        if (statusEl && data?.bio) statusEl.textContent = data.bio;
+        if (avatarImg && data?.avatar_url) avatarImg.src = data.avatar_url;
+      })
+      .catch(() => {});
+  }
+  function initAll() {
+    document.querySelectorAll('.contributor-card').forEach(enhance);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll, { once: true });
+  } else {
+    initAll();
+  }
+  document.addEventListener('astro:page-load', initAll);
+})();
+</script>
 
 <style>
   .contributor-card {

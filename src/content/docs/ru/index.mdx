@@ -21,6 +21,7 @@ import { Card, CardGrid, Icon } from '@astrojs/starlight/components';
 import FeatureCard from '../../../components/FeatureCard.astro';
 import ShowcaseCard from '../../../components/ShowcaseCard.astro';
 import ContributorCard from '../../../components/ContributorCard.astro';
+import ReviewsSection from '../../../components/ReviewsSection.astro';
 import screenshot1 from '../../../assets/screenshots/1.png';
 import screenshot2 from '../../../assets/screenshots/2.png';
 import screenshot3 from '../../../assets/screenshots/3.png';
@@ -42,7 +43,7 @@ import screenshot7 from '../../../assets/screenshots/7.png';
 
 <div style="margin-top: 4rem; margin-bottom: 3rem;">
   <h1 style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 3rem; color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
-    <Icon name="star" style="color: var(--ctp-mauve); width: 2.5rem; height: 2.5rem;" />
+    <Icon name="rocket" style="color: var(--ctp-mauve); width: 2.5rem; height: 2.5rem;" />
     Особенности
   </h1>
 </div>
@@ -130,6 +131,8 @@ import screenshot7 from '../../../assets/screenshots/7.png';
     src="https://github.com/meowrch/meowrch"
   />
 </CardGrid>
+
+<ReviewsSection owner="meowrch" repo="meowrch" category="Reviews" locale="ru" />
 
 <div style="margin-top: 4rem; margin-bottom: 3rem;">
   <h1 style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 3rem; color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
