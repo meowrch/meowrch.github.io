@@ -12,8 +12,16 @@ const {
 const reqPath = Astro.request?.url?.pathname ?? '';
 const resolvedLocale = (locale === 'ru') ? 'ru' : (locale === 'en') ? 'en' : ((reqPath.startsWith('/ru/') || reqPath === '/ru') ? 'ru' : 'en');
 const serverTexts = {
-  en: { heading: 'Reviews', leave: 'Leave a review' },
-  ru: { heading: 'Отзывы', leave: 'Оставить отзыв' },
+  en: {
+    heading: 'Reviews',
+    leave: 'Leave a review',
+    intro: 'We value your honesty, so all reviews are published directly through GitHub Discussions. This ensures their authenticity and transparency. When writing a review, you will be redirected to GitHub, where you can also view author profiles to verify their feedback.'
+  },
+  ru: {
+    heading: 'Отзывы',
+    leave: 'Оставить отзыв',
+    intro: 'Мы ценим вашу честность, поэтому все отзывы публикуются напрямую через GitHub Discussions. Это гарантирует их подлинность и прозрачность. При написании отзыва вы будете перенаправлены на GitHub, где также сможете ознакомиться с профилями авторов и убедиться в достоверности их мнений.'
+  },
 };
 const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
 ---
@@ -30,6 +38,8 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
       <span class="avg-count text-muted"></span>
     </div>
   </div>
+
+  <p class="intro">{serverTexts[resolvedLocale].intro}</p>
 
   <div class="grid" data-grid>
     <div class="skeleton-card"></div>
@@ -597,6 +607,8 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
 .reviews-section .avg-chip .stars .empty { color: color-mix(in oklab, #f5b301 30%, transparent); }
 .reviews-section .avg-number { min-width: 2.5ch; text-align: right; }
 .reviews-section .text-muted { opacity: .8; }
+
+.reviews-section .intro { margin: 0 0 .5rem 0; color: var(--ctp-text); opacity: .9; }
 
 .reviews-section .grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1rem; }
 @media (min-width: 640px) { .reviews-section .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
