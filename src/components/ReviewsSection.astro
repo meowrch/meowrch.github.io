@@ -21,7 +21,7 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
   <div class="section-header">
     
     <h2 class="section-title">
-      <Icon name="star" class="icon" style="width: 2.5rem; height: 2.5rem;" />
+      <Icon name="star" class="icon section-icon" />
       <span class="title-text">{fallbackHeading}</span>
     </h2>
     <div class="avg-chip" aria-live="polite">
@@ -666,8 +666,8 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
 <style is:global>
 .reviews-section { margin: 3rem 0; }
 .reviews-section .section-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
-.reviews-section .section-title { display: flex; align-items: center; gap: .6rem; margin: 0; color: var(--ctp-text); font-size: 3rem; font-weight: 900; }
-.reviews-section .section-title .icon { color: var(--ctp-text); }
+.reviews-section .section-title { display: flex; align-items: center; gap: .6rem; margin: 0; color: var(--ctp-text); font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); font-weight: 900; }
+.reviews-section .section-title .icon { color: var(--ctp-text); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); }
 
 .reviews-section .avg-chip { display: inline-flex; align-items: center; gap: .5rem; background: var(--ctp-surface0); color: var(--ctp-text); border: 1px solid var(--ctp-surface1); padding: .5rem .75rem; border-radius: .75rem; font-weight: 700; }
 .reviews-section .avg-chip .stars { color: #f5b301; }
@@ -721,7 +721,7 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
 .reviews-section .reviews-nav .nav-page { min-width: 80px; text-align: center; color: var(--ctp-subtext1); }
 
 .reviews-section .actions { margin: 1rem 0 .5rem; display: flex; justify-content: center; }
-.reviews-section .btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: 1rem 1.75rem; border-radius: .85rem; text-decoration: none; background: linear-gradient(135deg, var(--ctp-mauve), var(--ctp-lavender)); color: var(--ctp-crust); font-weight: 800; border: none; min-width: 350px; font-size: 1.1rem; cursor: pointer;}
+.reviews-section .btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: 0.9rem 1.4rem; border-radius: .85rem; text-decoration: none; background: linear-gradient(135deg, var(--ctp-mauve), var(--ctp-lavender)); color: var(--ctp-crust); font-weight: 800; border: none; min-width: clamp(200px, 60vw, 350px); font-size: clamp(0.95rem, 0.85rem + 0.5vw, 1.1rem); cursor: pointer;}
 .reviews-section .btn-primary:hover { filter: brightness(1.05); }
 .reviews-section .btn-primary:active { transform: translateY(1px); }
 
@@ -768,6 +768,12 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
 
 /* Mobile adaptation for view modal */
 @media (max-width: 640px) {
+  .reviews-section .section-title { font-size: clamp(1.5rem, 1.2rem + 2vw, 2.2rem); }
+  .reviews-section .section-title .icon { width: clamp(1.4rem, 1.05rem + 1.5vw, 2rem); height: clamp(1.4rem, 1.05rem + 1.5vw, 2rem); }
+  .reviews-section .avg-chip { transform: scale(0.95); }
+  .reviews-section .card-header .avatar { width: 44px; height: 44px; }
+  .reviews-section .username { font-size: 1.1rem; }
+
   .reviews-section .modal-body .modal-review-header {
     flex-direction: column;
     align-items: flex-start;
