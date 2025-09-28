@@ -38,7 +38,7 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
   </div>
 
 <div class="actions">
-  <button type="button" class="btn-primary btn-anchor" data-open-modal data-fab-anchor aria-hidden="true">
+  <button type="button" class="btn-primary" data-open-modal>
     <span class="btn-text">{serverTexts[resolvedLocale].leave}</span>
   </button>
 </div>
@@ -343,14 +343,6 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
     const textarea = qs(root, '[data-text]');
     const btnSubmit = qs(root, '[data-submit]');
 
-    // Floating review button (single capsule)
-    const anchorBtn = btnOpenModal; // anchor for position/size
-    const fab = document.createElement('button');
-    fab.type = 'button';
-    fab.className = 'btn-primary review-fab';
-    fab.setAttribute('data-fab', '');
-    fab.innerHTML = `<span class="btn-text">${i18n.leave}</span>`;
-    root.appendChild(fab);
 
     const vAvatar = qs(root, '[data-v-avatar]');
     const vLink = qs(root, '[data-v-link]');
@@ -381,6 +373,7 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
     starsLabel.textContent = i18n.yourRating;
     textarea.placeholder = i18n.placeholder;
     btnSubmit.textContent = i18n.submit;
+
 
     // --- Paging state
     let allReviews = [];
@@ -468,10 +461,6 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
       modal.hidden = false;
       document.body.style.overflow = 'hidden';
     });
-    fab.addEventListener('click', () => {
-      modal.hidden = false;
-      document.body.style.overflow = 'hidden';
-    });
     btnCloseModal.addEventListener('click', () => {
       modal.hidden = true;
       document.body.style.overflow = '';
@@ -512,72 +501,6 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
       updateSubmitState();
     });
 
-    // --- Floating button positioning logic
-    const TRANSITION_MS = 650;
-    const EASING = 'cubic-bezier(.22,1,.36,1)';
-    const DEFAULTS = { width: 260, height: 52, radius: 9999, bottomOffset: 64 };
-
-    function applyFabStyles({ left, top, width, height, radius }) {
-      fab.style.left = left + 'px';
-      fab.style.top = top + 'px';
-      fab.style.width = width + 'px';
-      fab.style.height = height + 'px';
-      fab.style.borderRadius = radius + 'px';
-      fab.style.transform = 'translate(-50%, -50%)';
-    }
-
-    function computeAnchorRect() {
-      try { return anchorBtn.getBoundingClientRect(); } catch { return null; }
-    }
-
-    function updateFabPosition() {
-      const rect = computeAnchorRect();
-      const vw = window.innerWidth || document.documentElement.clientWidth || 1024;
-      const vh = window.innerHeight || document.documentElement.clientHeight || 768;
-      const defaultTarget = {
-        left: vw / 2,
-        top: vh - DEFAULTS.bottomOffset,
-        width: DEFAULTS.width,
-        height: DEFAULTS.height,
-        radius: DEFAULTS.radius,
-      };
-
-      if (!rect) { applyFabStyles(defaultTarget); return; }
-
-      const inView = rect.top < vh && rect.bottom > 0;
-      const target = inView ? {
-        left: rect.left + rect.width / 2,
-        top: rect.top + rect.height / 2,
-        width: Math.max(200, rect.width),
-        height: rect.height,
-        radius: 14,
-      } : defaultTarget;
-
-      applyFabStyles(target);
-    }
-
-    // Initial styles and transitions
-    Object.assign(fab.style, {
-      position: 'fixed',
-      zIndex: '1100',
-      transition: [
-        `top ${TRANSITION_MS}ms ${EASING}`,
-        `left ${TRANSITION_MS}ms ${EASING}`,
-        `width ${TRANSITION_MS}ms ${EASING}`,
-        `height ${TRANSITION_MS}ms ${EASING}`,
-        `border-radius ${TRANSITION_MS}ms ${EASING}`,
-        `transform ${TRANSITION_MS}ms ${EASING}`,
-      ].join(', '),
-    });
-
-    let rafId = 0;
-    const onScrollOrResize = () => {
-      if (rafId) return;
-      rafId = requestAnimationFrame(() => { rafId = 0; updateFabPosition(); });
-    };
-    window.addEventListener('scroll', onScrollOrResize, { passive: true });
-    window.addEventListener('resize', onScrollOrResize, { passive: true });
-    updateFabPosition();
 
     // Open view modal on card click (event delegation)
     grid.addEventListener('click', (e) => {
@@ -725,14 +648,6 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
 .reviews-section .btn-primary:hover { filter: brightness(1.05); }
 .reviews-section .btn-primary:active { transform: translateY(1px); }
 
-/* Anchor button: hidden visually but keeps layout for anchoring */
-.reviews-section .btn-anchor { visibility: hidden; opacity: 0; pointer-events: none; }
-
-/* Floating capsule button */
-.reviews-section .review-fab { position: fixed; left: 50%; top: calc(100vh - 72px); transform: translate(-50%, -50%); z-index: 1100; min-width: 0; width: 260px; height: 52px; border-radius: 999px; }
-@media (prefers-reduced-motion: reduce) {
-  .reviews-section .review-fab { transition: none !important; }
-}
 
 .reviews-section .empty, .reviews-section .error { text-align: center; opacity: .9; }
 
