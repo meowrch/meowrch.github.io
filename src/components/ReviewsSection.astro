@@ -70,18 +70,29 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
         <button type="button" class="modal-close" data-close-modal aria-label="Close">✕</button>
       </div>
       <div class="modal-body">
-        <div class="stars-select" data-stars>
-          <label data-stars-label></label>
-          <div class="stars-row" role="radiogroup" aria-label="Rating">
-            <button type="button" class="star-btn" data-value="1" aria-label="1 star">☆</button>
-            <button type="button" class="star-btn" data-value="2" aria-label="2 stars">☆</button>
-            <button type="button" class="star-btn" data-value="3" aria-label="3 stars">☆</button>
-            <button type="button" class="star-btn" data-value="4" aria-label="4 stars">☆</button>
-            <button type="button" class="star-btn" data-value="5" aria-label="5 stars">☆</button>
-          </div>
-        </div>
         <textarea class="review-text" rows="5" data-text placeholder=""></textarea>
+        <details class="why-card" data-why-card>
+          <summary class="why-summary">
+            <span class="why-icon" aria-hidden="true">ⓘ</span>
+            <span class="why-title" data-why-title></span>
+            <span class="why-caret" aria-hidden="true">▾</span>
+          </summary>
+          <div class="why-content">
+            <p class="why-text" data-why-text></p>
+            <a class="why-link" data-why-link target="_blank" rel="noopener noreferrer"></a>
+          </div>
+        </details>
         <div class="modal-actions">
+          <div class="stars-select" data-stars>
+            <label data-stars-label></label>
+            <div class="stars-row" role="radiogroup" aria-label="Rating">
+              <button type="button" class="star-btn" data-value="1" aria-label="1 star">☆</button>
+              <button type="button" class="star-btn" data-value="2" aria-label="2 stars">☆</button>
+              <button type="button" class="star-btn" data-value="3" aria-label="3 stars">☆</button>
+              <button type="button" class="star-btn" data-value="4" aria-label="4 stars">☆</button>
+              <button type="button" class="star-btn" data-value="5" aria-label="5 stars">☆</button>
+            </div>
+          </div>
           <a class="btn-primary" target="_blank" rel="noopener noreferrer" data-submit disabled></a>
         </div>
         <div class="hint" data-hint></div>
@@ -148,6 +159,9 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
       submit: 'Open GitHub to submit',
       ratingRequired: 'Please select a rating',
       minChars: 'Write at least 10 characters',
+      whyGitHubTitle: 'Why GitHub?',
+      whyGitHubText: 'Reviews are posted via GitHub Discussions. On submit you will be redirected to GitHub and may be asked to authorize so the review is posted from your account.',
+      whyGitHubLearn: 'Learn more',
       date: (d) => new Date(d).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' })
     },
     ru: {
@@ -165,6 +179,9 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
       submit: 'Открыть GitHub для отправки',
       ratingRequired: 'Поставьте оценку',
       minChars: 'Напишите минимум 10 символов',
+      whyGitHubTitle: 'Почему GitHub?',
+      whyGitHubText: 'Мы публикуем отзывы через GitHub Discussions. При отправке вы перейдёте на GitHub и, возможно, потребуется авторизация, чтобы отзыв был опубликован от вашего аккаунта.',
+      whyGitHubLearn: 'Подробнее',
       date: (d) => new Date(d).toLocaleDateString('ru', { year: 'numeric', month: 'short', day: 'numeric' })
     }
   };
@@ -357,6 +374,9 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
     const textarea = qs(root, '[data-text]');
     const btnSubmit = qs(root, '[data-submit]');
     const hintEl = qs(root, '[data-hint]');
+    const whyTitleEl = qs(root, '[data-why-title]');
+    const whyTextEl = qs(root, '[data-why-text]');
+    const whyLinkEl = qs(root, '[data-why-link]');
 
 
     const vAvatar = qs(root, '[data-v-avatar]');
@@ -388,6 +408,9 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
     starsLabel.textContent = i18n.yourRating;
     textarea.placeholder = i18n.placeholder;
     btnSubmit.textContent = i18n.submit;
+    if (whyTitleEl) whyTitleEl.textContent = i18n.whyGitHubTitle;
+    if (whyTextEl) whyTextEl.textContent = i18n.whyGitHubText;
+    if (whyLinkEl) { whyLinkEl.textContent = i18n.whyGitHubLearn; whyLinkEl.href = `https://github.com/${owner}/${repo}/discussions`; }
 
 
     // --- Paging state
@@ -758,16 +781,36 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
   }
   .reviews-section .modal-body .view-rating .stars { font-size: 20px; }
   .reviews-section .modal-body .date { font-size: 0.9rem; }
+
+  /* Extra spacing between stars and button when stacked */
+  .reviews-section .modal-actions { gap: 20px; row-gap: 20px; }
+  .reviews-section .modal-actions .stars-select { margin-bottom: 6px; }
+  .reviews-section .modal-actions .btn-primary { margin-top: 6px; }
 }
 
 /* Leave-review form alignment */
 .reviews-section .stars-select { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.reviews-section .stars-row { display: flex; gap: 8px; align-items: center; margin: 0;}
+.reviews-section .stars-row { display: flex; gap: 8px; align-items: center; margin: 0; justify-content: space-around; min-width: 200px; }
 .reviews-section .star-btn { display: inline-flex; align-items: center; justify-content: center; font-size: 28px; line-height: 1; background: transparent; border: none; cursor: pointer; color: var(--ctp-text); padding: 0; margin: 0;}
 .reviews-section .star-btn[aria-pressed="true"] { color: #f5b301; }
 .reviews-section .review-text { width: 100%; min-height: 120px; background: transparent; color: var(--ctp-text); border: 1px solid var(--ctp-surface1); border-radius: 10px; padding: 10px 12px; resize: vertical; }
 .reviews-section .review-text:focus { outline: none; border-color: var(--ctp-mauve); box-shadow: 0 0 0 2px color-mix(in oklab, var(--ctp-mauve) 25%, transparent); }
-.reviews-section .modal-actions { display: flex; justify-content: flex-end; }
+.reviews-section .modal-actions { display: flex; align-items: center; justify-content: space-around; gap: 12px; flex-wrap: wrap; width: 100%; }
+.reviews-section .modal-actions .stars-select { display: flex; align-items: center; gap: 8px; background: color-mix(in oklab, var(--ctp-surface0) 90%, transparent); border: 1px solid var(--ctp-surface1); border-radius: 10px; padding: 6px 10px; }
+.reviews-section .modal-actions .stars-select label { display: none; }
+.reviews-section .modal-actions .btn-primary { margin-left: 0; }
+
+/* Pretty collapsible info card */
+.reviews-section .why-card { margin-top: 8px; border: 1px solid var(--ctp-surface1); background: color-mix(in oklab, var(--ctp-surface0) 88%, transparent); border-radius: 12px; overflow: clip; }
+.reviews-section .why-card .why-summary { display: flex; align-items: center; gap: 10px; padding: 10px 12px; cursor: pointer; list-style: none; user-select: none; }
+.reviews-section .why-card .why-summary::-webkit-details-marker { display: none; }
+.reviews-section .why-card .why-icon { display: inline-flex; align-items: center; justify-content: center; color: var(--ctp-mauve); font-weight: 900; font-size: 16px; }
+.reviews-section .why-card .why-title { font-weight: 800; color: var(--ctp-text); }
+.reviews-section .why-card .why-caret { margin-left: auto; transition: transform .2s ease; color: var(--ctp-subtext0); }
+.reviews-section .why-card[open] .why-caret { transform: rotate(180deg); }
+.reviews-section .why-card .why-content { padding: 8px 12px 12px; color: var(--ctp-subtext0); font-size: .95rem; }
+.reviews-section .why-card .why-link { color: var(--ctp-mauve); text-decoration: underline; font-weight: 700; }
+
 .reviews-section .hint { text-align: center; opacity: .8; font-size: .9rem; }
 
 </style>
