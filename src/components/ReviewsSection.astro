@@ -6,6 +6,7 @@ const {
   repo = 'meowrch',
   category = 'Reviews',
   heading = '',
+  headingId = '',
   locale = 'auto',
 } = Astro.props;
 
@@ -28,7 +29,7 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
 <section class="reviews-section" data-owner={owner} data-repo={repo} data-category={category} data-locale={resolvedLocale} data-heading={fallbackHeading}>
   <div class="section-header">
     
-    <h2 class="section-title">
+    <h2 class="section-title" {...(headingId ? {id: headingId} : {})}>
       <Icon name="star" class="icon section-icon" />
       <span class="title-text">{fallbackHeading}</span>
     </h2>
