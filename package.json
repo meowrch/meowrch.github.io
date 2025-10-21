@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "meowrch-wiki",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -14,7 +14,7 @@
     "@catppuccin/starlight": "^1.0.1",
     "astro": "^5.6.1",
     "sharp": "^0.34.2",
-    "starlight-versions": "^0.5.4",
+    "starlight-versions": "^0.5.6",
     "three": "^0.178.0",
     "vanilla-tilt": "^1.8.1",
     "vanta": "^0.5.24",
