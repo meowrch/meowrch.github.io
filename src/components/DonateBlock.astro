@@ -1,0 +1,165 @@
+---
+import { Icon, CardGrid } from '@astrojs/starlight/components';
+const path = Astro.url?.pathname ?? Astro.request?.url?.pathname ?? '';
+const locale = Astro.props?.locale ?? ((path === '/ru' || path.startsWith('/ru/')) ? 'ru' : 'en');
+const texts = {
+  en: {
+    title: 'Support the author',
+    intro: "If my work helps you and you'd like to support it, you can use any wallet below.",
+    copy: 'Copy',
+    copied: 'Copied!'
+  },
+  ru: {
+    title: 'Поддержать автора',
+    intro: 'Если вам не безразлична моя работа и вы хотите поддержать её — воспользуйтесь любым удобным кошельком ниже.',
+    copy: 'Скопировать',
+    copied: 'Скопировано!'
+  }
+}[locale];
+
+const wallets = [
+  { key: 'usdt_trc20', label: 'USDT (TRC20)', address: 'TBTZ5RRMfGQQ8Vpf8i5N8DZhNxSum2rzAs' },
+  { key: 'ton_usdt',  label: 'TON / USDT(TON)', address: 'UQB9qNTcAazAbFoeobeDPMML9MG73DUCAFTpVanQnLk3BHg3' },
+  { key: 'btc',        label: 'BTC (Bitcoin)', address: 'bc1qt5urnw7esunf0v7e9az0jhatxrdd0smem98gdn' },
+  { key: 'eth',        label: 'ETH (Ethereum)', address: '0x56e8bf8Ec07b6F2d6aEdA7Bd8814DB5A72164b13' },
+];
+
+const coinSymbols: Record<string, string> = {
+  btc: '₿',
+  eth: 'Ξ',
+  usdt_trc20: '₮',
+  ton_usdt: '∇',
+};
+
+const coinColors: Record<string, string> = {
+  btc: 'peach',
+  eth: 'sapphire',
+  usdt_trc20: 'teal',
+  ton_usdt: 'mauve',
+};
+
+const walletsData = wallets.map(w => ({ ...w, symbol: coinSymbols[w.key] || '¤', color: coinColors[w.key] || 'package' }));
+---
+<section class="donate-block" aria-labelledby="donate-title">
+  <h2 id="donate-title" class="section-title">
+    <span class="icon header-currency">$</span>
+    <span>{texts.title}</span>
+  </h2>
+  <p class="intro">{texts.intro}</p>
+
+  <CardGrid stagger class="wallets" data-wallets>
+    {walletsData.map((w) => (
+      <div class="donate-card">
+        <div 
+          class="donate-inner tilt-element"
+          data-tilt
+          data-tilt-max="6"
+          data-tilt-speed="2000"
+          data-tilt-glare
+          data-tilt-max-glare="0.4"
+        >
+          <article class="card">
+            <div class="title-row">
+              <h4 class="title">
+                <div class={`icon ${w.color}`}>
+                  {w.key === 'eth' ? (
+                    <svg class="coin-svg" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                      <polygon fill="currentColor" points="12,2 5,12 12,9 19,12" />
+                      <polygon fill="currentColor" points="12,22 5,13 12,16 19,13" />
+                    </svg>
+                  ) : w.key === 'ton_usdt' ? (
+                    <svg class="coin-svg" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                      <path fill="currentColor" d="M12 3 L21 9 L12 21 L3 9 Z" />
+                    </svg>
+                  ) : (
+                    <span class="coin-symbol">{w.symbol}</span>
+                  )}
+                </div>
+                <span>{w.label}</span>
+              </h4>
+              <button type="button" class="copy copy--small" data-copy data-address={w.address} title={texts.copy} aria-label={texts.copy}>
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                  <path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0 2-2zm0 16H8V7h11v14z"/>
+                </svg>
+                <span class="copy-label" data-copy-text>{texts.copy}</span>
+              </button>
+            </div>
+            <div class="body">
+              <code class="addr" title={w.address}>{w.address}</code>
+            </div>
+          </article>
+        </div>
+      </div>
+    ))}
+  </CardGrid>
+</section>
+
+<script is:inline>
+(() => {
+  const root = document.currentScript?.closest?.('.donate-block') || document.querySelector('.donate-block');
+  if (!root) return;
+  root.addEventListener('click', async (e) => {
+    const btn = e.target instanceof Element ? e.target.closest('[data-copy]') : null;
+    if (!btn) return;
+    const addr = btn.getAttribute('data-address') || '';
+    const txt = btn.querySelector('[data-copy-text]');
+    const original = txt ? txt.textContent : '';
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(addr);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = addr; document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+      }
+      if (txt) {
+        const copied = (location.pathname.startsWith('/ru/') ? 'Скопировано!' : 'Copied!');
+        txt.textContent = copied;
+        setTimeout(() => { txt.textContent = original; }, 1500);
+      }
+      btn.classList.add('copied');
+      setTimeout(() => btn.classList.remove('copied'), 600);
+    } catch (_) {}
+  });
+})();
+</script>
+
+<style> 
+.donate-block { margin: 2.5rem 0; display: flex; flex-direction: column; gap: 1rem; }
+.section-title { display: flex; align-items: center; gap: .6rem; margin: 0; color: var(--ctp-text); font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); font-weight: 900; }
+.section-title .icon { color: var(--ctp-text); background: transparent; padding: 0; border-radius: 0; font-weight: 900; font-size: 1em; }
+.intro { margin: 0; color: var(--ctp-text); opacity: .9; }
+
+/* Use CardGrid's grid + stagger behavior; no custom grid needed here */
+.wallets { }
+
+.donate-card { height: 100%; }
+.donate-inner { height: 100% !important; width: 100% !important; }
+.card { border: 1px solid var(--ctp-surface2); background: var(--card-background); backdrop-filter: blur(16px); padding: clamp(1rem, calc(0.125rem + 3vw), 2.5rem); gap: clamp(0.5rem, calc(0.125rem + 1vw), 1rem); border-radius: 0.75rem; display: flex; flex-direction: column; height: 100%; transition: all 0.3s ease; }
+.card:hover { border-color: var(--ctp-mauve); transform: translateY(-4px); background: var(--card-background-hover); }
+:root { --card-background: rgba(49, 50, 68, 0.7); --card-background-hover: rgba(49, 50, 68, 0.9); }
+:root[data-theme="light"] { --card-background: #DCE0E8; --card-background-hover: #E5E9F0; }
+.title-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.title { color: var(--ctp-text); font-weight: bold; display: flex; align-items: center; gap: 0.75rem; line-height: 1.3; margin: 0; }
+.icon { color: #ffffff; padding: 0.5rem; border-radius: 0.5rem; font-size: 1.2em; font-weight: bold; min-width: 2.5rem; display: flex; align-items: center; justify-content: center; }
+.icon.package { background: linear-gradient(45deg, var(--ctp-red), var(--ctp-maroon)); }
+.icon.peach { background: linear-gradient(45deg, var(--ctp-peach), var(--ctp-yellow)); }
+.icon.mauve { background: linear-gradient(45deg, var(--ctp-mauve), var(--ctp-lavender)); }
+.icon.teal { background: linear-gradient(45deg, var(--ctp-teal), var(--ctp-green)); }
+.icon.sapphire { background: linear-gradient(45deg, var(--ctp-sapphire), var(--ctp-blue)); }
+.coin-symbol { font-weight: 900; font-size: 1.1rem; letter-spacing: 0.5px; }
+.coin-svg { display: block; color: #ffffff; }
+.body { display: flex; flex-direction: column; gap: 10px; }
+.addr { display: block; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\"; font-size: 12px; color: var(--ctp-text); font-weight: 700; background: color-mix(in oklab, var(--ctp-surface0) 60%, var(--ctp-base)); padding: 12px; border-radius: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+@media (max-width: 425px) { .addr { white-space: normal; word-break: break-all; } }
+.copy { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--ctp-lavender); color: var(--ctp-crust); background: var(--ctp-lavender); padding: 8px 12px; border-radius: 12px; cursor: pointer; transition: transform .08s ease, box-shadow .2s ease, background .2s ease; }
+.copy.copy--small { padding: 6px 10px; border-radius: 10px; }
+.copy > svg { width: 16px; height: 16px; flex: 0 0 16px; min-width: 16px; min-height: 16px; display: block; }
+.copy-label { font-size: 12px; margin-left: 6px; white-space: nowrap; }
+.copy.copied .copy-label { content: 'Copied'; }
+.copy:hover { box-shadow: 0 6px 16px rgba(0,0,0,0.25); }
+.copy:active { transform: translateY(1px); }
+.copy.copied { background: var(--ctp-green); border-color: var(--ctp-green); color: var(--ctp-crust); }
+.copy-text { font-family: 'Aldrich', sans-serif; font-size: 12px; }
+</style>
+

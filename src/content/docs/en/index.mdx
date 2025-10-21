@@ -22,6 +22,8 @@ import { Card, CardGrid, Icon } from '@astrojs/starlight/components';
 import FeatureCard from '../../../components/FeatureCard.astro';
 import ShowcaseCard from '../../../components/ShowcaseCard.astro';
 import ContributorCard from '../../../components/ContributorCard.astro';
+import ReviewsSection from '../../../components/ReviewsSection.astro';
+import DonateBlock from '../../../components/DonateBlock.astro';
 import screenshot1 from '../../../assets/screenshots/1.png';
 import screenshot2 from '../../../assets/screenshots/2.png';
 import screenshot3 from '../../../assets/screenshots/3.png';
@@ -31,19 +33,19 @@ import screenshot6 from '../../../assets/screenshots/6.png';
 import screenshot7 from '../../../assets/screenshots/7.png';
 
 <div style="margin-bottom: 3rem;">
-  <h1 style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 3rem; color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
-    <Icon name="information" style="color: var(--ctp-mauve); width: 2.5rem; height: 2.5rem;" />
+  <h1 id="whats-that" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
+    <Icon name="information" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
     What's That?
   </h1>
-  <p style="color: var(--ctp-subtext1); font-size: 1.125rem; line-height: 1.7; max-width: 800px; margin: 0 auto 2rem auto;">
-    Meowrch is an Arch-based build focused on maximum performance, ergonomics and beauty. 
+  <p style="color: var(--ctp-subtext1); font-size: clamp(1rem, 0.96rem + 0.4vw, 1.125rem); line-height: 1.7; max-width: 800px; margin: 0 auto 2rem auto;">
+    Meowrch is an Arch-based build focused on maximum performance, ergonomics and beauty.
     The system is fully configured for comfortable daily use and provides extensive customization options through its own theme store.
   </p>
 </div>
 
 <div style="margin-top: 4rem; margin-bottom: 3rem;">
-  <h1 style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 3rem; color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
-    <Icon name="star" style="color: var(--ctp-mauve); width: 2.5rem; height: 2.5rem;" />
+  <h1 id="features" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
+    <Icon name="rocket" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
     Features
   </h1>
 </div>
@@ -88,8 +90,8 @@ import screenshot7 from '../../../assets/screenshots/7.png';
 </CardGrid>
 
 <div style="margin-top: 4rem; margin-bottom: 3rem;">
-  <h1 style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 3rem; color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
-    <Icon name="laptop" style="color: var(--ctp-mauve); width: 2.5rem; height: 2.5rem;" />
+  <h1 id="visual-tour" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
+    <Icon name="laptop" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
     Visual Tour
   </h1>
 </div>
@@ -132,12 +134,16 @@ import screenshot7 from '../../../assets/screenshots/7.png';
   />
 </CardGrid>
 
+<ReviewsSection owner="meowrch" repo="meowrch" category="Reviews" locale="en" headingId="reviews" />
+
+<DonateBlock locale="en" />
+
 <div style="margin-top: 4rem; margin-bottom: 3rem;">
-  <h1 style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 3rem; color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
-    <Icon name="heart" style="color: var(--ctp-mauve); width: 2.5rem; height: 2.5rem;" />
+  <h1 id="acknowledgements" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
+    <Icon name="heart" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
     Acknowledgements
   </h1>
-  <p style="color: var(--ctp-subtext1); font-size: 1.125rem; line-height: 1.7; max-width: 800px; margin: 0 auto 2rem auto; text-align: center;">
+  <p style="color: var(--ctp-subtext1); font-size: clamp(1rem, 0.96rem + 0.4vw, 1.125rem); line-height: 1.7; max-width: 800px; margin: 0 auto 2rem auto; text-align: center;">
     We express our immense gratitude to all contributors who helped in developing the project!
   </p>
 </div>

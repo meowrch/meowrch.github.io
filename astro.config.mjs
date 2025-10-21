@@ -60,6 +60,13 @@ export default defineConfig({
 				{
 					tag: 'meta',
 					attrs: {
+						property: 'og:image',
+						content: 'https://meowrch.github.io/og-cover.png'
+					}
+				},
+				{
+					tag: 'meta',
+					attrs: {
 						name: 'color-scheme',
 						content: 'light dark'
 					}
