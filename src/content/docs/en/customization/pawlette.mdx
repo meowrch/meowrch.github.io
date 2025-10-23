@@ -1,0 +1,175 @@
+---
+title: What is pawlette?
+description: Complete guide to installing and configuring Pawlette
+sidebar:
+  order: 2
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+## What is it?
+**Pawlette** is a universal theme manager for **Meowrch** that uses an innovative Git-based theme management system. Each theme is a separate branch, ensuring the safety of your settings and complete change history.
+
+## 🌟 Key Features
+
+- **Data safety** — impossible to lose user settings when switching themes
+- **Modular architecture** — only relevant configuration files are changed
+- **Git-based versioning** — complete change history for each theme
+- **Patch system** — partial configuration modifications
+- **XDG compatibility** — full standards support
+
+## 🚀 Installation and Setup
+
+<Steps>
+
+1. **Install Pawlette**
+   
+   Install the package from AUR:
+   ```
+   yay -S pawlette
+   ```
+   or
+   ```
+   paru -S pawlette
+   ```
+
+2. **Generate configuration**
+   
+   Create basic configuration:
+   ```
+   pawlette generate-config
+   ```
+
+3. **View available themes**
+   
+   See the list of available themes:
+   ```
+   pawlette get-available-themes
+   ```
+
+4. **Install theme**
+   
+   Install the desired theme:
+   ```
+   pawlette install-theme catppuccin-mocha
+   ```
+
+5. **Apply theme**
+   
+   Activate the installed theme:
+   ```
+   pawlette apply catppuccin-mocha
+   ```
+
+</Steps>
+
+## 🎛 Theme Management
+
+### Basic Commands
+
+| Command | Description |
+|---------|-------------|
+| `pawlette get-themes` | List installed themes |
+| `pawlette set-theme <name>` or `pawlette apply <name>` | Apply theme |
+| `pawlette current-theme` | Show active theme |
+| `pawlette status` | Show status and changes |
+| `pawlette restore` | Restore original appearance |
+| `pawlette reset-theme <name>` | Reset theme to clean state |
+
+### Installing and Updating Themes
+
+| Command | Description |
+|---------|-------------|
+| `pawlette get-available-themes` | JSON with all available themes |
+| `pawlette get-themes-info` | JSON with installed themes information |
+| `pawlette install-theme <name>` | Install theme |
+| `pawlette update-theme <name>` | Update theme |
+| `pawlette update-all-themes` | Update all themes |
+
+### Creating Custom Themes
+Detailed documentation on creating custom themes in Pawlette is available [here](/en/customization/create-theme).
+
+### Working with Versions (Git)
+
+| Command | Description |
+|---------|-------------|
+| `pawlette history [theme] [--limit N]` | Commit history (shows 10 by default) |
+| `pawlette user-changes [theme]` | User changes |
+| `pawlette restore-commit <hash> [theme]` | Restore commit |
+
+
+## 🔄 Git-based Version Management
+
+Pawlette automatically creates an internal Git repository to track changes:
+
+<Aside type="note" title="How it works">
+- **Each theme** = separate branch in Git
+- **User changes** are saved as uncommitted changes  
+- **Theme switching** automatically saves your settings
+- **Change history** is available through Pawlette commands
+</Aside>
+
+### Checking Status
+
+```
+pawlette status
+# ➤ Current theme: catppuccin-mocha  
+# ⚠️  You have 3 uncommitted changes
+# Modified files:
+#   - kitty/kitty.conf
+#   - waybar/config.json
+#   - hypr/hyprland.conf
+```
+
+### Viewing History
+
+```
+pawlette history
+# 📜 History for theme: catppuccin-mocha
+# 👤 a1b2c3d Personal font settings [USER]
+# 🔧 e4f5g6h Waybar configuration update
+# 🔧 h7i8j9k Initial theme application
+
+# Limit number of commits
+pawlette history --limit 5
+```
+
+### Working with User Changes
+
+```
+# See which files are modified
+pawlette user-changes
+# 🔍 User changes for theme: catppuccin-mocha
+# Found 2 modified files:
+#   📝 kitty/kitty.conf
+#   📝 waybar/style.css
+
+# Restore specific commit
+pawlette restore-commit a1b2c3d
+# ✅ Successfully restored commit a1b2c3d for theme catppuccin-mocha
+```
+
+## 🔗 Automatic Symlink Creation
+
+When applying a theme, Pawlette automatically creates symbolic links:
+
+<Aside type="note" title="Created symlinks">
+- **GTK themes**: `~/.themes/` → symlink to `gtk-theme/` from theme
+- **Icons**: `~/.icons/` → symlink to `icons/` from theme  
+- **Wallpapers**: `~/.local/share/pawlette/theme_wallpapers/` → symlink to `wallpapers/` from theme
+</Aside>
+
+### Debugging Issues
+
+- For theme application issues, use `pawlette restore`
+- To reset a theme to its original state: `pawlette reset-theme <name>`
+- Check logs and status after each change
+- Use `pawlette user-changes` to view your modifications
+
+### Compatibility
+
+<Aside type="caution" title="Important to remember">
+Pawlette uses only Git for version management — no external backups are created. All changes are tracked through the internal Git repository.
+</Aside>
+
+The Pawlette system makes customizing meowrch simple and safe, allowing you to easily experiment with the system's appearance without risk of losing important settings.
