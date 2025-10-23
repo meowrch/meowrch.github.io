@@ -1,0 +1,95 @@
+---
+// Aurora Background компонент для главной страницы
+const { showRadialGradient = true } = Astro.props;
+---
+
+<div class="aurora-background-wrapper">
+  <div class="aurora-background-inner">
+    <div class:list={["aurora-effect", { "show-radial": showRadialGradient }]}></div>
+  </div>
+</div>
+
+<style>
+  .aurora-background-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .aurora-background-inner {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .aurora-effect {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    
+    /* Градиенты для темной темы */
+    --white-gradient: repeating-linear-gradient(100deg, var(--white) 0%, var(--white) 7%, var(--transparent) 10%, var(--transparent) 12%, var(--white) 16%);
+    --dark-gradient: repeating-linear-gradient(100deg, var(--black) 0%, var(--black) 7%, var(--transparent) 10%, var(--transparent) 12%, var(--black) 16%);
+    --aurora: repeating-linear-gradient(100deg, var(--blue-500) 10%, var(--indigo-300) 15%, var(--blue-300) 20%, var(--violet-200) 25%, var(--blue-400) 30%);
+    
+    background-image: var(--dark-gradient), var(--aurora);
+    background-size: 300%, 200%;
+    background-position: 50% 50%, 50% 50%;
+    
+    filter: blur(10px);
+    opacity: 0.5;
+    will-change: transform;
+    pointer-events: none;
+  }
+
+  /* Радиальная маска */
+  .aurora-effect.show-radial {
+    mask-image: radial-gradient(ellipse at 100% 0%, black 10%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse at 100% 0%, black 10%, transparent 70%);
+  }
+
+  /* Второй слой с mix-blend-difference */
+  .aurora-effect::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    
+    background-image: var(--dark-gradient), var(--aurora);
+    background-size: 200%, 100%;
+    background-attachment: fixed;
+    
+    mix-blend-mode: difference;
+    animation: aurora 20s ease-in-out infinite;
+  }
+
+  /* Светлая тема */
+  :root[data-theme="light"] .aurora-effect {
+    background-image: var(--white-gradient), var(--aurora);
+    filter: blur(10px) invert(1);
+  }
+
+  :root[data-theme="light"] .aurora-effect::after {
+    background-image: var(--white-gradient), var(--aurora);
+  }
+
+  /* Темная тема - инверсия отключена */
+  :root:not([data-theme="light"]) .aurora-effect {
+    filter: blur(10px) invert(0);
+  }
+
+  @keyframes aurora {
+    0%, 100% {
+      background-position: 50% 50%, 50% 50%;
+    }
+    50% {
+      background-position: 100% 100%, 100% 100%;
+    }
+  }
+</style>
