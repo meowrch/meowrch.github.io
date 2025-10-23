@@ -48,5 +48,5 @@ Some shell functions may not work properly on other resolutions and will require
 * **💬 Telegram** — [news, reviews and quick support](https://t.me/meowrch)
 
 :::note[Getting Started]
-Ready to begin? Go to the [Installation](/2.0/en/installation/) section for step-by-step instructions.
+Ready to begin? Go to the [Installation](/en/2.0/installation/) section for step-by-step instructions.
 :::
