@@ -1,6 +1,6 @@
 ---
 title: Горячие клавиши
-description: ...
+description: Полное руководство по горячим клавишам в Meowrch
 ---
 
 # Hyprland
@@ -23,7 +23,6 @@ bind=SUPER,mouse:272,exec,firefox
 ```
 
 Для получения более подробной информации и примеров можно обратиться к официальной документации Hyprland [здесь](https://wiki.hyprland.org/configuring/binds/).
-
 
 # bspwm 
 Конфигурация горячих клавиш находится по пути `~/.config/bspwm/sxhkdrc`.
@@ -56,11 +55,10 @@ button2
 
 Для получения более подробной информации и примеров можно обратиться к официальному репозиторию sxhkd [здесь](https://github.com/baskerville/sxhkd), или документации, представленной на [Arch Wiki](https://wiki.archlinux.org/title/Sxhkd_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)).
 
-# Meowrch Binds
+# Горячие клавиши Meowrch
+
+## Системные сочетания клавиш
 <table align="center">
-	<tr>
-		<td colspan="3" align="center">Сочетания клавиш</td>
-	</tr>
     <tr>
         <th>Название действия</th>
         <th>Hyprland</th>
@@ -74,11 +72,27 @@ button2
         <td>Открыть файловый менеджер</td>
 		<td colspan="2" align="center">super + e</td>
     </tr>
-    <tr>
-        <td>Открыть диспетчер задач (btop)</td>
-		<td colspan="2" align="center">ctrl + shift + esc</td>
+	<tr>
+        <td>Открыть меню приложений</td>
+		<td colspan="2" align="center">super + d</td>
     </tr>
-    <tr>
+     <tr>
+        <td>Открыть меню включения / выключения компьютера</td>
+		<td colspan="2" align="center">super + x</td>
+    </tr>
+	<tr>
+        <td>Открыть выбор емоджи</td>
+		<td colspan="2" align="center">super + .</td>
+    </tr>
+	<tr>
+        <td>Сделать скриншот</td>
+		<td colspan="2" align="center">PrintScreen</td>
+    </tr>
+	<tr>
+        <td>Сделать полный скриншот</td>
+		<td colspan="2" align="center">super + PrintScreen</td>
+    </tr>
+	<tr>
         <td>Сменить обои</td>
 		<td colspan="2" align="center">super + w</td>
     </tr>
@@ -86,41 +100,120 @@ button2
         <td>Сменить тему</td>
 		<td colspan="2" align="center">super + t</td>
     </tr>
-    <tr>
-        <td>Сделать скриншот</td>
-		<td colspan="2" align="center">PrintScreen</td>
+	<tr>
+        <td>Сменить раскладку</td>
+		<td colspan="2" align="center">alt + shift</td>
     </tr>
-    <tr>
-        <td>Микшер (Pavucontrol)</td>
-		<td colspan="2" align="center">super + p</td>
-    </tr>
-    <tr>
-        <td>Буфер обмена</td>
-		<td colspan="2" align="center">super + v3</td>
-    </tr>
-    <tr>
-        <td>Открыть меню приложений</td>
-		<td colspan="2" align="center">super + d</td>
-    </tr>
-    <tr>
-        <td>Открыть выбор емоджи</td>
-		<td colspan="2" align="center">super + .</td>
-    </tr>
-    <tr>
-        <td>Открыть меню включения / выключения компьютера</td>
-		<td colspan="2" align="center">super + x</td>
-    </tr>
-    <tr>
-        <td>Заблокировать экран</td>
-        <td colspan="2" align="center">super + l</td>
-    </tr>
-    <tr>
+     <tr>
         <td>Распознать цвет на экране</td>
 		<td colspan="2" align="center">super + c</td>
     </tr>
-    <tr>
-        <td>Включить/выключить панель (Waybar/Polybar)</td>
+     <tr>
+        <td>Заблокировать экран</td>
+        <td colspan="2" align="center">super + l</td>
+    </tr>
+	<tr>
+        <td>Открыть диспетчер задач (btop)</td>
+		<td colspan="2" align="center">ctrl + shift + esc</td>
+    </tr>
+	<tr>
+        <td>Закрепить окно</td>
+		<td colspan="2" align="center">super + p</td>
+    </tr>
+	<tr>
+        <td>Менеджер буфера обмена</td>
+		<td colspan="2" align="center">super + v</td>
+    </tr>
+	<tr>
+        <td>Включить/выключить панель</td>
 		<td colspan="2" align="center">super + b</td>
+    </tr>
+	<tr>
+        <td>Переключить панель на mewline/waybar</td>
+		<td>super + shift + b</td>
+		<td>N/A</td>
+    </tr>
+</table>
+
+## Управление окнами и рабочими пространствами
+<table align="center">
+    <tr>
+        <th>Название действия</th>
+        <th>Hyprland</th>
+		<th>Bspwm</th>
+    </tr>
+	<tr>
+        <td>Переключиться на другую рабочую область</td>
+		<td>super + 1-9</td>
+		<td>super + 1-9</td>
+    </tr>
+	<tr>
+        <td>Переключиться на следующую рабочую область</td>
+		<td>super + ctrl + right</td>
+		<td>super + ctrl + right</td>
+    </tr>
+	<tr>
+        <td>Переключиться на предыдущую рабочую область</td>
+		<td>super + ctrl + left</td>
+		<td>super + ctrl + left</td>
+    </tr>
+	<tr>
+        <td>Переключиться на первую пустую рабочую область</td>
+		<td>super + ctrl + down</td>
+		<td>super + ctrl + down</td>
+    </tr>
+	<tr>
+        <td>Прокрутка рабочих областей вперед</td>
+		<td>super + mouse_down</td>
+		<td>super + mouse_down</td>
+    </tr>
+	<tr>
+        <td>Прокрутка рабочих областей назад</td>
+		<td>super + mouse_up</td>
+		<td>super + mouse_up</td>
+    </tr>
+	<tr>
+        <td>Переключиться на скрытую рабочую область</td>
+		<td>super + s</td>
+		<td>N/A</td>
+    </tr>
+     <tr>
+        <td>Перенести активное окно на другую рабочую область</td>
+		<td>super + shift + 1-9</td>
+		<td>super + shift + 1-9</td>
+    </tr>
+     <tr>
+        <td>Перевести активное окно в плавающий режим</td>
+		<td colspan="2" align="center">super + space</td>
+    </tr>
+	<tr>
+        <td>Перевести активное окно в полноразмерный режим</td>
+		<td colspan="2" align="center">alt + enter</td>
+    </tr>
+     <tr>
+        <td>Закрыть активное окно</td>
+		<td colspan="2" align="center">super + q</td>
+    </tr>
+     <tr>
+        <td>Перемещение фокуса окна</td>
+		<td colspan="2" align="center">super + arrow keys</td>
+    </tr>
+	<tr>
+        <td>Изменение размера окна</td>
+		<td colspan="2" align="center">super + shift + arrow keys</td>
+    </tr>
+	<tr>
+        <td>Перемещение окна</td>
+		<td colspan="2" align="center">super + shift + ctrl + arrow keys</td>
+    </tr>
+</table>
+
+## Запуск приложений
+<table align="center">
+    <tr>
+        <th>Название действия</th>
+        <th>Hyprland</th>
+		<th>Bspwm</th>
     </tr>
 	<tr>
         <td>Открыть Firefox</td>
@@ -130,94 +223,37 @@ button2
         <td>Открыть VSCode</td>
 		<td colspan="2" align="center">super + shift + c</td>
     </tr>
-    <tr>
+	<tr>
         <td>Открыть Telegram</td>
 		<td colspan="2" align="center">super + shift + t</td>
     </tr>
-    <tr>
-        <td>Открыть OBS</td>
+	<tr>
+        <td>Открыть Obsidian</td>
 		<td colspan="2" align="center">super + shift + o</td>
     </tr>
-    <tr>
-        <td>Регулировка звука</td>
-		<td colspan="2" align="center">По умолчанию как на вашем устройстве</td>
+	<tr>
+        <td>Открыть pavucontrol</td>
+		<td colspan="2" align="center">super + shift + p</td>
     </tr>
+</table>
+
+## Управление системой
+<table align="center">
     <tr>
-        <td>Регулировка яркости</td>
-		<td colspan="2" align="center">По умолчанию как на вашем устройстве</td>
+        <th>Название действия</th>
+        <th>Hyprland</th>
+		<th>Bspwm</th>
     </tr>
-    <tr>
-        <td>Управление музыкой</td>
-		<td colspan="2" align="center">По умолчанию как на вашем устройстве</td>
-    </tr>
-    <tr>
-        <td>Убить оконный менеджер</td>
+	<tr>
+        <td>Выйти из сеанса</td>
 		<td colspan="2" align="center">super + delete</td>
     </tr>
     <tr>
         <td>Перезапустить оконный менеджер</td>
 		<td colspan="2" align="center">ctrl + shift + r</td>
     </tr>
-    <tr>
-        <td>Закрыть активное окно</td>
-		<td colspan="2" align="center">super + q</td>
-    </tr>
-    <tr>
-        <td>Перевести активное окно в плавающий режим</td>
-		<td colspan="2" align="center">super + space</td>
-    </tr>
-    <tr>
-        <td>Перевести активное окно в полноразмерный режим</td>
-		<td colspan="2" align="center">alt + enter</td>
-    </tr>
-    <tr>
-        <td>Поменять фокус на другое окно</td>
-		<td colspan="2" align="center">super + right/left/up/down</td>
-    </tr>
-    <tr>
-        <td>Переключиться на другую рабочую область</td>
-		<td colspan="2" align="center">super + 1-10</td>
-    </tr>
-    <tr>
-        <td>Переключиться на предыдущую/следующую рабочую область</td>
-		<td colspan="2" align="center">super + ctrl + left/right</td>
-    </tr>
-    <tr>
-        <td>Переключиться на первую свободную рабочую область</td>
-		<td colspan="2" align="center">super + ctrl + down</td>
-    </tr>
-    <tr>
-        <td>Переключиться на другую рабочую область с помощью колесика</td>
-		<td colspan="2" align="center">super + scroll</td>
-    </tr>
-    <tr>
-        <td>Перенести активное окно на другую рабочую область</td>
-		<td colspan="2" align="center">super + shift + 1-10</td>
-    </tr>
-    <tr>
-        <td>Изменить размер окна с клавиатуры</td>
-		<td colspan="2" align="center">super + shift + right/left/up/down</td>
-    </tr>
-    <tr>
-        <td>Изменить размер окна с мышки</td>
-		<td colspan="2" align="center">super + right_mouse_btn</td>
-    </tr>
-    <tr>
-        <td>Переместить окно на текщем рабочем столе клавиатурой</td>
-		<td colspan="2" align="center">super + shift + ctrl + right/left/up/down</td>
-    </tr>
-    <tr>
-        <td>Переместить окно на текщем рабочем столе мышкой</td>
-		<td colspan="2" align="center">super + left_mouse_btn</td>
-    </tr>
-    <tr>
-        <td>Переключиться на скрытую рабочую область</td>
-		<td>super + s</td>
-		<td>N/A</td>
-    </tr>
-    <tr>
-        <td>Перенести окно на скрытую рабочую область / обратно</td>
-		<td>super + alt + s</td>
-		<td>N/A</td>
+	<tr>
+        <td>Отключить/Включить отслеживание сочетаний клавиш</td>
+		<td colspan="2" align="center">super + escape</td>
     </tr>
 </table>
