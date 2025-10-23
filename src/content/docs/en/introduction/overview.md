@@ -14,31 +14,56 @@ Meowrch is a ready-to-use Arch Linux build with pre-installed and customized com
 
 ## 🚀 Key Features
 
-- **🎨 Ready system** — fully configured for everyday comfortable use
-- **🎭 Wide customization options** and [custom theme store](https://github.com/meowrch/meowrch-themes)
-- **⚡ Hot keys** designed to ensure maximum productivity
-- **🤖 Automatic installation** and configuration of the system
-- **📦 Chaotic AUR support** for faster installation of popular AUR packages
-- **✨ Modern design** and responsive interface
-- **🔧 Reliable support** for successful project operation
+- Automatic system installation and configuration.<br>
+- Deep system optimization at the level of <b><a src="https://cachyos.org/">CachyOS</a></b> <br>
+- Extensive customization capabilities and <b><a href="https://github.com/meowrch/pawlette-themes">official theme store</a></b><br>
+- Hotkeys are optimized to ensure maximum productivity.<br>
+- Support for <b><a src="https://aur.chaotic.cx/">Chaotic AUR</a></b> for faster installation of popular packages.<br>
+- Continuous and reliable support to ensure successful project operation<br>
 
 ## 🖥️ System Components
 
-| Component | Name |
-|-----------|------|
-| **OS** | [Arch Linux](https://archlinux.org/) |
-| **Window Managers** | [BSPWM](https://github.com/baskerville/bspwm) \| [Hyprland](https://hyprland.org/) |
-| **Bars** | [Polybar](https://github.com/polybar/polybar) \| [Waybar](https://github.com/Alexays/Waybar) |
-| **Compositor** | [Picom](https://github.com/yshui/picom) \| Built-in |
-| **Terminal** | [Kitty](https://github.com/kovidgoyal/kitty) |
-| **App Launcher** | [Rofi](https://github.com/davatorium/rofi) |
-| **Notify Daemon** | [Dunst](https://github.com/dunst-project/dunst) |
-| **Shell** | [Fish](https://github.com/fish-shell/fish-shell) |
-
-:::caution[Important to Know]
-This configuration is intended for monitors with a resolution of **1920x1080**.  
-Some shell functions may not work properly on other resolutions and will require manual changes.
-:::
+<table>
+	<tr>
+	    <td colspan="2" align="center">System Specifications</td>
+	</tr>
+	<tr>
+	    <th>Component</th>
+	    <th>Name</th>
+	</tr>
+	<tr>
+	    <td>OS</td>
+	    <td><a href="https://archlinux.org/">Arch Linux</a></td>
+	</tr>
+	<tr>
+	    <td>WM</td>
+	    <td><a href="https://github.com/baskerville/bspwm">BSPWM</a> | <a href="https://hyprland.org/">Hyprland</a></td>
+	</tr>
+	<tr>
+	    <td>Bar</td>
+	    <td><a href="https://github.com/polybar/polybar">Polybar</a> | <a href="https://github.com/Alexays/Waybar">Waybar</a> + <a href="https://github.com/meowrch/mewline">Mewline</a></td>
+	</tr>
+	<tr>
+	    <td>Compositor</td>
+	    <td><a href="https://github.com/yshui/picom">Picom</a> | Built-in</td>
+	</tr>
+	<tr>
+	    <td>Terminal</td>
+	    <td><a href="https://github.com/kovidgoyal/kitty">Kitty</a></td>
+	</tr>
+	<tr>
+	    <td>Widgets</td>
+	    <td><a href="https://github.com/davatorium/rofi">Rofi</a> | <a href="https://github.com/meowrch/mewline">Mewline</a></td>
+	</tr>
+	<tr>
+	    <td>Notify Daemon</td>
+	    <td><a href="https://github.com/dunst-project/dunst">Dunst</a> | <a href="https://github.com/ErikReider/SwayNotificationCenter">Swaync</a></td>
+	</tr>
+	<tr>
+	    <td>Shell</td>
+	    <td><a href="https://github.com/fish-shell/fish-shell">Fish</a> | <a href="https://www.zsh.org">Zsh</a></td>
+	</tr>
+</table>
 
 ## 💬 Support and Community
 
@@ -47,5 +72,5 @@ Some shell functions may not work properly on other resolutions and will require
 - **💬 Telegram** — [news, reviews and quick support](https://t.me/meowrch)
 
 :::note[Getting Started]
-Ready to begin? Go to the [Installation](/en/installation/) section for step-by-step instructions.
+Ready to begin? Go to the [Installation](/en/installation/complete-guide/) section for step-by-step instructions.
 :::
