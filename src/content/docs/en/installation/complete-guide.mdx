@@ -1,0 +1,291 @@
+---
+title: Complete Installation Guide
+description: A comprehensive guide for switching from Windows to Meowrch Linux
+sidebar:
+  order: 1
+---
+
+import { Steps, Aside, FileTree } from '@astrojs/starlight/components';
+
+This guide will help you fully transition from Windows to Meowrch Linux — from creating a bootable USB drive to installing a ready-to-use system.
+
+<Aside type="note" title="What awaits you">
+In this guide we will:
+- Download and create a bootable EndeavourOS USB drive
+- Install base Arch Linux through EndeavourOS
+- Install and configure Meowrch on top of the base system
+</Aside>
+
+---
+
+## 🖥️ Preparation in Windows
+
+### Step 1: Downloading Required Software
+
+<Steps>
+
+1. **Download Rufus**
+   
+   Go to the [official Rufus website](https://rufus.ie/) and download the latest version of the program.
+   
+   Rufus is a utility for creating bootable USB drives from ISO images.
+
+2. **Download EndeavourOS**
+   
+   Go to the [EndeavourOS website](https://endeavouros.com) and download the latest ISO image.
+   
+   EndeavourOS is a user-friendly distribution based on Arch Linux with a convenient installer.
+
+3. **Prepare a USB Drive**
+   
+   You will need a USB flash drive with a minimum capacity of **4 GB**.
+   
+   <Aside type="caution" title="Attention!">
+   All data on the flash drive will be deleted during the creation of the bootable media.
+   </Aside>
+
+</Steps>
+
+### Step 2: Creating a Bootable USB Drive
+
+<Steps>
+
+1. **Launch Rufus**
+   
+   Open the downloaded Rufus file. If necessary, allow the program to make changes to your system.
+
+2. **Select USB Device**
+   
+   In the "Device" field, select your flash drive. Rufus will automatically detect connected drives.
+
+3. **Select ISO Image**
+   
+   - Click "SELECT" next to the "Boot selection" field
+   - Find the downloaded EndeavourOS ISO file and select it
+
+4. **Configure Settings**
+   
+   - **Partition scheme**: GPT (for modern UEFI computers)
+   - **Target system**: UEFI (not CSM)
+   - Other settings can be left at default
+
+5. **Create Bootable USB Drive**
+   
+   Click "START" and wait for the process to complete (usually 5-15 minutes).
+
+</Steps>
+
+---
+
+## 💾 Base System Installation
+
+### Step 3: Preparing Disk Space in Windows
+
+Before installation, it's recommended to allocate free space for Meowrch in Windows in advance:
+
+<Steps>
+
+1. **Open Disk Management**
+   
+   Press Win + X → Disk Management.
+
+2. **Select Main Partition**
+   
+   Find the largest partition (usually C: drive), right-click → "Shrink Volume".
+
+3. **Specify Shrink Amount**
+   
+   Enter the number of gigabytes you want to allocate for Meowrch (recommended 40 GB or more), click "Shrink".
+
+4. **Verify Result**
+   
+   An "Unallocated space" block of the corresponding size should appear — leave it unallocated, don't create anything.
+
+</Steps>
+
+### Step 4: Booting from USB Drive
+
+<Steps>
+
+1. **Restart Computer**
+   
+   Without removing the flash drive, restart your computer.
+
+2. **Enter Boot Menu**
+   
+   During startup, press the key to access the Boot Menu:
+   - **Asus**: F8 or Esc
+   - **MSI**: F11
+   - **Gigabyte**: F12
+   - **ASRock**: F11
+   - **Dell**: F12
+   - **HP**: F9
+   - **Lenovo**: F12
+
+3. **Select USB Device**
+   
+   In the boot menu, select your flash drive and press Enter.
+
+4. **Boot into EndeavourOS**
+   
+   Select the first option in the EndeavourOS menu and press Enter.
+
+</Steps>
+
+### Step 5: Installation via EndeavourOS
+
+<Steps>
+
+1. **Launch Installer**
+   
+   In the loaded system, click "Start the installer" in the welcome window.
+
+2. **Select Installation Type**
+   
+   Choose "Online" to access all desktop environments.
+
+3. **Configure Localization**
+
+4. **Choose Desktop Environment**
+   
+   <Aside type="tip" title="Important for Meowrch!">
+   Choose **"No Desktop"** — this is critically important!
+   
+   Meowrch will install its own window managers (BSPWM/Hyprland) and doesn't require a pre-installed environment.
+   </Aside>
+
+5. **Select Bootloader**
+   
+   <Aside type="caution" title="Mandatory!">
+   Choose **GRUB** as the bootloader!
+   
+   This is necessary for correct Meowrch operation and multiboot with Windows.
+   </Aside>
+
+6. **Disk Partitioning**
+   
+   Choose **Replace a partition** and find the **unallocated free space** that you prepared in Windows.
+   Select it.
+
+
+7. **Create User**
+   
+   - Enter your name and username
+   - Create a strong password
+
+8. **Complete Installation**
+   
+   Click "Install" and wait for the installation to complete (usually 15-30 minutes).
+
+9. **Reboot**
+   
+   After installation completes, restart your computer and remove the flash drive.
+
+</Steps>
+
+---
+
+## 🐱 Installing Meowrch
+
+### Step 6: Initial Login
+
+With the **No Desktop** option, the system will boot **directly into TTY** (fullscreen text terminal).
+
+<Steps>
+
+1. **Log into System**
+   
+   Enter your username and password created during EndeavourOS installation.
+
+2. **Update System**
+   
+   Execute:
+   ```bash
+   sudo pacman -Syu
+   ```
+
+3. **Install Git**
+   
+   ```bash
+   sudo pacman -S git
+   ```
+
+</Steps>
+
+### Step 7: Installing Meowrch
+
+<Steps>
+
+1. **Clone Meowrch Repository**
+   
+   ```bash
+   git clone --recurse-submodules --depth 1 https://github.com/meowrch/meowrch
+   ```
+
+2. **Navigate to Project Directory**
+   
+   ```bash
+   cd meowrch
+   ```
+
+3. **Run Automatic Installation**
+   
+   ```bash
+   sh install.sh
+   ```
+
+4. **Follow Installer Instructions**
+   
+   <Aside type="note" title="Navigation in installer">
+   - **Select item**: Spacebar
+   - **Proceed to next step**: Enter
+   - **Exit**: Ctrl + C
+   </Aside>
+
+5. **Reboot System**
+   
+   <Aside type="caution" title="Mandatory reboot!">
+   After installation, you **must** reboot to apply all changes.
+   </Aside>
+   
+   ```bash
+   sudo reboot
+   ```
+
+</Steps>
+
+---
+
+## 🔧 Troubleshooting
+
+### Problem: Won't Boot from USB Drive
+
+- Make sure Secure Boot is disabled in BIOS
+- Try a different USB port
+- Recreate the bootable USB drive
+
+### Problem: Errors During EndeavourOS Installation
+
+- Check internet connection
+- Make sure the disk is not damaged
+- Try offline installation
+
+### Problem: Meowrch Won't Install
+
+- Make sure the system is updated: `sudo pacman -Syu`
+- Check internet connection
+- Run installation as user (not root)
+
+<Aside type="tip" title="Need help?">
+If you encounter problems, seek help:
+- [GitHub Issues](https://github.com/meowrch/meowrch/issues)
+- [Telegram channel](https://t.me/meowrch)
+- [EndeavourOS Forum](https://forum.endeavouros.com/)
+</Aside>
+
+---
+
+## 📚 Additional Resources
+
+- [Official EndeavourOS Documentation](https://discovery.endeavouros.com/)
+- [Arch Wiki](https://wiki.archlinux.org/) — comprehensive source of information
