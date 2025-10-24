@@ -136,7 +136,7 @@ pawlette history --limit 5
 
 ### Working with User Changes
 
-```
+```bash
 # See which files are modified
 pawlette user-changes
 # 🔍 User changes for theme: catppuccin-mocha
@@ -147,6 +147,160 @@ pawlette user-changes
 # Restore specific commit
 pawlette restore-commit a1b2c3d
 # ✅ Successfully restored commit a1b2c3d for theme catppuccin-mocha
+```
+
+## 🛠️ Direct Git Repository Access
+
+Pawlette stores all theme information in a Git repository located at `~/.local/state/pawlette/config_state.git`.
+
+<Aside type="tip" title="Working with Git directly">
+You can use regular Git commands for advanced management of your themes!
+</Aside>
+
+### Connecting to the Git Repository
+
+```bash
+# Navigate to config directory
+cd ~/.config
+
+# Use Git with our repository
+set -gx GIT_DIR ~/.local/state/pawlette/config_state.git
+
+# Now you can execute any Git commands
+git status
+git log
+git diff
+```
+
+### Useful Commands
+
+#### View All Branches (Themes)
+```bash
+cd ~/.config
+set -gx GIT_DIR ~/.local/state/pawlette/config_state.git
+git branch --all
+
+# Output:
+# * catppuccin-mocha
+#   catppuccin-latte
+#   catppuccin-mocha-v1.3.1-backup-20251024-165427
+#   main
+```
+
+#### View Complete Diff of Your Changes
+```bash
+cd ~/.config
+set -gx GIT_DIR ~/.local/state/pawlette/config_state.git
+
+# View all uncommitted changes in current theme
+git diff
+
+# View staged changes
+git diff --cached
+
+# View changes relative to last theme commit
+git diff HEAD
+
+# Save diff to file
+git diff > my-changes.patch
+```
+
+#### View Detailed History
+```bash
+cd ~/.config
+set -gx GIT_DIR ~/.local/state/pawlette/config_state.git
+
+# Detailed history with files
+git log --stat
+
+# History with full diff
+git log -p
+
+# History of specific file
+git log -- kitty/kitty.conf
+
+# Beautiful commit tree
+git log --graph --oneline --all
+```
+
+#### Compare Branches (Themes)
+```bash
+cd ~/.config
+set -gx GIT_DIR ~/.local/state/pawlette/config_state.git
+
+# Compare two themes
+git diff catppuccin-mocha..catppuccin-latte
+
+# See which files differ
+git diff --name-only catppuccin-mocha..catppuccin-latte
+```
+
+## 🗂️ Theme Backup Management
+
+When updating a theme, Pawlette automatically creates a backup of the old version.
+
+<Aside type="note" title="Automatic Backups">
+When you update a theme (e.g., `catppuccin-mocha v1.3.1` → `v2.0`), the old branch is renamed to `catppuccin-mocha-v1.3.1-backup-20251024-165427` and a clean branch with the new version is created.
+</Aside>
+
+### Viewing Backups
+
+```bash
+cd ~/.config
+set -gx GIT_DIR ~/.local/state/pawlette/config_state.git
+
+# List all backups
+git branch --list '*-backup-*'
+
+# Output:
+#   catppuccin-mocha-v1.3.1-backup-20251024-165427
+#   catppuccin-mocha-v1.2.0-backup-20251020-120000
+```
+
+### Restoring Changes from Backup
+
+**Method 1: Switch to Backup**
+```bash
+# Apply backup as a regular theme
+pawlette apply catppuccin-mocha-v1.3.1-backup-20251024-165427
+```
+
+**Method 2: Copy Changes via Cherry-pick**
+```bash
+cd ~/.config
+set -gx GIT_DIR ~/.local/state/pawlette/config_state.git
+
+# View commits in backup
+git log catppuccin-mocha-v1.3.1-backup-20251024-165427
+
+# Copy needed commit to current branch
+git cherry-pick <commit-hash>
+```
+
+**Method 3: Create Patch File**
+```bash
+cd ~/.config
+set -gx GIT_DIR ~/.local/state/pawlette/config_state.git
+
+# Export all changes from backup
+git diff main..catppuccin-mocha-v1.3.1-backup-20251024-165427 > my-customizations.patch
+
+# Apply patch to current theme
+git apply my-customizations.patch
+```
+
+### Deleting Old Backups
+
+```bash
+cd ~/.config
+set -gx GIT_DIR ~/.local/state/pawlette/config_state.git
+
+# Delete specific backup
+git branch -D catppuccin-mocha-v1.2.0-backup-20251020-120000
+
+# Delete all old backups (keep last 3)
+# You can use a script or do it manually
+git branch --list '*-backup-*' | sort -r | tail -n +4 | xargs -r git branch -D
 ```
 
 ## 🔗 Automatic Symlink Creation
