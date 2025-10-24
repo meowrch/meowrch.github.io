@@ -190,9 +190,13 @@ For more detailed information and examples, you can refer to the official sxhkd 
         <td>Toggle active window to fullscreen mode</td>
 		<td colspan="2" align="center">alt + enter</td>
     </tr>
-     <tr>
+    <tr>
         <td>Close active window</td>
 		<td colspan="2" align="center">super + q</td>
+    </tr>
+    <tr>
+        <td>Kill active window</td>
+		<td colspan="2" align="center">super + k</td>
     </tr>
      <tr>
         <td>Move window focus</td>
