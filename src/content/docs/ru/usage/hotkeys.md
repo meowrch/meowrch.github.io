@@ -1,6 +1,8 @@
 ---
 title: Горячие клавиши
 description: Полное руководство по горячим клавишам в Meowrch
+sidebar:
+    order: 1
 ---
 
 # Hyprland
