@@ -55,7 +55,46 @@ Regular configuration files will completely replace existing settings.
 <Aside type="tip" title="Patch suffixes">
 - `.prepaw` — content is added **before** the original configuration
 - `.postpaw` — content is added **after** the original configuration
+- `.jsonpaw` — JSON object is **merged** into the target JSON file (deep merge; applied before `.prepaw`/`.postpaw`)
 </Aside>
+
+#### JSON merge (.jsonpaw)
+If the target file is JSON, you can place a file next to it with the `.jsonpaw` suffix (e.g. `waybar/config.json.jsonpaw`).
+Its content must be a JSON object; it will be merged into the target file:
+
+- existing keys are overridden by `.jsonpaw` values;
+- missing keys are created;
+- nested objects are merged recursively.
+
+Example:
+
+Original `~/.config/waybar/config.json`:
+```json
+{
+  "layer": "bottom",
+  "modules-left": ["menu"],
+  "style": { "font": "Sans 10" }
+}
+```
+
+Patch `configs/waybar/config.json.jsonpaw`:
+```json
+{
+  "layer": "top",
+  "style": { "font": "JetBrainsMono 11", "color": "#cba6f7" },
+  "custom-key": true
+}
+```
+
+Result:
+```json
+{
+  "layer": "top",
+  "modules-left": ["menu"],
+  "style": { "font": "JetBrainsMono 11", "color": "#cba6f7" },
+  "custom-key": true
+}
+```
 
 **Example**: the file `kitty/kitty.conf.prepaw` will add its content to the beginning of the existing `kitty.conf`.
 
