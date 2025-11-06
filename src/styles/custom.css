@@ -152,19 +152,6 @@ main > div:first-child a:hover {
   border-bottom: 1px solid rgba(136, 57, 239, 0.2) !important;
 }
 
-/* Добавить эмодзи перед текстом баннера */
-/* Отображается только когда баннер не пустой */
-.sl-banner:not(:empty)::before,
-.sl-banner > div:not(:empty)::before {
-  content: '⚠️ ';
-  margin-right: 0.5rem;
-}
-
-/* Для баннера версий - проверяем что это именно баннер с текстом */
-main > div:first-child:not(:empty):not(.content-panel)::before {
-  content: '⚠️ ';
-  margin-right: 0.5rem;
-}
 
 
 
@@ -178,6 +165,12 @@ main > div:first-child:not(:empty):not(.content-panel)::before {
   --blue-300: #93c5fd;
   --violet-200: #ddd6fe;
   --blue-400: #60a5fa;
+}
+
+/* Поднимаем основной контент над авророй */
+main {
+  position: relative;
+  z-index: 1;
 }
 
 /* Hero базовый контейнер */
