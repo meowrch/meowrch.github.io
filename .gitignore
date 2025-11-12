@@ -19,3 +19,6 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+# Ignore marker folder created by starlight-versions (root docs version dir)
+src/content/docs/1.0/

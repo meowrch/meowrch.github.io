@@ -83,145 +83,107 @@ h1 p {
   margin: 0;
 }
 
-
-/* Основной фон для всех тем */
-:root:not([data-theme="light"]) .hero::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background: var(--ctp-base);
+/* Glassmorphism эффект для navbar */
+header.header {
+  background: rgba(30, 30, 46, 0.7) !important;
+  backdrop-filter: blur(12px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(203, 166, 247, 0.1) !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
 }
 
-/* Звезды для темной темы */
-:root:not([data-theme="light"]) .hero::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background-image: 
-    radial-gradient(1px 1px at 20px 30px, var(--ctp-mauve), transparent),
-    radial-gradient(2px 2px at 160px 120px, var(--ctp-pink), transparent),
-    radial-gradient(1px 1px at 90px 200px, var(--ctp-lavender), transparent),
-    radial-gradient(1px 1px at 300px 80px, var(--ctp-sky), transparent),
-    radial-gradient(2px 2px at 250px 350px, var(--ctp-teal), transparent),
-    radial-gradient(1px 1px at 450px 150px, var(--ctp-blue), transparent),
-    radial-gradient(1px 1px at 50px 400px, var(--ctp-sapphire), transparent),
-    radial-gradient(2px 2px at 380px 280px, var(--ctp-mauve), transparent);
-  background-size: 500px 500px;
-  opacity: 0.6;
+/* Светлая тема для navbar */
+:root[data-theme="light"] header.header {
+  background: rgba(239, 241, 245, 0.7) !important;
+  backdrop-filter: blur(12px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(136, 57, 239, 0.1) !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Облака для светлой темы - основной слой */
-:root[data-theme="light"] .hero::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background-image: 
-    /* Основной слой - большие облака */
-    url('../assets/sky.png'),
-    /* Маленькие облака */
-    url('../assets/sky.png');
-  background-position: 
-    0 0,
-    0 300px;
-  background-size:
-    900px,
-    600px;
-  background-repeat: repeat-x;
-  animation: 
-    animated-sky-large 60s linear infinite,
-    animated-sky-small 40s linear infinite;
-  /* Делаем облака более видимыми */
-  filter: brightness(0.8) contrast(1.3);
-  opacity: 0.8;
+/* Убрать background у kbd в поиске */
+.site-search kbd,
+site-search kbd {
+  background: none !important;
+  background-color: var(--sl-color-gray-5) !important;
 }
 
-@keyframes waveFlow {
-  0%, 100% { 
-    background-position: 0% 50%; 
-    transform: scale(1);
-  }
-  25% { 
-    background-position: 100% 0%; 
-    transform: scale(1.02);
-  }
-  50% { 
-    background-position: 100% 100%; 
-    transform: scale(1);
-  }
-  75% { 
-    background-position: 0% 100%; 
-    transform: scale(0.98);
-  }
+
+/* Glassmorphism для баннера версий */
+/* Перехватываем баннер из starlight-versions */
+.sl-banner,
+.sl-banner > div,
+main > div:first-child {
+  top: 0 !important;
+  z-index: 100 !important;
+  background: rgba(30, 30, 46, 0.7) !important;
+  background-color: rgba(30, 30, 46, 0.7) !important;
+  backdrop-filter: blur(12px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(203, 166, 247, 0.2) !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+  color: var(--ctp-text) !important;
 }
 
-@keyframes floatingStars {
-  0%, 100% {
-    transform: translate(0, 0) rotate(0deg) scale(1);
-    opacity: 0.8;
-  }
-  25% {
-    transform: translate(15px, -10px) rotate(90deg) scale(1.1);
-    opacity: 0.9;
-  }
-  50% {
-    transform: translate(-10px, 15px) rotate(180deg) scale(0.9);
-    opacity: 0.7;
-  }
-  75% {
-    transform: translate(10px, 10px) rotate(270deg) scale(1.05);
-    opacity: 0.85;
-  }
+/* Ссылки в баннере */
+.sl-banner a,
+.sl-banner > div a,
+main > div:first-child a {
+  color: var(--ctp-mauve) !important;
+  /* text-decoration: underline;
+  text-decoration-color: rgba(203, 166, 247, 0.5); */
+  transition: all 0.2s ease;
 }
 
-@keyframes floatingClouds {
-  0%, 100% {
-    background-position: 0% 0%, 100% 10%, 20% 20%, 80% 60%, 10% 80%, 90% 90%, 5% 50%, 70% 30%;
-    transform: scale(1);
-    opacity: 0.8;
-  }
-  25% {
-    background-position: 10% 5%, 95% 15%, 25% 15%, 85% 55%, 5% 85%, 95% 85%, 0% 55%, 75% 25%;
-    transform: scale(1.02);
-    opacity: 0.9;
-  }
-  50% {
-    background-position: 15% 10%, 90% 20%, 30% 10%, 90% 50%, 0% 90%, 100% 80%, -5% 60%, 80% 20%;
-    transform: scale(1);
-    opacity: 0.85;
-  }
-  75% {
-    background-position: 5% 15%, 105% 25%, 15% 25%, 75% 65%, 15% 75%, 85% 95%, 10% 45%, 65% 35%;
-    transform: scale(0.98);
-    opacity: 0.9;
-  }
+.sl-banner a:hover,
+.sl-banner > div a:hover,
+main > div:first-child a:hover {
+  color: var(--ctp-lavender) !important;
+  text-decoration-color: var(--ctp-lavender);
 }
 
-@keyframes animated-sky-small {
-  0% { background-position: 0 0; }
-  100% { background-position: -300px 0; }
+/* Светлая тема для баннера версий */
+:root[data-theme="light"] .sl-banner,
+:root[data-theme="light"] .sl-banner > div,
+:root[data-theme="light"] main > div:first-child {
+  background: rgba(239, 241, 245, 0.7) !important;
+  background-color: rgba(239, 241, 245, 0.7) !important;
+  color: var(--ctp-text) !important;
+  border-bottom: 1px solid rgba(136, 57, 239, 0.2) !important;
 }
 
-@keyframes animated-sky-medium {
-  0% { background-position: 0 0; }
-  100% { background-position: -500px 0; }
+
+
+
+/* CSS переменные для Aurora Background */
+:root {
+  --white: #ffffff;
+  --black: #000000;
+  --transparent: transparent;
+  --blue-500: #3b82f6;
+  --indigo-300: #a5b4fc;
+  --blue-300: #93c5fd;
+  --violet-200: #ddd6fe;
+  --blue-400: #60a5fa;
 }
 
-@keyframes animated-sky-large {
-  0% { background-position: 0 0; }
-  100% { background-position: -800px 0; }
+/* Поднимаем основной контент над авророй */
+main {
+  position: relative;
+  z-index: 1;
 }
+
+/* Hero базовый контейнер */
+.hero {
+  position: relative;
+}
+
+/* Контент поверх фона */
+.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
 
 
 /* Кнопка "Wiki" - анимированный градиент с постоянным диагональным блеском */
@@ -377,6 +339,20 @@ h1 p {
   font-family: 'Roboto', sans-serif;
   font-weight: 900;
   background: linear-gradient(45deg, var(--ctp-mauve), var(--ctp-peach), var(--ctp-sky));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  letter-spacing: -0.02em;
+  /* Защита от Dark Reader */
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root[data-theme="light"] .hero h1 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 900;
+  background: linear-gradient(45deg, var(--ctp-mauve), var(--ctp-peach), var(--ctp-maroon), var(--ctp-lavender));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

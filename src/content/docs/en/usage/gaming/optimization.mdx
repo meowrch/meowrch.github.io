@@ -1,0 +1,49 @@
+---
+title: Game Optimization
+description: A comprehensive guide to game optimization
+sidebar: 
+  order: 2
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+Running games on Linux requires not only compatibility but also proper optimization to achieve maximum performance.
+
+Meowrch offers its own solution to automate this process — **MeowrchGameRun**, 
+a tool that analyzes games and applies optimal settings without manual intervention.
+
+Unlike traditional approaches with `gamemoderun` or `prime-run`, **MeowrchGameRun** uses intelligent analysis of executable files, detects the technologies used, and automatically selects the necessary optimizations for each specific game.
+
+## Key Features:
+
+Automatic optimization detection:
+-  Analysis of executable files for game engines (Unity, Unreal, Godot, Source)
+-  Detection of graphics APIs used (OpenGL, Vulkan, DirectX)
+-  DLSS and FSR support detection
+-  Analysis of libraries and DLL files in the game directory
+-  Launcher detection (Steam, Lutris)
+
+Smart optimizations:
+-  DLSS: Automatically enabled when NVIDIA GPU and DLSS support in game are present
+-  Zink: Enabled for old OpenGL games when Vulkan support is available
+-  Prime: Automatically applied on systems with discrete NVIDIA graphics card
+-  GameMode: Disabled by default (can harm performance), enabled only when explicitly specified
+-  Power profiles: Automatically switches to performance mode
+
+## How to Install?
+To install, you need to download the `meowrh-tools` package using the command
+```bash
+yay -Sy meowrch-tools
+```
+
+After that, the `meowrch-game-run` command will be available.
+
+## Setting up in Steam
+For a specific game
+<Steps>
+1. Open Steam
+2. Find the desired game in the library
+3. Right-click → "Properties"
+4. In the "General" tab, find "Launch Options"
+5. Enter `meowrch-game-run %command%`
+</Steps>

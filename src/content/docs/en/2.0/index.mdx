@@ -6,40 +6,43 @@ hero:
   title: <b>Welcome to<br>Meowrch Wiki</b>
   tagline: <b>Beautiful dots for Arch hyprland and bspwm</b>
   image:
-    file: ../../../assets/logo.png
+    file: ../../../../assets/2.0/logo.png
   actions:
     - text: Wiki
-      link: /en/introduction/overview/
+      link: /en/2.0/introduction/overview/
       icon: open-book
       variant: primary
     - text: News
       link: https://t.me/meowrch/9
       icon: pen
       variant: secondary
+slug: en/2.0
 ---
 
 import { Card, CardGrid, Icon } from '@astrojs/starlight/components';
-import AuroraBackground from '../../../components/AuroraBackground.astro';
-import FeatureCard from '../../../components/FeatureCard.astro';
-import ShowcaseCard from '../../../components/ShowcaseCard.astro';
-import ContributorCard from '../../../components/ContributorCard.astro';
-import ReviewsSection from '../../../components/ReviewsSection.astro';
-import DonateBlock from '../../../components/DonateBlock.astro';
-import screenshot1 from '../../../assets/screenshots/1.png';
-import screenshot2 from '../../../assets/screenshots/2.png';
-import screenshot3 from '../../../assets/screenshots/3.png';
-import screenshot4 from '../../../assets/screenshots/4.png';
-import screenshot5 from '../../../assets/screenshots/5.png';
-import screenshot6 from '../../../assets/screenshots/6.png';
-import screenshot7 from '../../../assets/screenshots/7.png';
+import AuroraBackground from '../../../../components/AuroraBackground.astro';
+import FeatureCard from '../../../../components/FeatureCard.astro';
+import ShowcaseCard from '../../../../components/ShowcaseCard.astro';
+import ContributorCard from '../../../../components/ContributorCard.astro';
+import ReviewsSection from '../../../../components/ReviewsSection.astro';
+import DonateBlock from '../../../../components/DonateBlock.astro';
+import screenshot1 from '../../../../assets/screenshots/2.0/1.png';
+import screenshot2 from '../../../../assets/screenshots/2.0/2.png';
+import screenshot3 from '../../../../assets/screenshots/2.0/3.png';
+import screenshot4 from '../../../../assets/screenshots/2.0/4.png';
+import screenshot5 from '../../../../assets/screenshots/2.0/5.png';
+import screenshot6 from '../../../../assets/screenshots/2.0/6.png';
+import screenshot7 from '../../../../assets/screenshots/2.0/7.png';
 
 <AuroraBackground />
 
 <div style="margin-bottom: 3rem;">
   <h1 id="whats-that" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
     <Icon name="information" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
+
     What's That?
   </h1>
+
   <p style="color: var(--ctp-subtext1); font-size: clamp(1rem, 0.96rem + 0.4vw, 1.125rem); line-height: 1.7; max-width: 800px; margin: 0 auto 2rem auto;">
     Meowrch is an Arch-based build focused on maximum performance, ergonomics and beauty.
     The system is fully configured for comfortable daily use and provides extensive customization options through its own theme store.
@@ -49,92 +52,47 @@ import screenshot7 from '../../../assets/screenshots/7.png';
 <div style="margin-top: 4rem; margin-bottom: 3rem;">
   <h1 id="features" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
     <Icon name="rocket" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
+
     Features
   </h1>
 </div>
 
 <CardGrid stagger>
-  <FeatureCard
-    icon="setting"
-    iconColor="settings"
-    title="Full Configuration"
-    body="The system is fully configured for comfortable daily use"
-  />
-  <FeatureCard
-    icon="puzzle"
-    iconColor="custom"
-    title="Customization"
-    body="Extensive customization options and custom theme repository"
-  />
-  <FeatureCard
-    icon="rocket"
-    iconColor="performance"
-    title="Performance"
-    body="Hotkeys designed for maximum productivity"
-  />
-  <FeatureCard
-    icon="download"
-    iconColor="robot"
-    title="Auto Installation"
-    body="Automatic system installation and configuration"
-  />
-  <FeatureCard
-    icon="add-document"
-    iconColor="package"
-    title="Chaotic AUR"
-    body="Chaotic AUR support for fast installation of popular AUR packages"
-  />
-  <FeatureCard
-    icon="star"
-    iconColor="design"
-    title="Modern Design"
-    body="Providing continuous and reliable support for successful project work"
-  />
+  <FeatureCard icon="setting" iconColor="settings" title="Full Configuration" body="The system is fully configured for comfortable daily use" />
+
+  <FeatureCard icon="puzzle" iconColor="custom" title="Customization" body="Extensive customization options and custom theme repository" />
+
+  <FeatureCard icon="rocket" iconColor="performance" title="Performance" body="Hotkeys designed for maximum productivity" />
+
+  <FeatureCard icon="download" iconColor="robot" title="Auto Installation" body="Automatic system installation and configuration" />
+
+  <FeatureCard icon="add-document" iconColor="package" title="Chaotic AUR" body="Chaotic AUR support for fast installation of popular AUR packages" />
+
+  <FeatureCard icon="star" iconColor="design" title="Modern Design" body="Providing continuous and reliable support for successful project work" />
 </CardGrid>
 
 <div style="margin-top: 4rem; margin-bottom: 3rem;">
   <h1 id="visual-tour" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
     <Icon name="laptop" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
+
     Visual Tour
   </h1>
 </div>
 
 <CardGrid>
-  <ShowcaseCard
-    author="Meowrch"
-    imageSrc={screenshot1.src}
-    src="https://github.com/meowrch/meowrch"
-  />
-  <ShowcaseCard
-    author="Meowrch"
-    imageSrc={screenshot2.src}
-    src="https://github.com/meowrch/meowrch"
-  />
-  <ShowcaseCard
-    author="Meowrch"
-    imageSrc={screenshot3.src}
-    src="https://github.com/meowrch/meowrch"
-  />
-  <ShowcaseCard
-    author="Meowrch"
-    imageSrc={screenshot4.src}
-    src="https://github.com/meowrch/meowrch"
-  />
-  <ShowcaseCard
-    author="Meowrch"
-    imageSrc={screenshot5.src}
-    src="https://github.com/meowrch/meowrch"
-  />
-  <ShowcaseCard
-    author="Meowrch"
-    imageSrc={screenshot6.src}
-    src="https://github.com/meowrch/meowrch"
-  />
-  <ShowcaseCard
-    author="Meowrch"
-    imageSrc={screenshot7.src}
-    src="https://github.com/meowrch/meowrch"
-  />
+  <ShowcaseCard author="Meowrch" imageSrc={screenshot1.src} src="https://github.com/meowrch/meowrch" />
+
+  <ShowcaseCard author="Meowrch" imageSrc={screenshot2.src} src="https://github.com/meowrch/meowrch" />
+
+  <ShowcaseCard author="Meowrch" imageSrc={screenshot3.src} src="https://github.com/meowrch/meowrch" />
+
+  <ShowcaseCard author="Meowrch" imageSrc={screenshot4.src} src="https://github.com/meowrch/meowrch" />
+
+  <ShowcaseCard author="Meowrch" imageSrc={screenshot5.src} src="https://github.com/meowrch/meowrch" />
+
+  <ShowcaseCard author="Meowrch" imageSrc={screenshot6.src} src="https://github.com/meowrch/meowrch" />
+
+  <ShowcaseCard author="Meowrch" imageSrc={screenshot7.src} src="https://github.com/meowrch/meowrch" />
 </CardGrid>
 
 <ReviewsSection owner="meowrch" repo="meowrch" category="Reviews" locale="en" headingId="reviews" />
@@ -144,24 +102,19 @@ import screenshot7 from '../../../assets/screenshots/7.png';
 <div style="margin-top: 4rem; margin-bottom: 3rem;">
   <h1 id="acknowledgements" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
     <Icon name="heart" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
+
     Acknowledgements
   </h1>
+
   <p style="color: var(--ctp-subtext1); font-size: clamp(1rem, 0.96rem + 0.4vw, 1.125rem); line-height: 1.7; max-width: 800px; margin: 0 auto 2rem auto; text-align: center;">
     We express our immense gratitude to all contributors who helped in developing the project!
   </p>
 </div>
 
 <CardGrid>
-  <ContributorCard
-    username="K1rsN7"
-    contribution="Actively participates in project development from the start, helps with development and problem solving."
-  />
-  <ContributorCard
-    username="haru2503"
-    contribution="Always ready to help other users and solve community issues."
-  />
-  <ContributorCard
-    username="Redm00us"
-    contribution="Expands project boundaries by creating a NixOS version and adapting it to new platforms."
-  />
+  <ContributorCard username="K1rsN7" contribution="Actively participates in project development from the start, helps with development and problem solving." />
+
+  <ContributorCard username="haru2503" contribution="Always ready to help other users and solve community issues." />
+
+  <ContributorCard username="Redm00us" contribution="Expands project boundaries by creating a NixOS version and adapting it to new platforms." />
 </CardGrid>

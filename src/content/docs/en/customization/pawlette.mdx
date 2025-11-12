@@ -1,0 +1,329 @@
+---
+title: What is pawlette?
+description: Complete guide to installing and configuring Pawlette
+sidebar:
+  order: 2
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+## What is it?
+**Pawlette** is a universal theme manager for **Meowrch** that uses an innovative Git-based theme management system. Each theme is a separate branch, ensuring the safety of your settings and complete change history.
+
+## 🌟 Key Features
+
+- **Data safety** — impossible to lose user settings when switching themes
+- **Modular architecture** — only relevant configuration files are changed
+- **Git-based versioning** — complete change history for each theme
+- **Patch system** — partial configuration modifications
+- **XDG compatibility** — full standards support
+
+## 🚀 Installation and Setup
+
+<Steps>
+
+1. **Install Pawlette**
+   
+   Install the package from AUR:
+   ```
+   yay -S pawlette
+   ```
+   or
+   ```
+   paru -S pawlette
+   ```
+
+2. **Generate configuration**
+   
+   Create basic configuration:
+   ```
+   pawlette generate-config
+   ```
+
+3. **View available themes**
+   
+   See the list of available themes:
+   ```
+   pawlette get-available-themes
+   ```
+
+4. **Install theme**
+   
+   Install the desired theme:
+   ```
+   pawlette install-theme catppuccin-mocha
+   ```
+
+5. **Apply theme**
+   
+   Activate the installed theme:
+   ```
+   pawlette apply catppuccin-mocha
+   ```
+
+</Steps>
+
+## 🎛 Theme Management
+
+### Basic Commands
+
+| Command | Description |
+|---------|-------------|
+| `pawlette get-themes` | List installed themes |
+| `pawlette set-theme <name>` or `pawlette apply <name>` | Apply theme |
+| `pawlette current-theme` | Show active theme |
+| `pawlette status` | Show status and changes |
+| `pawlette restore` | Restore original appearance |
+| `pawlette reset-theme <name>` | Reset theme to clean state |
+
+### Installing and Updating Themes
+
+| Command | Description |
+|---------|-------------|
+| `pawlette get-available-themes` | JSON with all available themes |
+| `pawlette get-themes-info` | JSON with installed themes information |
+| `pawlette install-theme <name>` | Install theme |
+| `pawlette update-theme <name>` | Update theme |
+| `pawlette update-all-themes` | Update all themes |
+
+### Creating Custom Themes
+Detailed documentation on creating custom themes in Pawlette is available [here](/en/customization/create-theme).
+
+### Working with Versions (Git)
+
+| Command | Description |
+|---------|-------------|
+| `pawlette history [theme] [--limit N]` | Commit history (shows 10 by default) |
+| `pawlette user-changes [theme]` | User changes |
+| `pawlette restore-commit <hash> [theme]` | Restore commit |
+
+
+## 🔄 Git-based Version Management
+
+Pawlette automatically creates an internal Git repository to track changes:
+
+<Aside type="note" title="How it works">
+- **Each theme** = separate branch in Git
+- **User changes** are saved as uncommitted changes  
+- **Theme switching** automatically saves your settings
+- **Change history** is available through Pawlette commands
+</Aside>
+
+### Checking Status
+
+```
+pawlette status
+# ➤ Current theme: catppuccin-mocha  
+# ⚠️  You have 3 uncommitted changes
+# Modified files:
+#   - kitty/kitty.conf
+#   - waybar/config.json
+#   - hypr/hyprland.conf
+```
+
+### Viewing History
+
+```
+pawlette history
+# 📜 History for theme: catppuccin-mocha
+# 👤 a1b2c3d Personal font settings [USER]
+# 🔧 e4f5g6h Waybar configuration update
+# 🔧 h7i8j9k Initial theme application
+
+# Limit number of commits
+pawlette history --limit 5
+```
+
+### Working with User Changes
+
+```bash
+# See which files are modified
+pawlette user-changes
+# 🔍 User changes for theme: catppuccin-mocha
+# Found 2 modified files:
+#   📝 kitty/kitty.conf
+#   📝 waybar/style.css
+
+# Restore specific commit
+pawlette restore-commit a1b2c3d
+# ✅ Successfully restored commit a1b2c3d for theme catppuccin-mocha
+```
+
+## 🛠️ Direct Git Repository Access
+
+Pawlette stores all theme information in a Git repository located at `~/.local/state/pawlette/config_state.git`.
+
+<Aside type="tip" title="Working with Git directly">
+You can use regular Git commands for advanced management of your themes!
+</Aside>
+
+### Connecting to the Git Repository
+
+```bash
+# Navigate to config directory
+cd ~/.config
+
+# Use Git with our repository
+set -gx GIT_DIR ~/.local/state/pawlette/config_state.git
+
+# Now you can execute any Git commands
+git status
+git log
+git diff
+```
+
+### Useful Commands
+
+#### View All Branches (Themes)
+```bash
+cd ~/.config
+set -gx GIT_DIR ~/.local/state/pawlette/config_state.git
+git branch --all
+
+# Output:
+# * catppuccin-mocha
+#   catppuccin-latte
+#   catppuccin-mocha-v1.3.1-backup-20251024-165427
+#   main
+```
+
+#### View Complete Diff of Your Changes
+```bash
+cd ~/.config
+set -gx GIT_DIR ~/.local/state/pawlette/config_state.git
+
+# View all uncommitted changes in current theme
+git diff
+
+# View staged changes
+git diff --cached
+
+# View changes relative to last theme commit
+git diff HEAD
+
+# Save diff to file
+git diff > my-changes.patch
+```
+
+#### View Detailed History
+```bash
+cd ~/.config
+set -gx GIT_DIR ~/.local/state/pawlette/config_state.git
+
+# Detailed history with files
+git log --stat
+
+# History with full diff
+git log -p
+
+# History of specific file
+git log -- kitty/kitty.conf
+
+# Beautiful commit tree
+git log --graph --oneline --all
+```
+
+#### Compare Branches (Themes)
+```bash
+cd ~/.config
+set -gx GIT_DIR ~/.local/state/pawlette/config_state.git
+
+# Compare two themes
+git diff catppuccin-mocha..catppuccin-latte
+
+# See which files differ
+git diff --name-only catppuccin-mocha..catppuccin-latte
+```
+
+## 🗂️ Theme Backup Management
+
+When updating a theme, Pawlette automatically creates a backup of the old version.
+
+<Aside type="note" title="Automatic Backups">
+When you update a theme (e.g., `catppuccin-mocha v1.3.1` → `v2.0`), the old branch is renamed to `catppuccin-mocha-v1.3.1-backup-20251024-165427` and a clean branch with the new version is created.
+</Aside>
+
+### Viewing Backups
+
+```bash
+cd ~/.config
+set -gx GIT_DIR ~/.local/state/pawlette/config_state.git
+
+# List all backups
+git branch --list '*-backup-*'
+
+# Output:
+#   catppuccin-mocha-v1.3.1-backup-20251024-165427
+#   catppuccin-mocha-v1.2.0-backup-20251020-120000
+```
+
+### Restoring Changes from Backup
+
+**Method 1: Switch to Backup**
+```bash
+# Apply backup as a regular theme
+pawlette apply catppuccin-mocha-v1.3.1-backup-20251024-165427
+```
+
+**Method 2: Copy Changes via Cherry-pick**
+```bash
+cd ~/.config
+set -gx GIT_DIR ~/.local/state/pawlette/config_state.git
+
+# View commits in backup
+git log catppuccin-mocha-v1.3.1-backup-20251024-165427
+
+# Copy needed commit to current branch
+git cherry-pick <commit-hash>
+```
+
+**Method 3: Create Patch File**
+```bash
+cd ~/.config
+set -gx GIT_DIR ~/.local/state/pawlette/config_state.git
+
+# Export all changes from backup
+git diff main..catppuccin-mocha-v1.3.1-backup-20251024-165427 > my-customizations.patch
+
+# Apply patch to current theme
+git apply my-customizations.patch
+```
+
+### Deleting Old Backups
+
+```bash
+cd ~/.config
+set -gx GIT_DIR ~/.local/state/pawlette/config_state.git
+
+# Delete specific backup
+git branch -D catppuccin-mocha-v1.2.0-backup-20251020-120000
+
+# Delete all old backups (keep last 3)
+# You can use a script or do it manually
+git branch --list '*-backup-*' | sort -r | tail -n +4 | xargs -r git branch -D
+```
+
+## 🔗 Automatic Symlink Creation
+
+When applying a theme, Pawlette automatically creates symbolic links:
+
+<Aside type="note" title="Created symlinks">
+- **GTK themes**: `~/.themes/` → symlink to `gtk-theme/` from theme
+- **Icons**: `~/.icons/` → symlink to `icons/` from theme  
+- **Wallpapers**: `~/.local/share/pawlette/theme_wallpapers/` → symlink to `wallpapers/` from theme
+</Aside>
+
+### Debugging Issues
+
+- For theme application issues, use `pawlette restore`
+- To reset a theme to its original state: `pawlette reset-theme <name>`
+- Check logs and status after each change
+- Use `pawlette user-changes` to view your modifications
+
+### Compatibility
+
+<Aside type="caution" title="Important to remember">
+Pawlette uses only Git for version management — no external backups are created. All changes are tracked through the internal Git repository.
+</Aside>
+
+The Pawlette system makes customizing meowrch simple and safe, allowing you to easily experiment with the system's appearance without risk of losing important settings.

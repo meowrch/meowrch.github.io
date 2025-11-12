@@ -1,0 +1,215 @@
+---
+title: Job Description Builder
+description: ...
+slug: en/2.0/installation/builder
+---
+
+import { Steps, FileTree } from '@astrojs/starlight/components';
+
+# Preset
+
+At startup `install.sh` the process of pre-installing the builder begins:
+
+<Steps>
+  1. **Installation of basic packages**
+
+     The python and python-pip packages are installed, which are necessary for the main part of the builder to work correctly.
+
+  2. **Installing Python libraries**
+
+     Libraries are installed that are necessary for both the builder and the system operation.:
+
+     * inquirer
+     * loguru
+     * psutil
+     * gputil
+     * pyamdgpuinfo
+     * pyyaml
+     * pillow
+     * colorama
+
+  3. **Launching the main part of the builder**
+
+     After successful installation of all dependencies, the main part of the builder is started, and the user survey process is initialized.
+</Steps>
+
+# Basic installation process
+
+**Installation Steps:**
+
+<Steps>
+  1. **Creating a backup copy of configurations**
+     * Starts if the user has selected the backup option.
+     * Configurations and important files are copied to the `./backup` directory.
+
+  2. **Create folders and copy dotfiles**
+     * Create base folders in the user's home directory.
+     * Dotfiles are copied depending on the selected WM (bspwm or Hyprland).
+
+  3. **Pacman setup and AUR Manager installation**
+     * The pacman configuration file is updated to include new features and multilib (if selected).
+     * Yay or paru is installed to manage AUR packages.
+
+  4. **Installing packages and drivers**
+     * All basic packages are installed from `packages.py `.
+     * Drivers are selected and installed based on hardware auto-detection.
+
+  5. **Application Configuration**
+     * Configuring GRUB: adding a custom theme.
+     * SDDM Setup: Set custom greeting theme.
+     * Configuring Firefox: installing selected plugins, configurations, and themes.
+     * Setting up VS Code: installing the `meowrch-code-theme` plugin to adapt vscode to meowrch themes.
+
+  6. **Configuring Daemons**
+     * Enabling and launching the main daemons of the system: `NetworkManager`, `bluetooth`, `SDDM`.
+
+  7. **Post-installation**
+     * Change the shell to fish.
+     * Adding a user to groups: gamemode.
+     * Install `kitty` as the default terminal.
+     * Installation of the locale `en_US.UTF-8`.
+     * A report is printed on packages that are not installed and a restart of the computer is suggested.
+</Steps>
+
+# Structure of the builder directory
+
+<FileTree>
+  * Builder/
+    * \_\_init\_\_.py
+    * install.py
+    * packages.py
+    * question.py
+    * managers/
+      * \_\_init\_\_.py
+      * apps\_manager.py
+      * drivers\_manager.py
+      * filesystem\_manager.py
+      * package\_manager.py
+      * post\_install\_manager.py
+    * utils/
+      * \_\_init\_\_.py
+      * banner.py
+      * schemes.py
+</FileTree>
+
+## Package organization
+
+The file `packages.py` contains different package categories:
+
+### BASE
+
+These are the basic packages needed for the entire system to work.:
+
+* **pacman common**:\
+  `pacman-contrib`, `downgrade`, `libnotify`, `ffmpeg`, `ffmpegthumbnailer`, `jq`, `parallel`, `kitty`, `fastfetch`, `lsd`, `bat`,\
+  `brightnessctl`, `automake`, `blueman`, `bluez`, `bluez-utils`, `dunst`, `fakeroot`, `firefox`, `fish`, `fisher`, `dpkg`, `gcc`,\
+  `git`, `gnu-netcat`, `btop`, `micro`, `mat2`, `nemo`, `papirus-icon-theme`, `pavucontrol`, `pamixer`, `pipewire`, `pipewire-pulse`,\
+  `pipewire-audio`, `pipewire-jack`, `pipewire-alsa`, `wireplumber`, `python-pyalsa`, `ranger`, `redshift`, `reflector`, `sudo`, `tree`,\
+  `unrar`, `zip`, `unzip`, `uthash`, `ark`, `cmake`, `clang`, `gzip`, `imagemagick`, `make`, `openssh`, `shellcheck`, `vlc`, `loupe`,\
+  `usbutils`, `openvpn`, `networkmanager-openvpn`, `p7zip`, `gparted`, `sshfs`, `wget`, `netctl`,\
+  `libreoffice`, `ttf-jetbrains-mono`, `ttf-jetbrains-mono-nerd`, `ttf-fira-code`, `ttf-iosevka-nerd`, `playerctl`,\
+  `starship`, `upower`, `udiskie`, `zenity`, `gvfs`, `qt5ct`, `qt6ct`, `timeshift`, `sddm`, `qt5-graphicaleffects`, `qt5-svg`,\
+  `qt5-quickcontrols2`, `clipnotify`, `xdg-desktop-portal-gtk`, `gnome-disk-utility`, `evince`, `neovim`, `tmux`, `cowsay`,\
+  `polkit-gnome`, `rofimoji`, `wmname`, `pyenv`, `xdg-desktop-portal`, `ttf-hack-nerd`, `networkmanager`, `noto-fonts`,\
+  `noto-fonts-cjk`, `noto-fonts-emoji`, `noto-fonts-extra`
+
+### bspwm
+
+* `xorg`, `bspwm`, `sxhkd`, `xorg-xinit`, `xclip`, `feh`, `lxappearance`, `polybar`, `xorg-xrandr`, `xsettingsd`
+
+### hyprland
+
+* `hyprland`, `waybar`, `swww`, `cliphist`, `wl-clipboard`, `xdg-desktop-portal-hyprland`, `qt5-wayland`, `qt6-wayland`,\
+  `xdg-desktop-portal-wlr`, `hypridle`
+
+### CUSTOM
+
+Packages that can be selected according to your needs:
+
+* **games**:\
+  `steam`, `gamemode`, `mangohud`, `portproton`
+
+* **development**:\
+  `obsidian`, `postgresql`, `pgadmin4-desktop`, `redis`
+
+* **social\_media**:\
+  `telegram-desktop`, `discord`, `vesktop`
+
+* **entertainment**:\
+  `yandex-music`, `spotify`
+
+* **office**:\
+  `libreoffice-fresh`, `onlyoffice-bin`
+
+### DRIVERS
+
+Drivers for various vendors:
+
+* **intel**:\
+  `lib32-mesa`, `vulkan-intel`, `lib32-vulkan-intel`, `vulkan-icd-loader`, `lib32-vulkan-icd-loader`, `intel-media-driver`,\
+  `libva-intel-driver`, `xf86-video-intel`
+
+* **amd**:\
+  `lib32-mesa`, `vulkan-radeon`, `lib32-vulkan-radeon`, `vulkan-icd-loader`, `lib32-vulkan-icd-loader`
+
+* **nvidia**:\
+  `nvidia-dkms`, `nvidia-utils`, `lib32-nvidia-utils`, `nvidia-settings`, `vulkan-icd-loader`, `lib32-vulkan-icd-loader`,\
+  `lib32-opencl-nvidia`, `opencl-nvidia`, `libxnvctrl`
+
+### When are they installed?
+
+* **BASE** is always installed.
+* **bspwm and hyprland** are installed depending on the selected window manager.
+* **CUSTOM** and **DRIVERS** are selected during the installation process by the builder.
+
+### Builder Components
+
+* **PackageManager**: Manages package installation, database update, pacman configuration.
+* **DriversManager**: Automatic detection and installation of drivers for GPU and CPU.
+* **FileSystemManager**: File system management, creating backups and copying dotfiles.
+* **AppsManager**: Configure applications, including GRUB, SDDM, Firefox, VS Code.
+* **PostInstallation**: Final system setup after installation. Applies default settings for the terminal, shell, and locales and adds the user to the `gamemode` group.
+
+# Questions before installation
+
+The builder asks a number of questions to set up the installation.:
+
+1. **Configuration Backup**
+
+* **Answers**: Yes, No
+* **Details**: If "Yes" is selected, a backup of all configuration files is created.
+
+2. **Choosing a Window Manager (WM)**
+
+* **Answers**: bspwm, hyprland
+  * **Details**: The choice of WM determines which packages will be installed (bspwm or hyprland and related components).
+
+3. **Choosing an AUR Manager**
+   * **Answers**: yay, paru
+
+* **Details**: Determines which AUR assistant will be installed to manage packages from the Arch User Repository.
+
+4. **Activation of the multilib repository**
+
+* **Answers**: Yes, No
+* **Details**: Includes a repository to support 32-bit applications.
+
+5. **Updating the package database**
+   * **Answers**: Yes, No
+
+* **Details**: If "Yes" is selected, the package database will be updated to the current version.
+
+6. **Installing drivers**
+   * **Answers**: Intel, Nvidia, AMD
+
+* **Details**: Driver selection depending on hardware. Auto-detection is recommended for proper selection.
+
+7. **Choosing plugins for Firefox**
+   * **Answers**: Dark Reader, uBlock Origin, TWP, Unpaywall, Tamper Monkey
+
+* **Details**:
+* **Dark Reader**: Changes light themes of websites to dark ones, improving visual perception and reducing eye strain.
+  * **uBlock Origin**: Blocks ads, increases page loading speed, and protects against malware.
+  * **TWP**: A tool for translating text and entire pages, useful for users working with many languages.
+  * **Unpaywall**: Allows you to access the content of paid articles legally through alternative sources.
+  * **Tamper Monkey**: A user script manager for personalizing the browser, for example, to add new functions or modify existing ones. In our case, it is used to add real-time video translation using a model from Yandex Browser.
