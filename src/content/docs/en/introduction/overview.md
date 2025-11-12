@@ -14,12 +14,12 @@ Meowrch is a ready-to-use Arch Linux build with pre-installed and customized com
 
 ## 🚀 Key Features
 
-- Automatic system installation and configuration.<br>
-- Deep system optimization at the level of <b><a src="https://cachyos.org/">CachyOS</a></b> <br>
-- Extensive customization capabilities and <b><a href="https://github.com/meowrch/pawlette-themes">official theme store</a></b><br>
-- Hotkeys are optimized to ensure maximum productivity.<br>
-- Support for <b><a src="https://aur.chaotic.cx/">Chaotic AUR</a></b> for faster installation of popular packages.<br>
-- Continuous and reliable support to ensure successful project operation<br>
+- Automatic system installation and configuration.
+- Deep system optimization at the level of <b><a src="https://cachyos.org/">CachyOS</a></b>.
+- Extensive customization capabilities and <b><a href="https://github.com/meowrch/pawlette-themes">official theme store</a></b>.
+- Hotkeys are optimized to ensure maximum productivity.
+- Support for <b><a src="https://aur.chaotic.cx/">Chaotic AUR</a></b> for faster installation of popular packages.
+- Continuous and reliable support to ensure successful project operation.
 
 ## 🖥️ System Components
 
