@@ -1,0 +1,136 @@
+---
+title: Gaming Basics
+description: A comprehensive guide to setting up and running games
+sidebar:
+  order: 1
+slug: en/2.0/usage/gaming/base
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+Meowrch, like any other Arch Linux-based distribution, provides an excellent platform for gaming thanks to up-to-date packages, wide driver support, and the ability to fine-tune the system.
+
+This guide covers all aspects of setting up, running, and optimizing games on your Meowrch system.
+
+## Installing Steam
+
+Steam is the main gaming platform for Linux, providing access to thousands of games and built-in Proton support for running Windows games.
+
+On Arch Linux, Steam is available in the official repositories:
+
+```bash
+# Enable the multilib repository (enabled by default on Meowrch)
+sudo micro /etc/pacman.conf
+```
+
+Uncomment the following lines:
+
+```
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+```
+
+Update the package database and install Steam:
+
+```bash
+sudo pacman -Sy steam
+```
+
+### First Launch and Setup
+
+On first launch, Steam will:
+
+1. Download and install necessary updates
+2. Ask you to log into your Steam account
+3. Set up your game library
+
+### Enabling Proton in Steam
+
+To run Windows games, you need to enable Proton:
+
+1. Open Steam → Settings → Compatibility
+2. Enable "Enable Steam Play for all other titles"
+3. Select a Proton version (latest stable or [Proton-GE-Custom](#installing-proton-ge) recommended)
+4. Restart Steam
+
+:::note[Other Launchers]
+Besides Steam, there are other ways to run games (and other Windows applications) on Linux.
+:::
+
+## Proton: Running Windows Games on Linux
+
+Proton is a Wine fork developed by Valve specifically for Steam. It allows running Windows games on Linux with minimal configuration.
+
+### What is Proton
+
+Proton includes:
+
+* **Wine** — compatibility layer for running Windows applications
+* **DXVK** — DirectX 11/12 to Vulkan translation
+* **VKD3D** — DirectX 12 support
+* **Valve patches** to improve game compatibility
+
+### Proton Versions
+
+* **Proton Stable** — stable version for most games
+* **Proton Experimental** — experimental version with latest improvements
+* **[Proton-GE-Custom](https://github.com/GloriousEggroll/proton-ge-custom)** — community-modified version with additional patches
+
+### Installing Proton GE
+
+[Proton-GE-Custom](https://github.com/GloriousEggroll/proton-ge-custom) often works better than official Proton:
+
+```bash
+yay -Sy proton-ge-custom-bin
+```
+
+After installation, restart Steam, and the new version will appear in the compatibility list.
+
+## Checking Game Compatibility
+
+Before buying a game, it's important to check its compatibility with Proton.
+
+### ProtonDB — Compatibility Database
+
+[ProtonDB](https://www.protondb.com/) is a community database where players share their experience running games through Proton.
+
+#### Compatibility Ratings:
+
+* **🥇 Platinum** — game runs perfectly without configuration
+* **🥈 Gold** — game runs great with minimal configuration
+* **🥉 Silver** — game runs well with some configuration
+* **🔶 Bronze** — game runs but with noticeable issues
+* **💔 Borked** — game doesn't run or has critical errors
+
+#### How to Use ProtonDB:
+
+1. Search for the game you're interested in
+2. Read user reviews
+3. Pay attention to recommended launch parameters
+4. Check information about necessary additional components
+
+## What Can Run on Linux
+
+### ✅ Works Great:
+
+* Most Steam games (especially with Proton)
+* GOG games via Lutris/PortProton
+* Console emulators
+
+### ⚠️ Works with Configuration:
+
+* Epic Games Store (via Heroic or PortProton)
+* Ubisoft Connect
+* EA App (formerly Origin)
+* Battle.net (some Blizzard games)
+
+### ❌ Practically Doesn't Work:
+
+* **Adobe Creative Suite** (Photoshop, Premiere, After Effects)
+* **Microsoft Office** (newer versions)
+* Games with aggressive anti-cheat protection:
+  * Easy Anti-Cheat (some games)
+  * BattlEye (most games)
+  * Vanguard (Valorant, League of Legends)
+* Some VR games
+* Games with Denuvo DRM (often problematic)

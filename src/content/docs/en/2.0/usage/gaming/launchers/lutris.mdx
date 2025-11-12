@@ -1,0 +1,98 @@
+---
+title: Lutris
+description: A guide to installing, configuring, and using the Lutris gaming
+  manager on Arch Linux.
+slug: en/2.0/usage/gaming/launchers/lutris
+---
+
+import { Aside, Steps, FileTree } from '@astrojs/starlight/components';
+
+**Lutris** is an open gaming platform for Linux that simplifies the installation and management of games. It allows you to run games developed for Windows and also unifies your libraries from services like Steam, GOG, and Epic Games Store in one convenient interface.
+
+![Lutris](https://upload.wikimedia.org/wikipedia/commons/a/ab/Lutris-Screenshot_%282%29.png)
+
+## Installation
+
+Installing Lutris on Arch Linux is done in a few simple steps using the `pacman` package manager.
+
+<Steps>
+  1. **Install Lutris**
+
+     Lutris is in the official `extra` repository, so it can be installed directly \[5]\[8].
+
+     ```
+     sudo pacman -Sy lutris
+     ```
+
+  2. **Install dependencies for Windows games**
+
+     To run most Windows games, you'll need Wine. It's also recommended to install additional components for better compatibility \[3].
+
+     ```
+     sudo pacman -Sy wine winetricks
+     ```
+</Steps>
+
+<Aside type="note" title="Launch">
+  After installation is complete, you can find Lutris in your applications menu or launch it from the terminal with the `lutris` command.
+</Aside>
+
+## Using Lutris
+
+The main Lutris interface is intuitive. On the left is the "Sources" panel showing connected services (GOG, Steam, etc.), and the main part of the window displays your game library.
+
+### Installing Games via Install Scripts
+
+This is the easiest and recommended way to install games. Lutris provides ready-made scripts that automatically set up everything needed to run a game.
+
+<Steps>
+  1. **Click the `+` icon** in the top-left corner of the Lutris window.
+
+  2. Select the option **"Search the Lutris website for installers"**.
+
+  3. In the opened window, enter the name of the game you want to install. For example, *Overwatch*.
+
+     <Aside type="tip">
+       It's recommended to search for the specific game rather than the launcher, as game-specific scripts may contain important optimizations.
+     </Aside>
+
+  4. Select the appropriate version from the search results and click **"Install"**.
+
+  5. Lutris will offer to download the necessary files and components. Simply click **"Continue"** and follow the on-screen instructions.
+</Steps>
+
+### Connecting Third-Party Services
+
+Lutris allows you to integrate your game libraries from other stores, such as GOG, Humble Bundle, and Steam.
+
+1. On the left "Sources" panel, find the desired service (e.g., `GOG`).
+2. Click the connection icon (person with plus) next to the service name.
+3. Log into your account. After successful authorization, your games from this library will appear in Lutris.
+
+### Manual Game Installation
+
+If there's no install script for a game, you can add it manually, for example, if you have an installer `.exe` file.
+
+<Steps>
+  1. Click the **`+`** icon and select **"Add locally installed game"**.
+
+  2. Fill in the game information:
+     * **Name**: Game name.
+     * **Runner**: Select `Wine (Runs Windows games)`.
+
+  3. Go to the **"Game options"** tab.
+     * **Executable**: Specify the path to the game's `.exe` file.
+
+  4. Go to the **"Runner options"** tab.
+     * **Wine version**: Select a Wine version. Usually the latest system version works.
+
+  5. Click **"Save"**. The game will appear in your library.
+</Steps>
+
+### Managing Games
+
+After installation, the game will appear in the main Lutris window.
+
+* **To launch a game**, simply select it and click **"Play"**.
+* **To access settings**, right-click on the game and select **"Configure"**. Here you can change the Wine version, configure graphics settings, enable DXVK/VKD3D, and much more.
+* **To create a shortcut** on the desktop or in the applications menu, right-click and select **"Create desktop shortcut"** or **"Create application menu shortcut"**.

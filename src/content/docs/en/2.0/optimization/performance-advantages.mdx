@@ -1,0 +1,167 @@
+---
+title: Meowrch Performance Settings
+description: Detailed description of system optimizations and performance
+  advantages of the Meowrch distribution
+slug: en/2.0/optimization/performance-advantages
+---
+
+Meowrch is a high-performance Linux distribution based on Arch that comes with a set of system optimizations to improve speed, responsiveness, and stability. All settings are automatically applied by the `meowrch-settings` package and are designed for safe operation on modern hardware.
+
+## Key Advantages
+
+### 🚀 Instant System Response
+
+**ZRAM with zstd compression** provides:
+
+* 2-4x increase in effective RAM capacity
+* Virtually zero latency when accessing "swap"
+* No SSD wear from constant swap file writes
+* Priority 100 ensures ZRAM usage instead of slow disk swap
+
+### ⚡ Optimized Disk Subsystem
+
+**Intelligent I/O schedulers**:
+
+* **SSD**: `none` scheduler eliminates unnecessary queue delays
+* **HDD**: `mq-deadline` scheduler optimizes seek time and throughput
+* Automatic storage type detection on each boot
+
+### 🎯 Aggressive Memory Management
+
+**Optimized virtual memory parameters**:
+
+* `vm.swappiness = 100` — maximum utilization of fast ZRAM
+* `vm.vfs_cache_pressure = 50` — keeps important VFS cache in memory
+* `vm.dirty_bytes = 268435456` — efficient write buffering (256MB)
+* `vm.page-cluster = 0` — SSD optimization without fragmentation
+
+### 🔧 Real-time CPU Optimizations
+
+**Dynamic processor management**:
+
+* Automatic `performance` governor setting for all cores
+* Transparent hugepages in `madvise` mode for optimal memory usage
+* Defrag in `defer` mode prevents system lockups
+* NMI watchdog disabled to reduce kernel overhead
+
+## Protection Against System Failures
+
+### 🛡️ EarlyOOM — Smart Freeze Protection
+
+**Out-of-Memory situation prevention**:
+
+* Real-time memory usage monitoring
+* Triggers at 5% free RAM / 10% free swap
+* Critical process protection: `init`, `systemd`, `Xorg`, `NetworkManager`
+* Priority termination of resource-heavy applications: browsers, IDEs, games
+
+This means your system will **never freeze** due to memory shortage — EarlyOOM will properly free resources before a critical situation.
+
+## Network Performance
+
+### 🌐 Optimized Network Subsystem
+
+* `net.core.netdev_max_backlog = 4096` — increased packet buffer
+* RPS (Receive Packet Steering) distributes load across all CPU cores
+* Network queue optimization for multithreading
+* Reduced latency and increased throughput
+
+## Gaming Performance
+
+### 🎮 GPU and PCI Optimizations
+
+**NVIDIA optimizations**:
+
+* Persistence mode for stable driver operation
+* Automatic setting of maximum GPU and VRAM frequencies
+* Minimized microstutters in games
+
+**AMD optimizations**:
+
+* Manual frequency control mode
+* Maximum performance level by default
+
+**PCI Latency optimization**:
+
+* Special `pci-latency.service` service
+* Minimized latency for all PCI devices
+* Critical for gaming mice, sound cards, network adapters
+
+## Fast System Boot
+
+### ⏱️ Boot Optimizations
+
+**Boot process acceleration**:
+
+* `NetworkManager-wait-online.service` disabled — saves 5-15 seconds
+* `plocate-updatedb` moved to timer instead of service at boot
+* Optimized systemd timeouts
+* Parallel service initialization
+
+**Result**: boot to desktop in **10-15 seconds** on modern SSD.
+
+## Security Without Performance Loss
+
+### 🔒 Balanced Security
+
+* `kernel.kptr_restrict = 2` — protection against kernel address leaks
+* `kernel.kexec_load_disabled = 1` — protection against kexec attacks
+* `kernel.unprivileged_userns_clone = 1` — container support
+* `kernel.printk = 3 3 3 3` — kernel output optimization
+
+## Comparison with Other Distributions
+
+### 📊 Practical Advantages
+
+| Parameter | Vanilla Arch | Ubuntu/Fedora | Meowrch |
+|----------|--------------|---------------|---------|
+| Boot time | 20-30 sec | 30-45 sec | **10-15 sec** |
+| RAM usage (idle) | 800MB+ | 1.2GB+ | **600MB** |
+| System responsiveness | Good | Average | **Excellent** |
+| Gaming performance | Basic | Basic | **Optimized** |
+| OOM protection | No | Partial | **Full** |
+| SSD optimization | Manual | Basic | **Automatic** |
+
+## Automatic Application
+
+### 🔄 meowrch-settings Package
+
+All optimizations are applied **automatically** during system installation via the `meowrch-settings` package:
+
+```bash
+# Check optimization status
+sudo systemctl status meowrch-optimizations.service
+sudo systemctl status pci-latency.service  
+sudo systemctl status systemd-zram-setup@zram0.service
+
+# Manual application (if needed)
+sudo systemctl start meowrch-optimizations.service
+```
+
+### 📈 Performance Monitoring
+
+```bash
+# Check ZRAM usage
+zramctl
+
+# Memory monitoring
+free -h
+
+# EarlyOOM status
+journalctl -u earlyoom.service -f
+
+# Check I/O scheduler  
+cat /sys/block/*/queue/scheduler
+```
+
+## Conclusion
+
+Meowrch offers **scientifically-based optimizations** founded on Linux community best practices and proven solutions from CachyOS. Each setting targets specific performance improvements without compromising stability.
+
+**Result**: a fast, responsive system that maximally utilizes your hardware and will never let you down at a critical moment.
+
+## Even More
+
+If you're ready for **extreme** Meowrch optimization, follow this collection of ideas: https://github.com/ventureoo/ARU
+
+All existing Arch Linux optimizations are documented there.

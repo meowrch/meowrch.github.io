@@ -1,0 +1,133 @@
+---
+title: PortProton
+description: Installation, configuration, and use of PortProton for running
+  Windows games on Arch Linux
+slug: en/2.0/usage/gaming/launchers/portproton
+---
+
+import { Steps, Aside, FileTree } from '@astrojs/starlight/components';
+
+PortProton is a convenient tool based on Wine and Proton that allows you to run Windows games and applications on Linux. The program automates Wine prefix configuration and provides application isolation from each other.
+
+## Installation
+
+Install PortProton through your AUR helper:
+
+```
+yay -S portproton
+```
+
+## First Launch
+
+After installation, launch PortProton from the applications menu or via terminal with the `portproton` command. On first launch, the program will automatically download the necessary Wine/Proton components and create the basic directory structure.
+
+<Aside type="tip">
+  The initialization process may take 10-30 minutes depending on your internet speed.
+</Aside>
+
+## Using the Launcher
+
+### Main Window
+
+The PortProton interface consists of several main tabs:
+
+* **Games** — automatic installation of popular launchers (Steam, Epic Games, Battle.net, etc.)
+* **Installed** — list of installed games and applications
+* **WINE SETTINGS** — prefix and Wine/Proton version management
+* **Auto-install** — quick installation of game clients
+
+### Auto-Installing Launchers
+
+<Steps>
+  1. Open PortProton and go to the **Games** tab.
+
+  2. Select the desired launcher from the list (Epic Games Store, Battle.net, Origin, etc.).
+
+  3. Click the installation button for the selected launcher.
+
+  4. Wait for the automatic installation to complete — PortProton will download and configure all necessary components on its own.
+
+  5. After installation, the launcher will appear in your system's applications menu.
+</Steps>
+
+<Aside type="note">
+  PortProton automatically installs the necessary DirectX, Visual C++, and .NET Framework libraries for proper launcher operation.
+</Aside>
+
+### Running Game Installers
+
+<Steps>
+  1. Find the game installation file (usually `setup.exe` or `install.exe`) in your file manager.
+
+  2. Right-click on the file and select **"Run in PortProton"**.
+
+     Alternatively: open PortProton → click **"Add a new game"** → select the installation file.
+
+  3. Create a new prefix for the game — it's recommended to use a separate prefix for each game.
+
+     Enter a prefix name (e.g., the game's name).
+
+  4. Agree to install recommended libraries by clicking **"OK"**.
+
+  5. Follow the standard Windows installer instructions.
+
+     When choosing the installation folder, leave the default path (virtual C: drive).
+
+  6. After installation completes, create a shortcut:
+
+     * Open PortProton → **"Installed"** tab
+     * Click **"Create shortcut"**
+     * Select the prefix and find the game's executable file (.exe)
+     * Confirm shortcut creation
+</Steps>
+
+### Running Portable Games
+
+For games that don't require installation:
+
+<Steps>
+  1. Launch PortProton from the applications menu.
+
+  2. Click **"Add a new game"**.
+
+  3. In the file manager, select the game's executable file (.exe).
+
+  4. PortProton will automatically create a prefix and launch the game.
+</Steps>
+
+## Managing Prefixes
+
+All prefixes are stored in your home directory:
+
+<FileTree>
+  * home/
+    * username/
+      * PortProton/
+        * prefix/
+          * GameName1/
+          * GameName2/
+</FileTree>
+
+To configure an existing prefix:
+
+<Steps>
+  1. Open PortProton and go to the **"WINE SETTINGS"** tab.
+
+  2. Select the desired prefix from the list.
+
+  3. Configure the parameters:
+     * Wine/Proton version
+     * Graphics API (DXVK/VKD3D/OpenGL)
+     * Resolution and virtual desktop
+     * Additional libraries
+
+  4. Save changes.
+</Steps>
+
+<Aside type="tip">
+  To remove a game, simply delete its prefix folder from the `~/PortProton/prefix/` directory.
+</Aside>
+
+## Launching Games from System Menu
+
+After creating shortcuts, all games become available in your Linux distribution's applications menu. Launch games like regular applications — with a double-click or through menu search.

@@ -1,140 +1,154 @@
 ---
-title: Customizing
-description: ...
+title: Customization
+description: General information about system customization
+sidebar:
+  order: 1
 slug: en/2.0/customization/customization
 ---
 
-import { Steps, FileTree } from '@astrojs/starlight/components';
+import { Steps, FileTree, Aside, Code } from '@astrojs/starlight/components';
 
-# Configuration Editing
+In today's world, the convenience and individuality of the workspace are more important than ever.
+The meowrch distribution has created a powerful and flexible customization system that allows you to control the appearance and behavior of many applications with a single command.
 
-**meowrch** provides a **themes** system. It's important to understand the configuration file structure and edit them properly.
+The central element of this system is [Pawlette](/en/2.0/customization/pawlette) — a universal theme manager.
+It unifies all settings in one place and allows smooth switching between themes while preserving unique user edits and preferences.
+Theme application covers window managers, panels, terminals, shells, and other key components of your system.
 
-## Configuration File Structure
+***
 
-<FileTree>
-  * \~/.config/
-    * meowrch/
-      * config.yaml
-      * themes/
-        * catppuccin-mocha/
-          * waybar/
-          * kitty/
-          * cava/
-        * your-theme/
-          * waybar/
-          * kitty/
-          * cava/
-    * waybar/ (default paths - may be overwritten)
-    * kitty/
-    * cava/
-</FileTree>
+## Wallpaper Management
 
-:::caution[Important Warning]
-If you make changes to utilities configuration via default paths (`~/.config/waybar/`, `~/.config/kitty/`, `~/.config/cava/`), your settings may be lost when you change themes.
-:::
+For complete immersion in desktop personalization, meowrch provides a convenient script for changing wallpapers:
 
-**Correct way:** edit configuration files in the `.config/meowrch/themes/<theme_name>/` directory.
+```
+~/.local/bin/set-wallpaper.sh
+```
 
-# Adding Custom Wallpapers
+This script automatically selects the appropriate tool depending on the display server in use — `feh` for **X11** or `swww` for **Wayland** — providing a quick and seamless way to update the desktop background.
 
-To add your own wallpapers to the meowrch system, you need to edit the configuration file.
+### How to Set Current Wallpapers
 
-<Steps>
-  1. **Open the configuration file**
+The system maintains a symbolic link to active wallpapers,
+making it easy to restore or reapply them using the command:
 
-     Open the main configuration file:
+```
+~/.local/bin/set-wallpaper.sh --current
+```
 
-     ```bash
-     nano ~/.config/meowrch/config.yaml
-     ```
+The link to current wallpapers is located at:
 
-  2. **Choose how to add wallpapers**
+```
+~/.local/share/wallpapers/.current.wall
+```
 
-     **For all themes (globally):**
+### Adding Theme-Independent Wallpapers
 
-     Find the `custom-wallpapers` section and add paths to your wallpapers:
+If you want to expand your wallpaper collection and use them regardless of selected themes,
+simply copy the images to the directory:
 
-     ```yaml
-     custom-wallpapers:
-       - /path/to/your/wallpapers/image1.jpg
-       - /path/to/your/wallpapers/image2.png
-     ```
+```
+~/.local/share/wallpapers/
+```
 
-     **For a specific theme:**
+For convenient wallpaper selection, you can use the Rofi-based graphical interface, available through the script:
 
-     Find or create an `available_wallpapers` section in the desired theme:
+```
+~/.local/bin/rofi-menus/wallpaper-selector.sh
+```
 
-     ```yaml
-     themes:
-       my-theme:
-         available_wallpapers:
-           - /path/to/theme/wallpapers/bg1.jpg
-           - /path/to/theme/wallpapers/bg2.png
-     ```
+<Aside type="note" title="Or alternatively">
+  Use the keyboard shortcut `Super + W`
+</Aside>
 
-  3. **Use folder masks (optional)**
+***
 
-     To add all images from a folder, use the `*` mask:
+## Using XDG Standards
 
-     ```yaml
-     custom-wallpapers:
-       - ~/.config/meowrch/wallpapers/my-collection/*
-     ```
+Meowrch actively supports and promotes the XDG standard, which defines where configuration files, cache, and data should be stored in a Linux system. This ensures:
 
-     :::tip[Helpful hint]
-     The `*` mask will automatically include all PNG and JPG files from the specified folder.
-     :::
-</Steps>
+* Cleanliness of the user's home directory
+* Unified way of storing configuration files for different applications
+* Compatibility with most modern Linux systems and utilities
 
-# Creating Your Own Theme
+### What is XDG?
 
-You can create your own theme based on an existing one.
+XDG is a specification that defines standard paths for storing configurations, cache, data, and other application files. It helps applications and users organize files conveniently and consistently.
 
-<Steps>
-  1. **Copy an existing theme**
+### XDG + Meowrch
 
-     Copy one of the standard themes and give it a unique name:
+The following environment variables that affect file locations are set in meowrch:
 
-     ```bash
-     cp -r ~/.config/meowrch/themes/catppuccin-mocha ~/.config/meowrch/themes/my-custom-theme
-     ```
+```bash
+shenv ZDOTDIR "$XDG_CONFIG_HOME/zsh"
+```
 
-  2. **Configure the theme**
+* This variable tells the zsh shell that its configuration files are located in a path corresponding to the environment variable `$XDG_CONFIG_HOME/zsh`, which usually means `~/.config/zsh`.
 
-     Edit the configuration files in the copied theme:
+```bash
+shenv GTK2_RC_FILES "$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
+```
 
-     **Available configurations:**
+* Sets the location of the gtk2 configuration file so that GTK applications can read appearance settings from the correct directory.
 
-     * `waybar/` - panel settings
-     * `kitty/` - terminal settings
-     * `cava/` - audio visualizer settings
+```bash
+shenv XCURSOR_PATH "/usr/share/icons:$XDG_DATA_HOME/icons"
+```
 
-     :::caution[Important to Know]
-     - Only existing configurations can be modified
-     - Don't change configuration file names
-     - Extraneous files will be ignored
-     :::
+* Establishes search paths for mouse cursor themes, combining the system directory and user icon folder.
 
-  3. **Add the theme to configuration**
+```bash
+shenv CARGO_HOME "$XDG_DATA_HOME/cargo"
+```
 
-     Open the configuration file and add your theme:
+* Path for Rust package manager (cargo) data, compliant with XDG standard.
 
-     ```bash
-     nano ~/.config/meowrch/config.yaml
-     ```
+```bash
+shenv CUDA_CACHE_PATH "$XDG_CACHE_HOME/nv"
+```
 
-     Add the following lines to the `themes` section:
+* Path for Nvidia CUDA cache.
 
-     ```yaml
-     themes:
-       my-custom-theme:
-         available_wallpapers:
-           - ~/.config/meowrch/wallpapers/my-theme/*
-           - /path/to/your/custom/wallpapers/*
-     ```
+```bash
+shenv GNUPGHOME "$XDG_DATA_HOME/gnupg"
+```
 
-  4. **Test the theme**
+* Directory for GnuPG key files.
 
-     Switch to your new theme using the appropriate meowrch command and check the result.
-</Steps>
+```bash
+shenv REDISCLI_HISTFILE "$XDG_DATA_HOME/redis/rediscli_history"
+```
+
+* Path for Redis client command history.
+
+```bash
+shenv RUSTUP_HOME "$XDG_DATA_HOME/rustup"
+```
+
+* Directory for the Rustup utility.
+
+```bash
+shenv NODE_REPL_HISTORY "$XDG_DATA_HOME/node_repl_history"
+```
+
+* History file for NodeJS REPL.
+
+```bash
+shenv PYENV_ROOT "$XDG_DATA_HOME/pyenv"
+```
+
+* Path for Python version manager pyenv.
+
+```bash
+shenv WAKATIME_HOME "$XDG_CONFIG_HOME/wakatime"
+```
+
+* Configuration directory for the Wakatime plugin.
+
+***
+
+### Why is This Important?
+
+* Thanks to working through the XDG standard, your settings and configurations are always stored in uniform and predictable locations.
+* This simplifies backup, synchronization, and sharing of settings between different machines.
+* Improves compatibility with other Linux distributions and programs using the same standard.

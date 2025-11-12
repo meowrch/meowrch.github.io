@@ -7,6 +7,8 @@ import starlightVersions from 'starlight-versions';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://meowrch.github.io',
+	base: '/',
+	trailingSlash: 'always',
 	integrations: [
 		starlight({
 			title: 'Meowrch Wiki',

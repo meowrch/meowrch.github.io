@@ -1,215 +1,424 @@
 ---
-title: Job Description Builder
-description: ...
+title: "Builder: Technical Documentation"
+description: Comprehensive technical description of the meowrch automatic
+  installation system functionality
 slug: en/2.0/installation/builder
 ---
 
-import { Steps, FileTree } from '@astrojs/starlight/components';
+Builder is an intelligent automatic installation and configuration system for the meowrch distribution, written in Python. The system conducts an interactive user survey and performs complete system configuration according to selected parameters.
 
-# Preset
+## System Architecture
 
-At startup `install.sh` the process of pre-installing the builder begins:
+### Core Components
 
-<Steps>
-  1. **Installation of basic packages**
+Builder consists of several key modules:
 
-     The python and python-pip packages are installed, which are necessary for the main part of the builder to work correctly.
+* **`install.py`** — main module coordinating the entire process
+* **`question.py`** — interactive user survey system
+* **`packages.py`** — package and category definitions
+* **`managers/`** — specialized managers for various installation aspects
+* **`utils/`** — utilities and data schemas
 
-  2. **Installing Python libraries**
+### Installation Managers
 
-     Libraries are installed that are necessary for both the builder and the system operation.:
+* **PackageManager** — manages package installation via pacman and AUR
+* **FileSystemManager** — handles file system operations and dotfiles
+* **DriversManager** — automatic driver detection and installation
+* **AppsManager** — configures specific applications
+* **ChaoticAurManager** — manages Chaotic AUR repository
+* **PostInstallManager** — final post-installation configurations
 
-     * inquirer
-     * loguru
-     * psutil
-     * gputil
-     * pyamdgpuinfo
-     * pyyaml
-     * pillow
-     * colorama
+## Installation Stages
 
-  3. **Launching the main part of the builder**
+### 1. Initialization and Survey
 
-     After successful installation of all dependencies, the main part of the builder is started, and the user survey process is initialized.
-</Steps>
+**Interactive user survey:**
 
-# Basic installation process
+```python
+self.build_options: BuildOptions = Question.get_answers()
+```
 
-**Installation Steps:**
+The system asks the following questions:
 
-<Steps>
-  1. **Creating a backup copy of configurations**
-     * Starts if the user has selected the backup option.
-     * Configurations and important files are copied to the `./backup` directory.
+1. **Backup creation** — save existing configurations
+2. **Window manager selection** — Hyprland and/or BSPWM
+3. **AUR Helper** — choice between yay, paru and their -bin versions
+4. **Chaotic AUR** — use precompiled AUR packages
+5. **Drivers** — auto-detection and installation of NVIDIA/Intel/AMD
+6. **Firefox extensions** — Dark Reader, uBlock Origin, TWP, Unpaywall, Tampermonkey
+7. **Terminal shell** — fish or zsh
+8. **User packages** — interactive selection by categories
 
-  2. **Create folders and copy dotfiles**
-     * Create base folders in the user's home directory.
-     * Dotfiles are copied depending on the selected WM (bspwm or Hyprland).
+### 2. Backup Creation
 
-  3. **Pacman setup and AUR Manager installation**
-     * The pacman configuration file is updated to include new features and multilib (if selected).
-     * Yay or paru is installed to manage AUR packages.
+```python
+if self.build_options.make_backup:
+    FileSystemManager.make_backup()
+```
 
-  4. **Installing packages and drivers**
-     * All basic packages are installed from `packages.py `.
-     * Drivers are selected and installed based on hardware auto-detection.
+The following configurations are saved:
 
-  5. **Application Configuration**
-     * Configuring GRUB: adding a custom theme.
-     * SDDM Setup: Set custom greeting theme.
-     * Configuring Firefox: installing selected plugins, configurations, and themes.
-     * Setting up VS Code: installing the `meowrch-code-theme` plugin to adapt vscode to meowrch themes.
+* `~/.config/` — user configurations
+* `~/.local/bin/` — user scripts
+* `~/.local/share/nemo/` — file manager settings
+* Dotfiles: `.bashrc`, `.env`, `.Xresources`, `.xinitrc`
+* `~/.icons/default/index.theme` — cursor theme
 
-  6. **Configuring Daemons**
-     * Enabling and launching the main daemons of the system: `NetworkManager`, `bluetooth`, `SDDM`.
+### 3. File System Preparation
 
-  7. **Post-installation**
-     * Change the shell to fish.
-     * Adding a user to groups: gamemode.
-     * Install `kitty` as the default terminal.
-     * Installation of the locale `en_US.UTF-8`.
-     * A report is printed on packages that are not installed and a restart of the computer is suggested.
-</Steps>
+```python
+FileSystemManager.create_default_folders()
+FileSystemManager.copy_dotfiles(
+    exclude_bspwm=not self.build_options.install_bspwm,
+    exclude_hyprland=not self.build_options.install_hyprland,
+)
+```
 
-# Structure of the builder directory
+**Creating standard directories:**
 
-<FileTree>
-  * Builder/
-    * \_\_init\_\_.py
-    * install.py
-    * packages.py
-    * question.py
-    * managers/
-      * \_\_init\_\_.py
-      * apps\_manager.py
-      * drivers\_manager.py
-      * filesystem\_manager.py
-      * package\_manager.py
-      * post\_install\_manager.py
-    * utils/
-      * \_\_init\_\_.py
-      * banner.py
-      * schemes.py
-</FileTree>
+```bash
+mkdir -p ~/.config ~/.themes Desktop Downloads Templates Public Documents Music Pictures Videos
+```
 
-## Package organization
+**Copying dotfiles with conditional exclusions:**
 
-The file `packages.py` contains different package categories:
+* If BSPWM is not installed — exclude `bspwm`, `polybar`
+* If Hyprland is not installed — exclude `hypr`, `waybar`
+* Setting permissions `chmod -R 700` for `~/.config` and `~/.local/bin`
 
-### BASE
+### 4. Package Manager Configuration
 
-These are the basic packages needed for the entire system to work.:
+```python
+PackageManager.update_pacman_conf(enable_multilib=True)
+PackageManager.update_database()
+```
 
-* **pacman common**:\
-  `pacman-contrib`, `downgrade`, `libnotify`, `ffmpeg`, `ffmpegthumbnailer`, `jq`, `parallel`, `kitty`, `fastfetch`, `lsd`, `bat`,\
-  `brightnessctl`, `automake`, `blueman`, `bluez`, `bluez-utils`, `dunst`, `fakeroot`, `firefox`, `fish`, `fisher`, `dpkg`, `gcc`,\
-  `git`, `gnu-netcat`, `btop`, `micro`, `mat2`, `nemo`, `papirus-icon-theme`, `pavucontrol`, `pamixer`, `pipewire`, `pipewire-pulse`,\
-  `pipewire-audio`, `pipewire-jack`, `pipewire-alsa`, `wireplumber`, `python-pyalsa`, `ranger`, `redshift`, `reflector`, `sudo`, `tree`,\
-  `unrar`, `zip`, `unzip`, `uthash`, `ark`, `cmake`, `clang`, `gzip`, `imagemagick`, `make`, `openssh`, `shellcheck`, `vlc`, `loupe`,\
-  `usbutils`, `openvpn`, `networkmanager-openvpn`, `p7zip`, `gparted`, `sshfs`, `wget`, `netctl`,\
-  `libreoffice`, `ttf-jetbrains-mono`, `ttf-jetbrains-mono-nerd`, `ttf-fira-code`, `ttf-iosevka-nerd`, `playerctl`,\
-  `starship`, `upower`, `udiskie`, `zenity`, `gvfs`, `qt5ct`, `qt6ct`, `timeshift`, `sddm`, `qt5-graphicaleffects`, `qt5-svg`,\
-  `qt5-quickcontrols2`, `clipnotify`, `xdg-desktop-portal-gtk`, `gnome-disk-utility`, `evince`, `neovim`, `tmux`, `cowsay`,\
-  `polkit-gnome`, `rofimoji`, `wmname`, `pyenv`, `xdg-desktop-portal`, `ttf-hack-nerd`, `networkmanager`, `noto-fonts`,\
-  `noto-fonts-cjk`, `noto-fonts-emoji`, `noto-fonts-extra`
+**Modifying `/etc/pacman.conf`:**
 
-### bspwm
+```ini
+# Enabling performance options
+ParallelDownloads = 5
+VerbosePkgLists
+ILoveCandy
+Color
 
-* `xorg`, `bspwm`, `sxhkd`, `xorg-xinit`, `xclip`, `feh`, `lxappearance`, `polybar`, `xorg-xrandr`, `xsettingsd`
+# Enabling multilib repository
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+```
 
-### hyprland
+**Updating package database:**
 
-* `hyprland`, `waybar`, `swww`, `cliphist`, `wl-clipboard`, `xdg-desktop-portal-hyprland`, `qt5-wayland`, `qt6-wayland`,\
-  `xdg-desktop-portal-wlr`, `hypridle`
+```bash
+sudo pacman -Sy
+```
 
-### CUSTOM
+### 5. Chaotic AUR Installation (Optional)
 
-Packages that can be selected according to your needs:
+```python
+if self.build_options.use_chaotic_aur:
+    ChaoticAurManager.install()
+```
 
-* **games**:\
-  `steam`, `gamemode`, `mangohud`, `portproton`
+If Chaotic AUR is selected, a repository with precompiled AUR packages is installed to speed up installation.
 
-* **development**:\
-  `obsidian`, `postgresql`, `pgadmin4-desktop`, `redis`
+### 6. AUR Helper Installation
 
-* **social\_media**:\
-  `telegram-desktop`, `discord`, `vesktop`
+```python
+PackageManager.install_aur_helper(self.build_options.aur_helper)
+```
 
-* **entertainment**:\
-  `yandex-music`, `spotify`
+**Installation process:**
 
-* **office**:\
-  `libreoffice-fresh`, `onlyoffice-bin`
+1. Install dependencies: `git`, `base-devel`
+2. Clone corresponding repository from AUR
+3. Build and install via `makepkg -si --noconfirm`
 
-### DRIVERS
+**Supported AUR Helpers:**
 
-Drivers for various vendors:
+* `yay` — classic helper
+* `paru` — modern Rust alternative
+* `yay-bin` — precompiled yay version
+* `paru-bin` — precompiled paru version
 
-* **intel**:\
-  `lib32-mesa`, `vulkan-intel`, `lib32-vulkan-intel`, `vulkan-icd-loader`, `lib32-vulkan-icd-loader`, `intel-media-driver`,\
-  `libva-intel-driver`, `xf86-video-intel`
+### 7. Package Installation
 
-* **amd**:\
-  `lib32-mesa`, `vulkan-radeon`, `lib32-vulkan-radeon`, `vulkan-icd-loader`, `lib32-vulkan-icd-loader`
+```python
+self.packages_installation()
+```
 
-* **nvidia**:\
-  `nvidia-dkms`, `nvidia-utils`, `lib32-nvidia-utils`, `nvidia-settings`, `vulkan-icd-loader`, `lib32-vulkan-icd-loader`,\
-  `lib32-opencl-nvidia`, `opencl-nvidia`, `libxnvctrl`
+**An example of a package classification system:**
 
-### When are they installed?
+#### Base Packages
 
-* **BASE** is always installed.
-* **bspwm and hyprland** are installed depending on the selected window manager.
-* **CUSTOM** and **DRIVERS** are selected during the installation process by the builder.
+```python
+# Common packages for all configurations
+BASE.pacman.common = [
+    # Base tools
+    "base-devel", "git", "networkmanager", "libnotify",
+    # Audio subsystem
+    "pipewire", "pipewire-pulse", "pipewire-alsa", "wireplumber",
+    # CLI tools
+    "jq", "fastfetch", "lsd", "bat", "micro", "btop", "yazi",
+    # GUI applications
+    "sddm", "plymouth", "firefox", "kitty", "nemo", "vlc",
+    # Fonts
+    "ttf-hack-nerd", "noto-fonts", "ttf-jetbrains-mono-nerd"
+]
 
-### Builder Components
+# BSPWM packages
+BASE.pacman.bspwm_packages = [
+    "xorg", "bspwm", "sxhkd", "polybar", "dunst", "feh"
+]
 
-* **PackageManager**: Manages package installation, database update, pacman configuration.
-* **DriversManager**: Automatic detection and installation of drivers for GPU and CPU.
-* **FileSystemManager**: File system management, creating backups and copying dotfiles.
-* **AppsManager**: Configure applications, including GRUB, SDDM, Firefox, VS Code.
-* **PostInstallation**: Final system setup after installation. Applies default settings for the terminal, shell, and locales and adds the user to the `gamemode` group.
+# Hyprland packages
+BASE.pacman.hyprland_packages = [
+    "hyprland", "waybar", "hyprlock", "swww", "swaync", "uwsm"
+]
+```
 
-# Questions before installation
+#### User Packages (CUSTOM)
 
-The builder asks a number of questions to set up the installation.:
+```python
+CUSTOM = {
+    "useful": {"timeshift": PackageInfo("System restore utility")},
+    "development": {"obsidian": PackageInfo("Knowledge base", recommended=True)},
+    "social_media": {"telegram-desktop": PackageInfo("Messenger", selected=True)},
+    "games": {"steam": PackageInfo("Gaming platform", selected=True)},
+    "entertainment": {"yandex-music": PackageInfo("Music service", aur=True)},
+    "office": {"onlyoffice-bin": PackageInfo("Office suite", aur=True)}
+}
+```
 
-1. **Configuration Backup**
+**Package installation algorithm:**
 
-* **Answers**: Yes, No
-* **Details**: If "Yes" is selected, a backup of all configuration files is created.
+1. Form pacman and AUR package lists
+2. Add packages depending on selected WM
+3. Install in batches of 5 packages for optimization
+4. On batch failure — individual installation with retries
+5. Maintain list of uninstalled packages for final report
 
-2. **Choosing a Window Manager (WM)**
+### 8. Driver Installation
 
-* **Answers**: bspwm, hyprland
-  * **Details**: The choice of WM determines which packages will be installed (bspwm or hyprland and related components).
+```python
+self.drivers_installation()
+```
 
-3. **Choosing an AUR Manager**
-   * **Answers**: yay, paru
+**Automatic hardware detection:**
 
-* **Details**: Determines which AUR assistant will be installed to manage packages from the Arch User Repository.
+```python
+@staticmethod
+def auto_detection() -> List[str]:
+    drivers = []
+    
+    # Detection by PCI ID and other methods
+    if "intel" in lspci_output.lower():
+        drivers.append("Intel")
+    if "nvidia" in lspci_output.lower():
+        drivers.append("Nvidia")
+    if "amd" in lspci_output.lower() or "ati" in lspci_output.lower():
+        drivers.append("AMD")
+    
+    return drivers
+```
 
-4. **Activation of the multilib repository**
+**Driver packages by vendor:**
 
-* **Answers**: Yes, No
-* **Details**: Includes a repository to support 32-bit applications.
+#### Intel:
 
-5. **Updating the package database**
-   * **Answers**: Yes, No
+```python
+"intel": [
+    "lib32-mesa", "vulkan-intel", "lib32-vulkan-intel",
+    "intel-media-driver", "libva-intel-driver", "xf86-video-intel"
+]
+```
 
-* **Details**: If "Yes" is selected, the package database will be updated to the current version.
+#### AMD:
 
-6. **Installing drivers**
-   * **Answers**: Intel, Nvidia, AMD
+```python
+"amd": [
+    "lib32-mesa", "vulkan-radeon", "lib32-vulkan-radeon"
+]
+```
 
-* **Details**: Driver selection depending on hardware. Auto-detection is recommended for proper selection.
+#### NVIDIA:
 
-7. **Choosing plugins for Firefox**
-   * **Answers**: Dark Reader, uBlock Origin, TWP, Unpaywall, Tamper Monkey
+```python
+"nvidia": [
+    "nvidia-dkms", "nvidia-utils", "lib32-nvidia-utils",
+    "nvidia-settings", "libva-nvidia-driver"
+]
+```
 
-* **Details**:
-* **Dark Reader**: Changes light themes of websites to dark ones, improving visual perception and reducing eye strain.
-  * **uBlock Origin**: Blocks ads, increases page loading speed, and protects against malware.
-  * **TWP**: A tool for translating text and entire pages, useful for users working with many languages.
-  * **Unpaywall**: Allows you to access the content of paid articles legally through alternative sources.
-  * **Tamper Monkey**: A user script manager for personalizing the browser, for example, to add new functions or modify existing ones. In our case, it is used to add real-time video translation using a model from Yandex Browser.
+**Setting up GPU modules for early boot:**
+
+```python
+DriversManager.setup_gpu_modules_for_early_boot()
+```
+
+Updating `/etc/mkinitcpio.conf` for correct Plymouth operation with graphics drivers.
+
+### 9. Application Configuration
+
+#### GRUB Bootloader
+
+```python
+AppsManager.configure_grub()
+```
+
+Installing custom meowrch theme and updating configuration.
+
+#### SDDM Display Manager
+
+```python
+AppsManager.configure_sddm()
+```
+
+Setting up Sugar-Dark theme and autostart configuration.
+
+#### Plymouth Boot Screen
+
+```python
+AppsManager.configure_plymouth()
+```
+
+Installing animated boot screen.
+
+#### Firefox
+
+```python
+AppsManager.configure_firefox(
+    darkreader=self.build_options.ff_darkreader,
+    ublock=self.build_options.ff_ublock,
+    # ... other extensions
+)
+```
+
+Automatic installation of selected extensions and settings.
+
+#### VS Code
+
+```python
+AppsManager.configure_code()
+```
+
+Installing themes and basic development extensions.
+
+#### Pawlette
+
+```python
+AppsManager.configure_pawlette()
+```
+
+Integrating theme management system.
+
+#### Mewline (only for Hyprland)
+
+```python
+if self.build_options.install_hyprland:
+    AppsManager.configure_mewline()
+```
+
+Setting up custom status bar for Hyprland.
+
+### 10. System Services Configuration
+
+```python
+self.daemons_setting()
+```
+
+**Managing systemd services:**
+
+```python
+daemons = {
+    "disable": ["sddm.service"],  # Disable for manual control
+    "enable": ["NetworkManager", "bluetooth.service"],
+    "start": ["bluetooth.service"]
+}
+```
+
+### 11. Final Configuration
+
+```python
+PostInstallation.apply(self.build_options.terminal_shell)
+```
+
+**Terminal shell configuration:**
+
+* **Fish**: Installing custom functions and aliases
+* **Zsh**: Setting up Oh My Zsh with Powerlevel10k theme
+
+**Final operations:**
+
+* Updating font database
+* Setting up XDG directories
+* Applying user settings
+* Generating final report
+
+## Logging System
+
+```python
+logger.add(
+    sink="build_debug.log",
+    format="{time} | {level} | {message}",
+    level="DEBUG",
+    encoding="utf-8",
+)
+```
+
+The entire installation process is logged with detailed information in the `build_debug.log` file.
+
+## Error Handling
+
+### Recovery Strategies
+
+1. **Package installation**: On batch failure — individual installation
+2. **Retry attempts**: Up to 3 attempts for critical operations
+3. **Continue on non-critical errors**: System continues work on non-critical errors
+4. **Detailed logging**: Saving error information for diagnostics
+
+### Final Report
+
+```python
+logger.warning("Pacman: " + ", ".join(self.not_installed_packages.pacman))
+logger.warning("Aur: " + ", ".join(self.not_installed_packages.aur))
+```
+
+At the end of installation, Builder provides a report on packages that could not be installed automatically.
+
+## Installation Completion
+
+```python
+is_reboot = inquirer.confirm("Do you want to reboot?")
+if is_reboot:
+    subprocess.run("sudo reboot", shell=True)
+```
+
+After successful installation, the system offers a reboot to apply all changes.
+
+## Technical Features
+
+### Performance
+
+* **Parallel downloads**: `ParallelDownloads = 5` in pacman
+* **Batch installation**: Installing packages in groups of 5
+* **Chaotic AUR**: Using precompiled packages
+* **Caching**: Reusing downloaded packages
+
+### Security
+
+* **Backup creation**: Automatic saving of existing settings
+* **Validation**: Package integrity checking via pacman
+* **Logging**: Detailed logging of all operations
+* **Access rights**: Correct setting of user file permissions
+
+### Flexibility
+
+* **Modularity**: Independent managers for different components
+* **Configurability**: Wide customization possibilities through surveys
+* **Extensibility**: Easy addition of new packages and functions
+* **Compatibility**: Support for different hardware configurations
+
+***
+
+**Note**: For information on how to start the installation, see [Complete Installation Guide](/en/2.0/installation/complete-guide).
