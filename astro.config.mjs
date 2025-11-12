@@ -9,6 +9,9 @@ export default defineConfig({
 	site: 'https://meowrch.github.io',
 	base: '/',
 	trailingSlash: 'always',
+	build: {
+		format: 'directory'
+	},
 	integrations: [
 		starlight({
 			title: 'Meowrch Wiki',
