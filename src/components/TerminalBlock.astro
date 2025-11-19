@@ -1,0 +1,22 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+---
+
+<div class="terminal-wrapper">
+  <div class="terminal-content">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .terminal-wrapper {
+    margin: 2rem 0;
+    border-radius: 0.75rem;
+    /* Use a subtle shadow/glow but no window frame as Expressive Code provides it */
+    position: relative;
+  }
+
+  .terminal-content {
+    /* Just wrapper styling if needed */
+  }
+</style>

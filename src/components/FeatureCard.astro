@@ -1,5 +1,6 @@
 ---
 import { Icon } from '@astrojs/starlight/components';
+import AppIcon from './AppIcon.astro';
 
 export interface Props {
   title: string;
@@ -22,7 +23,7 @@ const { icon, title, body, iconColor } = Astro.props;
   >
     <article class="card">
       <h4 class="title">
-        {icon && <div class={`icon ${iconColor || ''}`}><Icon name={icon} /></div>}
+        {icon && <div class={`icon ${iconColor || ''}`}><AppIcon name={icon} /></div>}
         <span set:html={title} />
       </h4>
       <div class="body">

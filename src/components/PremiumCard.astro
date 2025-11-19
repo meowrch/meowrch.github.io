@@ -1,0 +1,143 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+import AppIcon from './AppIcon.astro';
+
+export interface Props {
+  title: string;
+  icon?: string;
+  iconColor?: string;
+  subtext?: string;
+}
+
+const { title, icon, iconColor, subtext } = Astro.props;
+---
+
+<div class="premium-card">
+  <div 
+    class="premium-card-inner tilt-element"
+    data-tilt
+    data-tilt-max="6"
+    data-tilt-speed="2000"
+    data-tilt-glare
+    data-tilt-max-glare="0.4"
+  >
+    <article class="card">
+      <h4 class="title">
+        {icon && <div class={`icon ${iconColor || 'default'}`}><AppIcon name={icon} /></div>}
+        <span set:html={title} />
+      </h4>
+      <div class="body">
+        <slot />
+        {subtext && <div class="subtext">{subtext}</div>}
+      </div>
+    </article>
+  </div>
+</div>
+
+<style>
+  .premium-card {
+    height: 100%;
+  }
+
+  .premium-card-inner {
+    height: 100% !important;
+    width: 100% !important;
+  }
+
+  .card {
+    border: 1px solid var(--ctp-surface2);
+    background: var(--card-background);
+    backdrop-filter: blur(16px);
+    padding: clamp(1rem, calc(0.125rem + 3vw), 2.5rem);
+    gap: clamp(0.5rem, calc(0.125rem + 1vw), 1rem);
+    border-radius: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: all 0.3s ease;
+  }
+
+  .card:hover {
+    border-color: var(--ctp-mauve);
+    transform: translateY(-4px);
+    background: var(--card-background-hover);
+  }
+
+  .title {
+    color: var(--ctp-text);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    line-height: 1.3;
+    margin: 0;
+    font-size: 1.2rem;
+  }
+
+  :root {
+    --card-background: rgba(49, 50, 68, 0.7);
+    --card-background-hover: rgba(49, 50, 68, 0.9);
+  }
+
+  :root[data-theme="light"] {
+    --card-background: #DCE0E8;
+    --card-background-hover: #E5E9F0;
+  }
+
+  .icon {
+    color: #ffffff;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    font-size: 1.2em;
+    font-weight: bold;
+    min-width: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icon.default { background: linear-gradient(45deg, var(--ctp-overlay2), var(--ctp-subtext0)); }
+  .icon.settings { background: linear-gradient(45deg, var(--ctp-mauve), var(--ctp-pink)); }
+  .icon.custom { background: linear-gradient(45deg, var(--ctp-peach), var(--ctp-yellow)); }
+  .icon.performance { background: linear-gradient(45deg, var(--ctp-blue), var(--ctp-sapphire)); }
+  .icon.robot { background: linear-gradient(45deg, var(--ctp-green), var(--ctp-teal)); }
+  .icon.package { background: linear-gradient(45deg, var(--ctp-red), var(--ctp-maroon)); }
+  .icon.design { background: linear-gradient(45deg, var(--ctp-lavender), var(--ctp-sky)); }
+  
+  /* Extra colors from DonateBlock */
+  .icon.peach { background: linear-gradient(45deg, var(--ctp-peach), var(--ctp-yellow)); }
+  .icon.mauve { background: linear-gradient(45deg, var(--ctp-mauve), var(--ctp-lavender)); }
+  .icon.teal { background: linear-gradient(45deg, var(--ctp-teal), var(--ctp-green)); }
+  .icon.sapphire { background: linear-gradient(45deg, var(--ctp-sapphire), var(--ctp-blue)); }
+  .icon.maroon { background: linear-gradient(45deg, var(--ctp-maroon), var(--ctp-red)); }
+  .icon.blue { background: linear-gradient(45deg, var(--ctp-blue), var(--ctp-sky)); }
+
+  .body {
+    color: var(--ctp-subtext1);
+    font-size: clamp(var(--sl-text-sm), calc(0.5rem + 1vw), var(--sl-text-body));
+    line-height: 1.6;
+    margin: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .subtext {
+    margin-top: auto;
+    font-size: 0.85em;
+    opacity: 0.7;
+  }
+  
+  /* Link styling within the body */
+  .body :global(a) {
+    color: var(--ctp-mauve);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  .body :global(a:hover) {
+    color: var(--ctp-pink);
+    text-decoration: underline;
+  }
+</style>

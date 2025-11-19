@@ -12,156 +12,251 @@ hero:
       link: /en/introduction/overview/
       icon: open-book
       variant: primary
-    - text: News
-      link: https://t.me/meowrch/9
-      icon: pen
+    - text: Community
+      link: https://t.me/meowrch
+      icon: telegram
       variant: secondary
 ---
 
-import { Card, CardGrid, Icon } from '@astrojs/starlight/components';
+import { CardGrid, Icon } from '@astrojs/starlight/components';
+import AppIcon from '../../../components/AppIcon.astro';
 import AuroraBackground from '../../../components/AuroraBackground.astro';
 import FeatureCard from '../../../components/FeatureCard.astro';
 import ShowcaseCard from '../../../components/ShowcaseCard.astro';
-import ContributorCard from '../../../components/ContributorCard.astro';
+import PremiumCard from '../../../components/PremiumCard.astro';
+import VideoCard from '../../../components/VideoCard.astro';
+import TerminalBlock from '../../../components/TerminalBlock.astro';
 import ReviewsSection from '../../../components/ReviewsSection.astro';
 import DonateBlock from '../../../components/DonateBlock.astro';
+
 import screenshot1 from '../../../assets/screenshots/1.png';
 import screenshot2 from '../../../assets/screenshots/2.png';
 import screenshot3 from '../../../assets/screenshots/3.png';
 import screenshot4 from '../../../assets/screenshots/4.png';
 import screenshot5 from '../../../assets/screenshots/5.png';
 import screenshot6 from '../../../assets/screenshots/6.png';
-import screenshot7 from '../../../assets/screenshots/7.png';
+import videoPreview from '../../../assets/screenshots/video-preview-youtube.png';
 
 <AuroraBackground />
 
-<div style="margin-bottom: 3rem;">
-  <h1 id="whats-that" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
-    <Icon name="information" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
-    What's That?
-  </h1>
-  <p style="color: var(--ctp-subtext1); font-size: clamp(1rem, 0.96rem + 0.4vw, 1.125rem); line-height: 1.7; max-width: 800px; margin: 0 auto 2rem auto;">
-    Meowrch is an Arch-based build focused on maximum performance, ergonomics and beauty.
-    The system is fully configured for comfortable daily use and provides extensive customization options through its own theme store.
-  </p>
-</div>
-
 <div style="margin-top: 4rem; margin-bottom: 3rem;">
-  <h1 id="features" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
-    <Icon name="rocket" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
-    Features
+  <h1 id="why-meowrch" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
+    <Icon name="star" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
+    Why Meowrch?
   </h1>
 </div>
 
 <CardGrid stagger>
   <FeatureCard
-    icon="setting"
-    iconColor="settings"
-    title="Full Configuration"
-    body="The system is fully configured for comfortable daily use"
-  />
-  <FeatureCard
-    icon="puzzle"
-    iconColor="custom"
-    title="Customization"
-    body="Extensive customization options and custom theme repository"
-  />
-  <FeatureCard
-    icon="rocket"
+    icon="fa7-solid:tachometer-fast"
     iconColor="performance"
-    title="Performance"
-    body="Hotkeys designed for maximum productivity"
+    title="Optimization"
+    body="System configured with aggressive optimization flags, community-tested. Performance on par with CachyOS."
   />
   <FeatureCard
-    icon="download"
+    icon="mdi:color"
+    iconColor="custom"
+    title="Theme Store"
+    body="Change the entire system's appearance with one command via our community theme store."
+  />
+  <FeatureCard
+    icon="ph:code-fill"
     iconColor="robot"
-    title="Auto Installation"
-    body="Automatic system installation and configuration"
+    title="Open Source"
+    body="We support Linux development by creating our own components useful to the global Linux community."
   />
   <FeatureCard
-    icon="add-document"
-    iconColor="package"
-    title="Chaotic AUR"
-    body="Chaotic AUR support for fast installation of popular AUR packages"
+    icon="mdi:auto-fix"
+    iconColor="settings"
+    title="Automation"
+    body="Installation in 10 minutes, full setup and optimization — without manual config editing."
   />
   <FeatureCard
-    icon="star"
+    icon="streamline-ultimate:laptop-smiley-1"
     iconColor="design"
-    title="Modern Design"
-    body="Providing continuous and reliable support for successful project work"
+    title="Ergonomics"
+    body="Hotkeys designed down to the smallest detail — work faster."
+  />
+  <FeatureCard
+    icon="fluent:dual-screen-status-bar-24-filled"
+    iconColor="package"
+    title="Two Environments"
+    body="BSPWM (X11) or Hyprland (Wayland) — stability or modernity."
   />
 </CardGrid>
 
 <div style="margin-top: 4rem; margin-bottom: 3rem;">
-  <h1 id="visual-tour" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
-    <Icon name="laptop" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
-    Visual Tour
+  <h1 id="visual-presentation" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
+    <Icon name="youtube" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
+    Visual Presentation
   </h1>
 </div>
 
+<VideoCard 
+  imageSrc={videoPreview.src} 
+  link="https://youtu.be/KdGPDF4p5CA" 
+  title="Meowrch Video Preview"
+/>
+
 <CardGrid>
   <ShowcaseCard
+    name="Basic applications and widgets"
     author="Meowrch"
+    description="Basic applications and widgets"
     imageSrc={screenshot1.src}
     src="https://github.com/meowrch/meowrch"
   />
   <ShowcaseCard
+    name="Music visualization"
     author="Meowrch"
+    description="Demonstration of desktop use case for music visualization."
     imageSrc={screenshot2.src}
     src="https://github.com/meowrch/meowrch"
   />
   <ShowcaseCard
+    name="Adobe software"
     author="Meowrch"
+    description="Demonstration of Adobe software (Photoshop, AfterEffects) functionality"
     imageSrc={screenshot3.src}
     src="https://github.com/meowrch/meowrch"
   />
   <ShowcaseCard
+    name="Gaming"
     author="Meowrch"
+    description="Demonstration of latest Steam games with complex protection technologies like Denuvo"
     imageSrc={screenshot4.src}
     src="https://github.com/meowrch/meowrch"
   />
   <ShowcaseCard
+    name="VSCode workflow"
     author="Meowrch"
+    description="Demonstration of VSCode workflow"
     imageSrc={screenshot5.src}
     src="https://github.com/meowrch/meowrch"
   />
   <ShowcaseCard
+    name="Dynamic Island"
     author="Meowrch"
+    description="Demonstration of desktop wallpaper change animation via mewline dynamic island"
     imageSrc={screenshot6.src}
     src="https://github.com/meowrch/meowrch"
   />
-  <ShowcaseCard
-    author="Meowrch"
-    imageSrc={screenshot7.src}
-    src="https://github.com/meowrch/meowrch"
-  />
+</CardGrid>
+
+<div style="margin-top: 4rem; margin-bottom: 3rem;">
+  <h1 id="installation" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
+    <Icon name="download" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
+    Installation
+  </h1>
+</div>
+
+:::caution[Warning]
+The installer is designed for **clean Arch Linux**.
+If you already have a configured system, the installation **will overwrite** configurations.
+For testing, create a new user.
+:::
+
+<TerminalBlock>
+```bash
+# 1. Clone the repository
+git clone https://github.com/meowrch/meowrch --depth 1 --single-branch
+cd meowrch
+
+# 2. Run the installer
+sh install.sh
+
+# 3. Reboot
+reboot
+```
+</TerminalBlock>
+
+<div style="margin-top: 4rem; margin-bottom: 3rem;">
+  <h1 id="components" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
+    <Icon name="list-format" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
+    What do you get?
+  </h1>
+</div>
+
+<CardGrid>
+  <PremiumCard title="Base OS" icon="bi:pc" iconColor="maroon">
+    <a href="https://archlinux.org/">Arch Linux</a> + <a href="/en/optimization/performance-advantages/">aggressive optimization</a>
+  </PremiumCard>
+  <PremiumCard title="Window Managers" icon="bi:window-stack" iconColor="mauve">
+    <a href="https://github.com/baskerville/bspwm">BSPWM</a> (X11) | <a href="https://hyprland.org/">Hyprland</a> (Wayland)
+  </PremiumCard>
+  <PremiumCard title="Panels" icon="lets-icons:status-list" iconColor="blue">
+    <a href="https://github.com/polybar/polybar">Polybar</a> | <a href="https://github.com/Alexays/Waybar">Waybar</a> | <a href="https://github.com/meowrch/mewline">Mewline</a>
+  </PremiumCard>
+  <PremiumCard title="Customization" icon="material-symbols:palette" iconColor="peach">
+    <a href="https://github.com/meowrch/pawlette">Pawlette</a> with pre-installed Catppuccin Mocha theme
+  </PremiumCard>
+  <PremiumCard title="Terminal" icon="ic:twotone-terminal" iconColor="teal">
+    <a href="https://github.com/kovidgoyal/kitty">Kitty</a>
+  </PremiumCard>
+  <PremiumCard title="Shells" icon="codicon:terminal-powershell" iconColor="sapphire">
+    <a href="https://github.com/fish-shell/fish-shell">Fish</a> | <a href="https://www.zsh.org">Zsh</a>
+  </PremiumCard>
+  <PremiumCard title="Menus" icon="solar:widget-4-bold-duotone" iconColor="custom">
+    <a href="https://github.com/davatorium/rofi">Rofi</a> | <a href="https://github.com/meowrch/mewline">Mewline</a>
+  </PremiumCard>
+  <PremiumCard title="Notifications" icon="si:notifications-alt-2-duotone" iconColor="design">
+    <a href="https://github.com/dunst-project/dunst">Dunst</a> | <a href="https://github.com/ErikReider/SwayNotificationCenter">Swaync</a>
+  </PremiumCard>
+</CardGrid>
+
+<div style="margin-top: 4rem; margin-bottom: 3rem;">
+  <h1 id="hotkeys" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
+    <AppIcon name="material-symbols:keyboard-alt" size="3rem" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
+    Key Shortcuts
+  </h1>
+</div>
+
+<CardGrid>
+  <PremiumCard title="Terminal" icon="ic:twotone-terminal" iconColor="teal">
+    <b>Super + Enter</b><br/>
+    Quick access to universal tool.
+  </PremiumCard>
+  <PremiumCard title="Applications" icon="fluent:window-apps-16-filled" iconColor="performance">
+    <b>Super + A</b><br/>
+    Convenient way to choose the needed application.
+  </PremiumCard>
+  <PremiumCard title="Themes" icon="mdi:color" iconColor="custom">
+    <b>Super + T</b><br/>
+    New theme in 2 seconds. Without config editing.
+  </PremiumCard>
+  <PremiumCard title="Wallpapers" icon="material-symbols:wall-art" iconColor="design">
+    <b>Super + W</b><br/>
+    Rofi with preview. One button — new desktop look.
+  </PremiumCard>
+  <PremiumCard title="Color Picker" icon="pepicons-pop:color-picker" iconColor="mauve">
+    <b>Super + C</b><br/>
+    Pick color from screen for design/development.
+  </PremiumCard>
+  <PremiumCard title="Emoji" icon="fluent:emoji-32-regular" iconColor="peach">
+    <b>Super + .</b><br/>
+    Like Windows 11, but faster.
+  </PremiumCard>
+</CardGrid>
+
+<div style="margin-top: 4rem; margin-bottom: 3rem;">
+  <h1 id="support" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
+    <Icon name="heart" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
+    Community & Support
+  </h1>
+</div>
+
+<CardGrid>
+  <PremiumCard title="Official Wiki" icon="hugeicons:wikipedia" iconColor="blue">
+    <a href="/en/">Guides, FAQ, troubleshooting</a>
+  </PremiumCard>
+  <PremiumCard title="Telegram" icon="ic:baseline-telegram" iconColor="blue">
+    <a href="https://t.me/meowrch">News, updates and quick support</a>
+  </PremiumCard>
+  <PremiumCard title="GitHub Issues" icon="mdi:github" iconColor="default">
+    <a href="https://github.com/meowrch/meowrch/issues">Report a bug or suggest a feature</a>
+  </PremiumCard>
 </CardGrid>
 
 <ReviewsSection owner="meowrch" repo="meowrch" category="Reviews" locale="en" headingId="reviews" />
 
 <DonateBlock locale="en" />
-
-<div style="margin-top: 4rem; margin-bottom: 3rem;">
-  <h1 id="acknowledgements" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
-    <Icon name="heart" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
-    Acknowledgements
-  </h1>
-  <p style="color: var(--ctp-subtext1); font-size: clamp(1rem, 0.96rem + 0.4vw, 1.125rem); line-height: 1.7; max-width: 800px; margin: 0 auto 2rem auto; text-align: center;">
-    We express our immense gratitude to all contributors who helped in developing the project!
-  </p>
-</div>
-
-<CardGrid>
-  <ContributorCard
-    username="K1rsN7"
-    contribution="Actively participates in project development from the start, helps with development and problem solving."
-  />
-  <ContributorCard
-    username="haru2503"
-    contribution="Always ready to help other users and solve community issues."
-  />
-  <ContributorCard
-    username="Redm00us"
-    contribution="Expands project boundaries by creating a NixOS version and adapting it to new platforms."
-  />
-</CardGrid>

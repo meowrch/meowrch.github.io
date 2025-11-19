@@ -1,0 +1,79 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+import playIcon from '../assets/play-icon.svg'; // We might need to use an Icon component instead if we don't have this svg
+// Actually, Starlight has Icons. We can use 'youtube' or 'play'.
+
+export interface Props {
+  imageSrc: string;
+  link: string;
+  title: string;
+}
+
+const { imageSrc, link, title } = Astro.props;
+---
+
+<div class="video-card">
+  <a href={link} target="_blank" rel="noopener noreferrer" class="card-link">
+    <div class="image-container">
+      <img src={imageSrc} alt={title} class="video-image" />
+      <div class="play-overlay">
+        <Icon name="youtube" size="4rem" class="play-icon" />
+      </div>
+    </div>
+  </a>
+</div>
+
+<style>
+  .video-card {
+    margin-bottom: 2rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid var(--ctp-surface2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    border-color: var(--ctp-mauve);
+  }
+
+  .card-link {
+    display: block;
+    text-decoration: none;
+  }
+
+  .image-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+  }
+
+  .video-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .play-icon {
+    color: white;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .video-card:hover .play-icon {
+    transform: scale(1.2);
+    color: #FF0000; /* YouTube Red */
+  }
+</style>
