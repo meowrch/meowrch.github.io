@@ -76,7 +76,7 @@ button2
     </tr>
 	<tr>
         <td>Открыть меню приложений</td>
-		<td colspan="2" align="center">super + d</td>
+		<td colspan="2" align="center">super + a</td>
     </tr>
      <tr>
         <td>Открыть меню включения / выключения компьютера</td>

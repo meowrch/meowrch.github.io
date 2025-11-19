@@ -74,7 +74,7 @@ For more detailed information and examples, you can refer to the official sxhkd 
     </tr>
 	<tr>
         <td>Open application menu</td>
-		<td colspan="2" align="center">super + d</td>
+		<td colspan="2" align="center">super + a</td>
     </tr>
      <tr>
         <td>Open power menu</td>
