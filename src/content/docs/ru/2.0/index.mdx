@@ -23,13 +23,13 @@ import AuroraBackground from '../../../../components/AuroraBackground.astro';
 import FeatureCard from '../../../../components/FeatureCard.astro';
 import ShowcaseCard from '../../../../components/ShowcaseCard.astro';
 import ContributorCard from '../../../../components/ContributorCard.astro';
-import screenshot1 from '../../../../assets/screenshots/1.png';
-import screenshot2 from '../../../../assets/screenshots/2.png';
-import screenshot3 from '../../../../assets/screenshots/3.png';
-import screenshot4 from '../../../../assets/screenshots/4.png';
-import screenshot5 from '../../../../assets/screenshots/5.png';
-import screenshot6 from '../../../../assets/screenshots/6.png';
-import screenshot7 from '../../../../assets/screenshots/7.png';
+import screenshot1 from '../../../../assets/screenshots/2.0/1.png';
+import screenshot2 from '../../../../assets/screenshots/2.0/2.png';
+import screenshot3 from '../../../../assets/screenshots/2.0/3.png';
+import screenshot4 from '../../../../assets/screenshots/2.0/4.png';
+import screenshot5 from '../../../../assets/screenshots/2.0/5.png';
+import screenshot6 from '../../../../assets/screenshots/2.0/6.png';
+import screenshot7 from '../../../../assets/screenshots/2.0/7.png';
 
 <AuroraBackground />
 
@@ -53,39 +53,39 @@ import screenshot7 from '../../../../assets/screenshots/7.png';
 
 <CardGrid stagger>
   <FeatureCard
-    icon="setting"
+    icon="icon-park-outline:config"
     iconColor="settings"
     title="Полная конфигурация"
     body="Система полностью настроена для ежедневного комфортного использования"
   />
   <FeatureCard
-    icon="puzzle"
+    icon="fluent:dual-screen-status-bar-24-filled"
+    iconColor="package"
+    title="Два окружения"
+    body="BSPWM (X11) или Hyprland (Wayland) — стабильность или современность."
+  />
+  <FeatureCard
+    icon="solar:pallete-2-bold"
     iconColor="custom"
     title="Кастомизация"
     body="Широкие возможности кастомизации и собственное хранилище кастомных тем"
   />
   <FeatureCard
-    icon="rocket"
-    iconColor="performance"
-    title="Производительность"
-    body="Горячие клавиши спроектированы для максимальной продуктивности"
+    icon="streamline-ultimate:laptop-smiley-1"
+    iconColor="design"
+    title="Эргономика"
+    body="Горячие клавиши продуманы до мелочей — работайте быстрее."
   />
   <FeatureCard
-    icon="download"
+    icon="material-symbols:download"
     iconColor="robot"
     title="Автоустановка"
     body="Автоматическая установка и настройка системы"
   />
   <FeatureCard
-    icon="add-document"
-    iconColor="package"
-    title="Chaotic AUR"
-    body="Поддержка Chaotic AUR для быстрого установления популярных AUR пакетов"
-  />
-  <FeatureCard
-    icon="star"
+    icon="healthicons:contact-support"
     iconColor="design"
-    title="Современный дизайн"
+    title="Быстрая поддержка"
     body="Предоставление непрерывной и надежной поддержки для успешной работы проекта"
   />
 </CardGrid>
