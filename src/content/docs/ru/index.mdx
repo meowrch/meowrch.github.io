@@ -40,6 +40,47 @@ import videoPreview from '../../../assets/screenshots/video-preview-youtube.png'
 <AuroraBackground />
 
 <div style="margin-top: 4rem; margin-bottom: 3rem;">
+  <h1 id="why-another-rice" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
+    <Icon name="puzzle" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
+    Зачем ещё один Rice?
+  </h1>
+</div>
+
+:::note[Проблема готовых rice-конфигов]
+**Большинство готовых rice'ов для Arch решают только одну проблему:**
+
+- 🎨 Либо **красота**, но система жрёт RAM.
+- ⚡ Либо **производительность**, но UI выглядит убого.
+- 🛠️ Либо **функциональность**, но код превращается в "спагетти", которые самостоятельно не поправить.
+:::
+
+## Meowrch — это другой подход
+
+Мы не жертвуем одним ради другого. Вместо этого создаём систему, где каждый компонент выбран по принципу **"максимум результата при минимуме ресурсов"**.
+
+**Но главное** — мы не ограничиваемся красивыми конфигами.
+
+<CardGrid>
+  <PremiumCard title="🏷️ Nemo Tags" icon="mdi:tag-multiple" iconColor="mauve">
+    <p><strong>10+ лет сообщество просило систему тегов для Nemo.</strong></p>
+    <p>Разработчики игнорировали. Мы сделали.</p>
+    <p style="margin-top: 0.75rem; color: var(--ctp-green);">Теперь организация файлов как в macOS Finder — доступна каждому.</p>
+  </PremiumCard>
+  
+  <PremiumCard title="🩸 BlueVein" icon="mdi:bluetooth" iconColor="blue">
+    <p><strong>Dual-boot Windows/Linux = ад с Bluetooth.</strong></p>
+    <p>Переключил ОС? Заново подключай мышь, клавиатуру, наушники. <strong>Каждый. Раз.</strong></p>
+    <p style="margin-top: 0.75rem; color: var(--ctp-green);">Мы решили эту терзающую проблему.</p>
+  </PremiumCard>
+</CardGrid>
+
+:::tip[Open-source экосистема]
+**Все наши инструменты — open-source** и работают не только в Meowrch.
+
+Мы развиваем экосистему **для всего Linux-сообщества**, а не просто "делаем красиво для себя".
+:::
+
+<div style="margin-top: 4rem; margin-bottom: 3rem;">
   <h1 id="why-meowrch" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
     <Icon name="star" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
     Почему Meowrch?
@@ -51,19 +92,19 @@ import videoPreview from '../../../assets/screenshots/video-preview-youtube.png'
     icon="line-md:speed-twotone"
     iconColor="performance"
     title="Оптимизация"
-    body="Система настроена с агрессивными флагами оптимизации, проверено сообществом. Производительность на уровне CachyOS."
+    body="Система имеет лучшие оптимизации из ARU и CachyOS. Производительность на уровне CachyOS."
   />
   <FeatureCard
     icon="mdi:color"
     iconColor="custom"
     title="Магазин тем"
-    body="Смена всего внешнего вида системы одной командой через собственный репозиторий тем."
+    body="Меняй внешний вид всей системы одной командой через собственный репозиторий тем."
   />
   <FeatureCard
     icon="ph:code-fill"
     iconColor="robot"
     title="Открытый код"
-    body="Мы поддерживаем разработку Linux, создавая собственные компоненты, полезные глобальному сообществу Linux."
+    body="Мы поддерживаем развитие Linux, разрабатывая собственные компоненты, полезные мировому сообществу Linux."
   />
   <FeatureCard
     icon="mdi:auto-fix"
@@ -144,6 +185,122 @@ import videoPreview from '../../../assets/screenshots/video-preview-youtube.png'
 </CardGrid>
 
 <div style="margin-top: 4rem; margin-bottom: 3rem;">
+  <h1 id="mewline" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
+    <Icon name="rocket" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
+    Знакомьтесь: Mewline — Dynamic Island для Linux
+  </h1>
+</div>
+
+### Компактный интерфейс, максимум информации
+
+<CardGrid stagger>
+  <FeatureCard
+    icon="mdi:application-outline"
+    iconColor="teal"
+    title="System Tray"
+    body="Все твои фоновые приложения"
+  />
+  <FeatureCard
+    icon="mdi:view-dashboard"
+    iconColor="blue"
+    title="Workspaces"
+    body="Быстрое переключение между рабочими столами"
+  />
+  <FeatureCard
+    icon="mdi:calendar-clock"
+    iconColor="mauve"
+    title="Date & Time"
+    body="Всегда на виду"
+  />
+  <FeatureCard
+    icon="mdi:brightness-6"
+    iconColor="peach"
+    title="Brightness"
+    body="Контроль яркости экрана"
+  />
+  <FeatureCard
+    icon="mdi:volume-high"
+    iconColor="maroon"
+    title="Volume"
+    body="Управление звуком"
+  />
+  <FeatureCard
+    icon="mdi:battery"
+    iconColor="green"
+    title="Battery"
+    body="Заряд и статус зарядки"
+  />
+  <FeatureCard
+    icon="mdi:power"
+    iconColor="red"
+    title="Power"
+    body="Меню управления питанием"
+  />
+  <FeatureCard
+    icon="mdi:text-recognition"
+    iconColor="sapphire"
+    title="OCR"
+    body="Распознавание текста с экрана"
+  />
+</CardGrid>
+
+### Интерактивный центр управления системой
+
+<CardGrid>
+  <PremiumCard title="Compact Mode" icon="mdi:music-note" iconColor="mauve">
+    Информация об активном окне и играющей музыке
+  </PremiumCard>
+  
+  <PremiumCard title="Information Menu" icon="mdi:calendar" iconColor="blue">
+    Календарь и история уведомлений<br/>
+    <code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+D</code>
+  </PremiumCard>
+  
+  <PremiumCard title="App Launcher" icon="mdi:rocket-launch" iconColor="peach">
+    Запуск приложений<br/>
+    <code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+A</code>
+  </PremiumCard>
+  
+  <PremiumCard title="Wallpapers" icon="mdi:image-multiple" iconColor="teal">
+    Смена обоев с превью<br/>
+    <code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+W</code>
+  </PremiumCard>
+  
+  <PremiumCard title="Emoji Picker" icon="mdi:emoticon-outline" iconColor="yellow">
+    Выбор эмодзи<br/>
+    <code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+.</code>
+  </PremiumCard>
+  
+  <PremiumCard title="Clipboard" icon="mdi:content-copy" iconColor="sapphire">
+    История буфера обмена<br/>
+    <code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+V</code>
+  </PremiumCard>
+  
+  <PremiumCard title="Network Manager" icon="mdi:wifi" iconColor="green">
+    Wi-Fi и Ethernet<br/>
+    <code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+N</code>
+  </PremiumCard>
+  
+  <PremiumCard title="🖥️ Workspaces" icon="mdi:monitor-multiple" iconColor="maroon">
+    Менеджер окон и воркспейсов<br/>
+    <code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+Tab</code>
+  </PremiumCard>
+  
+  <PremiumCard title="Bluetooth" icon="mdi:bluetooth" iconColor="blue">
+    Управление устройствами<br/>
+    <code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+B</code>
+  </PremiumCard>
+</CardGrid>
+
+:::tip[Всё в одной утилите]
+**Да-да. Это всё — в одной утилите.**
+
+Вместо настройки Rofi + Waybar + Dunst + wlogout + network-manager-applet + clipboard manager — **одна команда установки**.
+
+**[📖 Полная документация Mewline](https://github.com/meowrch/mewline)** • **[🐛 Сообщить о проблеме](https://github.com/meowrch/mewline/issues)**
+:::
+
+<div style="margin-top: 4rem; margin-bottom: 3rem;">
   <h1 id="installation" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
     <Icon name="download" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
     Установка
@@ -179,7 +336,7 @@ reboot
 
 <CardGrid>
   <PremiumCard title="Базовая ОС" icon="bi:pc" iconColor="maroon">
-    <a href="https://archlinux.org/">Arch Linux</a> + <a href="/en/optimization/performance-advantages/">агрессивная оптимизация</a>
+    <a href="https://archlinux.org/">Arch Linux</a> + <a href="/ru/optimization/performance-advantages/">агрессивная оптимизация</a>
   </PremiumCard>
   <PremiumCard title="Оконные менеджеры" icon="bi:window-stack" iconColor="mauve">
     <a href="https://github.com/baskerville/bspwm">BSPWM</a> (X11) | <a href="https://hyprland.org/">Hyprland</a> (Wayland)

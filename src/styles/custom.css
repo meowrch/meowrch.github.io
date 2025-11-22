@@ -152,7 +152,161 @@ main > div:first-child a:hover {
   border-bottom: 1px solid rgba(136, 57, 239, 0.2) !important;
 }
 
+/* ================================================== */
+/* CUSTOM CALLOUTS STYLES - Улучшенные стили */
+/* ================================================== */
 
+.starlight-aside {
+  border: none !important;
+  border-radius: 16px !important;
+  padding: 1.5rem !important;
+  margin: 2rem 0 !important;
+  backdrop-filter: blur(12px) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.starlight-aside::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+}
+
+.starlight-aside:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Note/Info callout */
+.starlight-aside--note {
+  background: linear-gradient(135deg, rgba(137, 180, 250, 0.1), rgba(116, 199, 236, 0.05)) !important;
+  border-left: 4px solid var(--ctp-blue) !important;
+}
+
+.starlight-aside--note::before {
+  background: linear-gradient(180deg, var(--ctp-blue), var(--ctp-sapphire));
+}
+
+.starlight-aside--note .starlight-aside__title {
+  color: var(--ctp-blue) !important;
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+}
+
+.starlight-aside--note .starlight-aside__icon {
+  color: var(--ctp-blue) !important;
+}
+
+/* Tip callout */
+.starlight-aside--tip {
+  background: linear-gradient(135deg, rgba(166, 227, 161, 0.1), rgba(148, 226, 213, 0.05)) !important;
+  border-left: 4px solid var(--ctp-green) !important;
+}
+
+.starlight-aside--tip::before {
+  background: linear-gradient(180deg, var(--ctp-green), var(--ctp-teal));
+}
+
+.starlight-aside--tip .starlight-aside__title {
+  color: var(--ctp-green) !important;
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+}
+
+.starlight-aside--tip .starlight-aside__icon {
+  color: var(--ctp-green) !important;
+}
+
+/* Caution/Warning callout */
+.starlight-aside--caution {
+  background: linear-gradient(135deg, rgba(249, 226, 175, 0.1), rgba(250, 179, 135, 0.05)) !important;
+  border-left: 4px solid var(--ctp-yellow) !important;
+}
+
+.starlight-aside--caution::before {
+  background: linear-gradient(180deg, var(--ctp-yellow), var(--ctp-peach));
+}
+
+.starlight-aside--caution .starlight-aside__title {
+  color: var(--ctp-yellow) !important;
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+}
+
+.starlight-aside--caution .starlight-aside__icon {
+  color: var(--ctp-yellow) !important;
+}
+
+/* Danger callout */
+.starlight-aside--danger {
+  background: linear-gradient(135deg, rgba(243, 139, 168, 0.1), rgba(235, 160, 172, 0.05)) !important;
+  border-left: 4px solid var(--ctp-red) !important;
+}
+
+.starlight-aside--danger::before {
+  background: linear-gradient(180deg, var(--ctp-red), var(--ctp-maroon));
+}
+
+.starlight-aside--danger .starlight-aside__title {
+  color: var(--ctp-red) !important;
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+}
+
+.starlight-aside--danger .starlight-aside__icon {
+  color: var(--ctp-red) !important;
+}
+
+/* Callout content styling */
+.starlight-aside__content {
+  color: var(--ctp-text) !important;
+  line-height: 1.7 !important;
+}
+
+.starlight-aside__content p {
+  margin: 0.5rem 0 !important;
+}
+
+.starlight-aside__content ul,
+.starlight-aside__content ol {
+  margin: 0.75rem 0 !important;
+  padding-left: 1.5rem !important;
+}
+
+.starlight-aside__content li {
+  margin: 0.5rem 0 !important;
+}
+
+.starlight-aside__content strong {
+  color: var(--ctp-text) !important;
+  font-weight: 700 !important;
+}
+
+/* Light theme adjustments for callouts */
+:root[data-theme="light"] .starlight-aside--note {
+  background: linear-gradient(135deg, rgba(30, 102, 245, 0.08), rgba(32, 159, 181, 0.04)) !important;
+}
+
+:root[data-theme="light"] .starlight-aside--tip {
+  background: linear-gradient(135deg, rgba(64, 160, 43, 0.08), rgba(23, 146, 153, 0.04)) !important;
+}
+
+:root[data-theme="light"] .starlight-aside--caution {
+  background: linear-gradient(135deg, rgba(223, 142, 29, 0.08), rgba(254, 100, 11, 0.04)) !important;
+}
+
+:root[data-theme="light"] .starlight-aside--danger {
+  background: linear-gradient(135deg, rgba(210, 15, 57, 0.08), rgba(230, 69, 83, 0.04)) !important;
+}
+
+/* ================================================== */
+/* END CALLOUTS STYLES */
+/* ================================================== */
 
 
 /* CSS переменные для Aurora Background */
@@ -480,4 +634,3 @@ html {
     rgba(180, 190, 254, 0.03), 
     rgba(245, 194, 231, 0.04)) !important;
 }
-

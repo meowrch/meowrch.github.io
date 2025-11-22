@@ -96,6 +96,7 @@ const { title, icon, iconColor, subtext } = Astro.props;
     justify-content: center;
   }
 
+  /* Named color combinations */
   .icon.default { background: linear-gradient(45deg, var(--ctp-overlay2), var(--ctp-subtext0)); }
   .icon.settings { background: linear-gradient(45deg, var(--ctp-mauve), var(--ctp-pink)); }
   .icon.custom { background: linear-gradient(45deg, var(--ctp-peach), var(--ctp-yellow)); }
@@ -104,13 +105,21 @@ const { title, icon, iconColor, subtext } = Astro.props;
   .icon.package { background: linear-gradient(45deg, var(--ctp-red), var(--ctp-maroon)); }
   .icon.design { background: linear-gradient(45deg, var(--ctp-lavender), var(--ctp-sky)); }
   
-  /* Extra colors from DonateBlock */
-  .icon.peach { background: linear-gradient(45deg, var(--ctp-peach), var(--ctp-yellow)); }
+  /* Individual Catppuccin colors */
+  .icon.rosewater { background: linear-gradient(45deg, var(--ctp-rosewater), var(--ctp-flamingo)); }
+  .icon.flamingo { background: linear-gradient(45deg, var(--ctp-flamingo), var(--ctp-pink)); }
+  .icon.pink { background: linear-gradient(45deg, var(--ctp-pink), var(--ctp-mauve)); }
   .icon.mauve { background: linear-gradient(45deg, var(--ctp-mauve), var(--ctp-lavender)); }
-  .icon.teal { background: linear-gradient(45deg, var(--ctp-teal), var(--ctp-green)); }
-  .icon.sapphire { background: linear-gradient(45deg, var(--ctp-sapphire), var(--ctp-blue)); }
+  .icon.red { background: linear-gradient(45deg, var(--ctp-red), var(--ctp-maroon)); }
   .icon.maroon { background: linear-gradient(45deg, var(--ctp-maroon), var(--ctp-red)); }
+  .icon.peach { background: linear-gradient(45deg, var(--ctp-peach), var(--ctp-yellow)); }
+  .icon.yellow { background: linear-gradient(45deg, var(--ctp-yellow), var(--ctp-peach)); }
+  .icon.green { background: linear-gradient(45deg, var(--ctp-green), var(--ctp-teal)); }
+  .icon.teal { background: linear-gradient(45deg, var(--ctp-teal), var(--ctp-green)); }
+  .icon.sky { background: linear-gradient(45deg, var(--ctp-sky), var(--ctp-sapphire)); }
+  .icon.sapphire { background: linear-gradient(45deg, var(--ctp-sapphire), var(--ctp-blue)); }
   .icon.blue { background: linear-gradient(45deg, var(--ctp-blue), var(--ctp-sky)); }
+  .icon.lavender { background: linear-gradient(45deg, var(--ctp-lavender), var(--ctp-mauve)); }
 
   .body {
     color: var(--ctp-subtext1);

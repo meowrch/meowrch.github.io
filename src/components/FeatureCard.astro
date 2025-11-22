@@ -95,6 +95,7 @@ const { icon, title, body, iconColor } = Astro.props;
     justify-content: center;
   }
 
+  /* Основные цвета */
   .icon.settings {
     background: linear-gradient(45deg, var(--ctp-mauve), var(--ctp-pink));
   }
@@ -117,6 +118,47 @@ const { icon, title, body, iconColor } = Astro.props;
 
   .icon.design {
     background: linear-gradient(45deg, var(--ctp-lavender), var(--ctp-sky));
+  }
+
+  /* Дополнительные цвета */
+  .icon.teal {
+    background: linear-gradient(45deg, var(--ctp-teal), var(--ctp-sky));
+  }
+
+  .icon.blue {
+    background: linear-gradient(45deg, var(--ctp-blue), var(--ctp-lavender));
+  }
+
+  .icon.mauve {
+    background: linear-gradient(45deg, var(--ctp-mauve), var(--ctp-lavender));
+  }
+
+  .icon.peach {
+    background: linear-gradient(45deg, var(--ctp-peach), var(--ctp-maroon));
+  }
+
+  .icon.maroon {
+    background: linear-gradient(45deg, var(--ctp-maroon), var(--ctp-red));
+  }
+
+  .icon.green {
+    background: linear-gradient(45deg, var(--ctp-green), var(--ctp-teal));
+  }
+
+  .icon.red {
+    background: linear-gradient(45deg, var(--ctp-red), var(--ctp-pink));
+  }
+
+  .icon.sapphire {
+    background: linear-gradient(45deg, var(--ctp-sapphire), var(--ctp-blue));
+  }
+
+  .icon.yellow {
+    background: linear-gradient(45deg, var(--ctp-yellow), var(--ctp-peach));
+  }
+
+  .icon.default {
+    background: linear-gradient(45deg, var(--ctp-surface1), var(--ctp-surface2));
   }
 
   .body {

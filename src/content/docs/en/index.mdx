@@ -40,6 +40,47 @@ import videoPreview from '../../../assets/screenshots/video-preview-youtube.png'
 <AuroraBackground />
 
 <div style="margin-top: 4rem; margin-bottom: 3rem;">
+  <h1 id="why-another-rice" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
+    <Icon name="puzzle" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
+    Why Another Rice?
+  </h1>
+</div>
+
+:::note[The Problem with Ready-Made Rice Configs]
+**Most ready-made rice setups for Arch solve only one problem:**
+
+- 🎨 Either **beauty**, but the system eats RAM.
+- ⚡ Or **performance**, but the UI looks ugly.
+- 🛠️ Or **functionality**, but the code turns into "spaghetti" that you can't fix yourself.
+:::
+
+## Meowrch is a different approach
+
+We don't sacrifice one for the other. Instead, we create a system where each component is chosen based on the principle of **"maximum results with minimum resources"**.
+
+**But most importantly** — we don't limit ourselves to beautiful configs.
+
+<CardGrid>
+  <PremiumCard title="🏷️ Nemo Tags" icon="mdi:tag-multiple" iconColor="mauve">
+    <p><strong>For 10+ years the community requested a tagging system for Nemo.</strong></p>
+    <p>Developers ignored it. We made it.</p>
+    <p style="margin-top: 0.75rem; color: var(--ctp-green);">Now file organization like in macOS Finder is available to everyone.</p>
+  </PremiumCard>
+  
+  <PremiumCard title="🩸 BlueVein" icon="mdi:bluetooth" iconColor="blue">
+    <p><strong>Dual-boot Windows/Linux = Bluetooth hell.</strong></p>
+    <p>Switched OS? Reconnect your mouse, keyboard, headphones. <strong>Every. Single. Time.</strong></p>
+    <p style="margin-top: 0.75rem; color: var(--ctp-green);">We solved this agonizing problem.</p>
+  </PremiumCard>
+</CardGrid>
+
+:::tip[Open-source Ecosystem]
+**All our tools are open-source** and work not only in Meowrch.
+
+We develop an ecosystem **for the entire Linux community**, not just "making it pretty for ourselves".
+:::
+
+<div style="margin-top: 4rem; margin-bottom: 3rem;">
   <h1 id="why-meowrch" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
     <Icon name="star" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
     Why Meowrch?
@@ -51,7 +92,7 @@ import videoPreview from '../../../assets/screenshots/video-preview-youtube.png'
     icon="line-md:speed-twotone"
     iconColor="performance"
     title="Optimization"
-    body="System configured with aggressive optimization flags, community-tested. Performance on par with CachyOS."
+    body="The system has the best optimizations from ARU and CachyOS. Performance on par with CachyOS."
   />
   <FeatureCard
     icon="mdi:color"
@@ -142,6 +183,122 @@ import videoPreview from '../../../assets/screenshots/video-preview-youtube.png'
     src="https://github.com/meowrch/meowrch"
   />
 </CardGrid>
+
+<div style="margin-top: 4rem; margin-bottom: 3rem;">
+  <h1 id="mewline" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
+    <Icon name="rocket" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
+    Meet Mewline — Dynamic Island for Linux
+  </h1>
+</div>
+
+### Compact interface, maximum information
+
+<CardGrid stagger>
+  <FeatureCard
+    icon="mdi:application-outline"
+    iconColor="teal"
+    title="System Tray"
+    body="All your background applications"
+  />
+  <FeatureCard
+    icon="mdi:view-dashboard"
+    iconColor="blue"
+    title="Workspaces"
+    body="Quick switching between desktops"
+  />
+  <FeatureCard
+    icon="mdi:calendar-clock"
+    iconColor="mauve"
+    title="Date & Time"
+    body="Always visible"
+  />
+  <FeatureCard
+    icon="mdi:brightness-6"
+    iconColor="peach"
+    title="Brightness"
+    body="Screen brightness control"
+  />
+  <FeatureCard
+    icon="mdi:volume-high"
+    iconColor="maroon"
+    title="Volume"
+    body="Sound control"
+  />
+  <FeatureCard
+    icon="mdi:battery"
+    iconColor="green"
+    title="Battery"
+    body="Charge and charging status"
+  />
+  <FeatureCard
+    icon="mdi:power"
+    iconColor="red"
+    title="Power"
+    body="Power management menu"
+  />
+  <FeatureCard
+    icon="mdi:text-recognition"
+    iconColor="sapphire"
+    title="OCR"
+    body="Text recognition from screen"
+  />
+</CardGrid>
+
+### Interactive system control center
+
+<CardGrid>
+  <PremiumCard title="🎵 Compact Mode" icon="mdi:music-note" iconColor="mauve">
+    Information about active window and playing music
+  </PremiumCard>
+  
+  <PremiumCard title="Information Menu" icon="mdi:calendar" iconColor="blue">
+    Calendar and notification history<br/>
+    <code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+D</code>
+  </PremiumCard>
+  
+  <PremiumCard title="App Launcher" icon="mdi:rocket-launch" iconColor="peach">
+    Application launcher<br/>
+    <code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+A</code>
+  </PremiumCard>
+  
+  <PremiumCard title="Wallpapers" icon="mdi:image-multiple" iconColor="teal">
+    Wallpaper change with preview<br/>
+    <code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+W</code>
+  </PremiumCard>
+  
+  <PremiumCard title="Emoji Picker" icon="mdi:emoticon-outline" iconColor="yellow">
+    Emoji selection<br/>
+    <code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+.</code>
+  </PremiumCard>
+  
+  <PremiumCard title="Clipboard" icon="mdi:content-copy" iconColor="sapphire">
+    Clipboard history<br/>
+    <code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+V</code>
+  </PremiumCard>
+  
+  <PremiumCard title="Network Manager" icon="mdi:wifi" iconColor="green">
+    Wi-Fi and Ethernet<br/>
+    <code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+N</code>
+  </PremiumCard>
+  
+  <PremiumCard title="Workspaces" icon="mdi:monitor-multiple" iconColor="maroon">
+    Windows and workspaces manager<br/>
+    <code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+Tab</code>
+  </PremiumCard>
+  
+  <PremiumCard title="Bluetooth" icon="mdi:bluetooth" iconColor="blue">
+    Device management<br/>
+    <code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+B</code>
+  </PremiumCard>
+</CardGrid>
+
+:::tip[All in One Utility]
+**Yes-yes. All this is in one utility.**
+
+Instead of configuring Rofi + Waybar + Dunst + wlogout + network-manager-applet + clipboard manager — **one installation command**.
+
+**[📖 Full Mewline documentation](https://github.com/meowrch/mewline)** • **[🐛 Report an issue](https://github.com/meowrch/mewline/issues)**
+:::
 
 <div style="margin-top: 4rem; margin-bottom: 3rem;">
   <h1 id="installation" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
