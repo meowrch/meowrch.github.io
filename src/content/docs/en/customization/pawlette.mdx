@@ -42,9 +42,9 @@ import { Steps, Aside } from '@astrojs/starlight/components';
 
 3. **View available themes**
    
-   See the list of available themes:
+   Check out the list of available themes from the remote store:
    ```
-   pawlette get-available-themes
+   pawlette get-store-themes
    ```
 
 4. **Install theme**
@@ -76,15 +76,16 @@ import { Steps, Aside } from '@astrojs/starlight/components';
 | `pawlette restore` | Restore original appearance |
 | `pawlette reset-theme <name>` | Reset theme to clean state |
 
-### Installing and Updating Themes
+### Installing, Updating and Removing Themes
 
 | Command | Description |
 |---------|-------------|
-| `pawlette get-available-themes` | JSON with all available themes |
+| `pawlette get-store-themes` | JSON with all available themes from the remote store |
 | `pawlette get-themes-info` | JSON with installed themes information |
-| `pawlette install-theme <name>` | Install theme |
+| `pawlette install-theme <name/url/path>` | Install theme |
 | `pawlette update-theme <name>` | Update theme |
 | `pawlette update-all-themes` | Update all themes |
+| `pawlette uninstall-theme <name>` | Delete topic (local files and cache)      |
 
 ### Creating Custom Themes
 Detailed documentation on creating custom themes in Pawlette is available [here](/en/customization/create-theme).

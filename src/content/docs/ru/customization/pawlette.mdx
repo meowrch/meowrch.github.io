@@ -42,9 +42,9 @@ import { Steps, Aside } from '@astrojs/starlight/components';
 
 3. **Просмотр доступных тем**
    
-   Посмотрите список доступных тем:
+   Посмотрите список доступных тем из удалённого магазина:
    ```
-   pawlette get-available-themes
+   pawlette get-store-themes
    ```
 
 4. **Установка темы**
@@ -76,15 +76,16 @@ import { Steps, Aside } from '@astrojs/starlight/components';
 | `pawlette restore` | Восстановить оригинальный вид |
 | `pawlette reset-theme <name>` | Сбросить тему к чистому состоянию |
 
-### Установка и обновление тем
+### Установка, обновление и удаление тем
 
 | Команда | Описание |
 |---------|----------|
-| `pawlette get-available-themes` | JSON со всеми доступными темами |
+| `pawlette get-store-themes` | JSON со всеми доступными темами из удалённого магазина |
 | `pawlette get-themes-info` | JSON с информацией об установленных темах |
-| `pawlette install-theme <name>` | Установить тему |
+| `pawlette install-theme <name/url/path>` | Установить тему |
 | `pawlette update-theme <name>` | Обновить тему |
 | `pawlette update-all-themes` | Обновить все темы |
+| `pawlette uninstall-theme <name>` | Удалить тему (локальные файлы и кэш)      |
 
 ### Создание собственных тем
 Подробная документация по созданию собственных тем в Pawlette находится [здесь](/ru/customization/create-theme).
