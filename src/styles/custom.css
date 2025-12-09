@@ -225,11 +225,7 @@ main > div:first-child a:hover {
 /* Caution/Warning callout */
 .starlight-aside--caution {
   background: linear-gradient(135deg, rgba(249, 226, 175, 0.1), rgba(250, 179, 135, 0.05)) !important;
-  border-left: 4px solid var(--ctp-yellow) !important;
-}
-
-.starlight-aside--caution::before {
-  background: linear-gradient(180deg, var(--ctp-yellow), var(--ctp-peach));
+  border-left: 6px solid var(--ctp-yellow) !important;
 }
 
 .starlight-aside--caution .starlight-aside__title {
