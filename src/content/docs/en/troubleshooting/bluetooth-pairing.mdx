@@ -1,0 +1,242 @@
+---
+title: "Bluetooth Re-pairing Issue"
+description: "Solving constant Bluetooth device reconnection problem when switching between Windows and Linux"
+sidebar:
+  order: 3
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+One of the most frustrating problems when using Windows and Linux on the same computer is having to constantly re-pair Bluetooth devices every time you switch between operating systems.
+
+<Aside type="caution" title="Why does this happen?">
+The problem arises from **different encryption keys**:
+- When you pair a Bluetooth device in one OS, it stores specific encryption keys
+- When you boot into another OS, that system doesn't have those keys
+- The device refuses to connect because the keys don't match
+- You have to pair again, which generates new keys and breaks the pairing in the first OS
+</Aside>
+
+## Understanding the Problem
+
+### How Bluetooth Pairing Works
+
+When you pair a Bluetooth device:
+1. Device and computer exchange encryption keys (LTK, IRK, CSRK)
+2. These keys are stored on both sides
+3. On subsequent connections, both sides verify these keys
+4. If keys don't match - connection is rejected
+
+### What Happens with Dual-Boot
+
+1. **Pair headphones in Windows** → Keys are stored in Windows registry
+2. **Boot into Linux** → Linux doesn't have those keys
+3. **Headphones won't connect** → You have to pair again in Linux
+4. **Boot back to Windows** → Now Windows keys are outdated
+5. **Endless cycle of re-pairing**
+
+## Solution: BlueVein
+
+[BlueVein](https://github.com/meowrch/BlueVein) is an automatic synchronization tool that solves this problem once and for all. It works as a background service that keeps Bluetooth pairing keys synchronized between Windows and Linux.
+
+### Key Features
+
+- Bidirectional automatic synchronization
+- Works in real-time as a system service
+- No manual intervention required
+- Supports all Bluetooth device types
+- Works with multiple operating systems (dual-boot, triple-boot, etc.)
+
+### How It Works
+
+BlueVein stores all Bluetooth pairing keys in a shared location on the EFI partition that both Windows and Linux can access:
+
+1. When you pair a device in any OS, BlueVein immediately saves the keys to EFI
+2. When you boot another OS, BlueVein reads keys from EFI and updates local storage
+3. Your device connects automatically without re-pairing
+
+## Installation
+
+### Linux Installation
+
+#### Arch Linux (AUR)
+
+```bash
+# Install from AUR
+yay -S bluevein-bin
+
+# Start and enable the service
+sudo systemctl enable --now bluevein
+
+# Verify it's running
+sudo systemctl status bluevein
+```
+
+#### Other Distributions (Manual Build)
+
+```bash
+# Clone and build
+git clone https://github.com/meowrch/BlueVein.git
+cd BlueVein
+cargo build --release
+
+# Install
+sudo cp target/release/bluevein /usr/bin/
+sudo cp ./systemd/bluevein.service /etc/systemd/system/
+
+# Start the service
+sudo systemctl daemon-reload
+sudo systemctl enable --now bluevein
+```
+
+### Windows Installation
+
+<Aside type="caution" title="Important">
+You must run PowerShell as Administrator for installation commands.
+</Aside>
+
+#### Using Pre-built Binary
+
+1. Download `bluevein.exe` from [GitHub Releases](https://github.com/meowrch/BlueVein/releases)
+2. Open PowerShell as Administrator
+3. Navigate to the download folder
+4. Run installation commands:
+
+```powershell
+# Install the service
+.\bluevein.exe install
+
+# Start the service
+.\bluevein.exe start
+
+# Verify installation
+Get-Service BlueVeinService
+```
+
+#### Building from Source
+
+```powershell
+# Clone and build
+git clone https://github.com/meowrch/BlueVein.git
+cd BlueVein
+cargo build --release
+cd target\release
+
+# Install and start (as Administrator)
+.\bluevein.exe install
+.\bluevein.exe start
+```
+
+## Usage
+
+After installation, BlueVein works completely automatically:
+
+1. **Pair your Bluetooth device once** in any operating system
+2. BlueVein will automatically sync the keys to EFI
+3. **Switch to another OS** - device connects automatically
+4. **No manual actions required**
+
+<Aside type="tip" title="First Time Setup">
+If you already have devices paired in both systems before installing BlueVein, you may need to re-pair them once after installation to ensure proper synchronization.
+</Aside>
+
+### Managing the Service
+
+#### Linux
+
+```bash
+# Check status
+sudo systemctl status bluevein
+
+# View logs
+sudo journalctl -u bluevein -f
+
+# Restart service
+sudo systemctl restart bluevein
+
+# Stop service
+sudo systemctl stop bluevein
+```
+
+#### Windows
+
+```powershell
+# Check status
+Get-Service BlueVeinService
+
+# Stop service
+.\bluevein.exe stop
+
+# Start service
+.\bluevein.exe start
+
+# Uninstall
+.\bluevein.exe uninstall
+```
+
+## Supported Devices
+
+BlueVein works with all types of Bluetooth devices:
+
+- Wireless headphones and earbuds (AirPods, Sony, Bose, etc.)
+- Bluetooth mice and keyboards (Logitech MX series, etc.)
+- Game controllers (Xbox, PlayStation, Nintendo)
+- Smartphones and tablets
+- Any other Bluetooth device
+
+Both Bluetooth Classic and Bluetooth Low Energy (BLE) devices are fully supported.
+
+## Troubleshooting
+
+### Service Won't Start
+
+**Linux:**
+```bash
+# Check status and errors
+sudo systemctl status bluevein
+sudo journalctl -u bluevein -n 50
+```
+
+**Windows:**
+- Ensure PowerShell is running as Administrator
+- Check Windows Event Viewer for service errors
+
+### Device Still Won't Connect
+
+1. Verify BlueVein service is running in both operating systems
+2. Check that EFI partition is accessible:
+   ```bash
+   # Linux
+   lsblk -f | grep vfat
+   ```
+3. Try re-pairing the device once after BlueVein installation
+4. Check service logs for errors
+
+### Permission Issues
+
+BlueVein requires administrator/root privileges to access Bluetooth keys and EFI partition:
+
+- **Linux:** Always use `sudo systemctl` commands
+- **Windows:** Always run PowerShell as Administrator
+
+<Aside type="tip" title="Still having issues?">
+If problems persist, check the [BlueVein GitHub Issues](https://github.com/meowrch/BlueVein/issues) or open a new issue with:
+- Your OS versions (Windows and Linux distribution)
+- BlueVein service logs
+- Device type that's not connecting
+</Aside>
+
+## Result
+
+After setting up BlueVein:
+
+- Pair Bluetooth devices only once
+- Switch between Windows and Linux freely
+- Devices connect automatically every time
+- No more manual re-pairing
+- Works with unlimited number of devices
+- Problem solved permanently
+
+## Additional Information
+
+For more details about BlueVein's architecture, technical implementation, and advanced features, visit the [official repository](https://github.com/meowrch/BlueVein).
