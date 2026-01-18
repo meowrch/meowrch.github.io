@@ -1,76 +1,58 @@
 ---
-title: "Meowrch Overview"
-description: "What is meowrch and who is this distribution for"
+title: "Welcome to meowrch Wiki 👋"
+description: "Start here — learn what meowrch is and how to use the documentation"
 ---
 
-Meowrch is a ready-to-use Arch Linux build with pre-installed and customized components for comfortable day-to-day operation.
+Meowrch is a ready-to-use Arch Linux build with a beautiful interface, thoughtful settings, and everything you need for comfortable work out of the box.
 
-:::tip[Who is it for]
-- Users who want a beautiful and functional system "out of the box"
-- Developers who value performance and ergonomic hotkeys
-- Customization enthusiasts with deep configuration possibilities  
-- Linux enthusiasts wanting to try a modern desktop environment
-:::
+## 🗺️ How to Use This Wiki
 
-## 🚀 Key Features
+The documentation is divided into four main sections:
 
-- Automatic system installation and configuration.
-- Deep system optimization at the level of <b><a src="https://cachyos.org/">CachyOS</a></b>.
-- Extensive customization capabilities and <b><a href="https://github.com/meowrch/pawlette-themes">official theme store</a></b>.
-- Hotkeys are optimized to ensure maximum productivity.
-- Support for <b><a src="https://aur.chaotic.cx/">Chaotic AUR</a></b> for faster installation of popular packages.
-- Continuous and reliable support to ensure successful project operation.
+#### [Installation](/en/installation/complete-guide/)
+Everything you need to install the system:
+- Step-by-step installation guide
+- System requirements
+- Troubleshooting installation issues
 
-## 🖥️ System Components
+**Start here** if you haven't installed meowrch yet.
 
-<table>
-	<tr>
-	    <td colspan="2" align="center">System Specifications</td>
-	</tr>
-	<tr>
-	    <th>Component</th>
-	    <th>Name</th>
-	</tr>
-	<tr>
-	    <td>OS</td>
-	    <td><a href="https://archlinux.org/">Arch Linux</a></td>
-	</tr>
-	<tr>
-	    <td>WM</td>
-	    <td><a href="https://github.com/baskerville/bspwm">BSPWM</a> | <a href="https://hyprland.org/">Hyprland</a></td>
-	</tr>
-	<tr>
-	    <td>Bar</td>
-	    <td><a href="https://github.com/polybar/polybar">Polybar</a> | <a href="https://github.com/Alexays/Waybar">Waybar</a> + <a href="https://github.com/meowrch/mewline">Mewline</a></td>
-	</tr>
-	<tr>
-	    <td>Compositor</td>
-	    <td><a href="https://github.com/yshui/picom">Picom</a> | Built-in</td>
-	</tr>
-	<tr>
-	    <td>Terminal</td>
-	    <td><a href="https://github.com/kovidgoyal/kitty">Kitty</a></td>
-	</tr>
-	<tr>
-	    <td>Widgets</td>
-	    <td><a href="https://github.com/davatorium/rofi">Rofi</a> | <a href="https://github.com/meowrch/mewline">Mewline</a></td>
-	</tr>
-	<tr>
-	    <td>Notify Daemon</td>
-	    <td><a href="https://github.com/dunst-project/dunst">Dunst</a> | <a href="https://github.com/ErikReider/SwayNotificationCenter">Swaync</a></td>
-	</tr>
-	<tr>
-	    <td>Shell</td>
-	    <td><a href="https://github.com/fish-shell/fish-shell">Fish</a> | <a href="https://www.zsh.org">Zsh</a></td>
-	</tr>
-</table>
+#### Meowrch Basics
+Learn more about meowrch's default settings. Learn how to customize the system:
+- [Basic Customization](/en/meowrch-base/customization/customization/)
+- [Default Hotkeys](/en/meowrch-base/hotkeys/meowrch-hotkeys/)
 
-## 💬 Support and Community
+#### [Usage](/en/usage/)
+Here you'll find all the basics of using a Linux system:
+- Basic commands and tools
+- Application configuration
+- [Gaming Setup and Optimization](/en/usage/gaming/base/)
+- Useful tips
 
-- **📚 Wiki** — this documentation with detailed guides
-- **🐛 Issues** — [report problems](https://github.com/meowrch/meowrch/issues)  
-- **💬 Telegram** — [news, reviews and quick support](https://t.me/meowrch)
+#### [General Optimization](/en/optimization/)
+Improve performance:
+- Performance tuning
+- Resource optimization
+- Fine-tuning the system
 
-:::note[Getting Started]
-Ready to begin? Go to the [Installation](/en/installation/complete-guide/) section for step-by-step instructions.
+---
+
+## 🚀 Quick Start
+
+**New here?** Follow this path:
+
+1. **[Install the system](/en/installation/complete-guide/)** — complete guide from download to first boot
+2. **[Learn the hotkeys](/en/meowrch-base/hotkeys/meowrch-hotkeys/)** — the foundation of efficient work
+3. **[Customize the appearance](/en/meowrch-base/customization/customization/)** — make the system yours
+
+---
+
+## 💬 Need Help?
+
+- **📚 Wiki** — you're here! Use search or navigation on the left
+- **💬 Telegram** — [quick help from the community](https://t.me/meowrch)
+- **🐛 GitHub Issues** — [report a problem](https://github.com/meowrch/meowrch/issues)
+
+:::note[Tip]
+Use search (Ctrl+K) for quick documentation lookup!
 :::
