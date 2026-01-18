@@ -42,9 +42,9 @@ export default defineConfig({
 					autogenerate: { directory: 'installation' }
 				},
 				{
-					label: 'Customization', 
-					translations: { ru: 'Кастомизация' },
-					autogenerate: { directory: 'customization' }
+					label: 'Base of Meowrch',
+					translations: { ru: 'База про meowrch' },
+					autogenerate: { directory: 'meowrch-base' }
 				},
 				{
 					label: 'Usage',
