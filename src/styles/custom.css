@@ -621,3 +621,143 @@ html {
     rgba(180, 190, 254, 0.03), 
     rgba(245, 194, 231, 0.04)) !important;
 }
+
+/* ================================================== */
+/* TABLE STYLES*/
+/* ================================================== */
+
+/* Базовые стили для таблиц */
+.sl-markdown-content table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 2rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--sl-color-gray-6);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--sl-color-gray-5);
+  table-layout: auto;
+}
+
+/* Заголовок и тело таблицы на 100% */
+.sl-markdown-content thead,
+.sl-markdown-content tbody {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+}
+
+/* Заголовок таблицы */
+.sl-markdown-content thead {
+  background: var(--sl-color-bg-nav);
+  border-bottom: 2px solid var(--sl-color-accent);
+}
+
+.sl-markdown-content thead th {
+  padding: 1rem 1.5rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--sl-color-accent-high);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--sl-color-accent);
+}
+
+.sl-markdown-content th:not([align]):not(:where(.not-content *)) {
+  text-align: center;
+}
+
+/* Первая колонка заголовка */
+.sl-markdown-content thead th:first-child {
+  border-top-left-radius: 12px;
+}
+
+/* Последняя колонка заголовка */
+.sl-markdown-content thead th:last-child {
+  border-top-right-radius: 12px;
+}
+
+/* Ячейки таблицы */
+.sl-markdown-content tbody td {
+  padding: 1rem 1.5rem;
+  color: var(--sl-color-text);
+  border-bottom: 1px solid var(--sl-color-hairline-light);
+  transition: all 0.2s ease;
+}
+
+/* Строки таблицы */
+.sl-markdown-content tbody tr {
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.sl-markdown-content tbody tr:hover {
+  background: var(--sl-color-gray-6);
+  transform: scale(1.01);
+}
+
+/* Последняя строка */
+.sl-markdown-content tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.sl-markdown-content tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+
+.sl-markdown-content tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
+}
+
+/* Чередующиеся строки для лучшей читаемости */
+.sl-markdown-content tbody tr:nth-child(even) {
+  background: var(--sl-color-gray-7);
+}
+
+/* Выравнивание текста в ячейках */
+.sl-markdown-content td:not(:first-child),
+.sl-markdown-content th:not(:first-child) {
+  text-align: center;
+}
+
+/* Код внутри таблиц */
+.sl-markdown-content table code {
+  background: var(--sl-color-gray-7);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.9em;
+  color: var(--sl-color-text-accent);
+  border: 1px solid var(--sl-color-hairline);
+}
+
+/* Ссылки внутри таблиц */
+.sl-markdown-content table a {
+  color: var(--sl-color-text-accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.sl-markdown-content table a:hover {
+  color: var(--sl-color-accent-high);
+  border-bottom-color: var(--sl-color-accent-high);
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+  .sl-markdown-content table {
+    font-size: 0.9rem;
+  }
+  
+  .sl-markdown-content thead th,
+  .sl-markdown-content tbody td {
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* ================================================== */
+/* END TABLE STYLES */
+/* ================================================== */
