@@ -253,6 +253,7 @@ export default defineConfig({
 			social: [
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/meowrch/meowrch' },
 				{ icon: 'telegram', label: 'Telegram', href: 'https://t.me/meowrch' },
+				{ icon: 'twitter', label: 'Twitter', href: 'https://x.com/me0wrch' },
 			],
 			plugins: [
 				starlightVersions({

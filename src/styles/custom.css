@@ -168,15 +168,6 @@ main > div:first-child a:hover {
   overflow: hidden;
 }
 
-.starlight-aside::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 5px;
-  height: 100%;
-}
-
 .starlight-aside:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15) !important;
@@ -185,7 +176,7 @@ main > div:first-child a:hover {
 /* Note/Info callout */
 .starlight-aside--note {
   background: linear-gradient(135deg, rgba(137, 180, 250, 0.1), rgba(116, 199, 236, 0.05)) !important;
-  border-left: 4px solid var(--ctp-blue) !important;
+  border-left: 6px solid var(--ctp-blue) !important;
 }
 
 .starlight-aside--note::before {
@@ -205,7 +196,7 @@ main > div:first-child a:hover {
 /* Tip callout */
 .starlight-aside--tip {
   background: linear-gradient(135deg, rgba(166, 227, 161, 0.1), rgba(148, 226, 213, 0.05)) !important;
-  border-left: 4px solid var(--ctp-green) !important;
+  border-left: 6px solid var(--ctp-green) !important;
 }
 
 .starlight-aside--tip::before {
@@ -241,7 +232,7 @@ main > div:first-child a:hover {
 /* Danger callout */
 .starlight-aside--danger {
   background: linear-gradient(135deg, rgba(243, 139, 168, 0.1), rgba(235, 160, 172, 0.05)) !important;
-  border-left: 4px solid var(--ctp-red) !important;
+  border-left: 6px solid var(--ctp-red) !important;
 }
 
 .starlight-aside--danger::before {
