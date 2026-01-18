@@ -1,0 +1,134 @@
+---
+title: "Time Issue in Windows and Linux"
+description: "Solving time desynchronization problem when using dual-boot configuration"
+sidebar:
+  order: 2
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+One of the most common and annoying problems when using Windows and Linux on the same computer is constant system time desynchronization.
+
+<Aside type="caution" title="Why does this happen?">
+The problem arises from **different approaches to storing time in BIOS/UEFI**:
+- **Linux** assumes that BIOS stores time in **UTC** (Coordinated Universal Time) format
+- **Windows** assumes that BIOS stores time in **local timezone**
+
+When you switch between systems, each of them adjusts the BIOS time in its own way, leading to constant desynchronization.
+</Aside>
+
+## Understanding the Problem
+
+### How Time Works in Linux
+
+Linux uses UTC as hardware time by default:
+1. System reads time from BIOS as UTC
+2. Applies timezone offset
+3. Displays local time to user
+
+**Example:** If BIOS has 12:00 UTC and you're in UTC+3 timezone, Linux will show 15:00.
+
+### How Time Works in Windows
+
+Windows uses local time directly:
+1. System reads time from BIOS as local
+2. Displays it without conversions
+3. When changing time, writes local time back to BIOS
+
+**Example:** If BIOS has 15:00, Windows will show 15:00 (without timezone consideration).
+
+### What Happens When Switching
+
+1. **Boot into Linux** → Linux reads time as UTC and adds offset
+2. **Reboot into Windows** → Windows reads the same time as local
+3. **Result:** Time in Windows is off by your timezone amount!
+
+## Solution
+
+There are two approaches to solving this:
+1. Configure Linux to use local time (not recommended)
+2. **Configure Windows to use UTC**
+
+We'll use the second approach as it's more technically correct.
+
+### Step 1: Determine System Architecture
+
+Before executing the command, you need to determine whether you have a 32-bit or 64-bit version of Windows.
+
+**How to check architecture:**
+1. Press **Win + Pause/Break**
+2. Or: **Settings → System → About**
+3. Find the **"System type"** line
+
+Most likely, you have a **64-bit** system (this is standard for modern computers).
+
+### Step 2: Execute Registry Configuration Command
+
+1. Open Command Prompt **as administrator**
+
+2. Depending on your system architecture, execute the corresponding command
+
+#### For 64-bit systems (most common):
+
+```cmd
+Reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsUniversal /t REG_QWORD /d 1
+```
+
+#### For 32-bit systems (rarely encountered):
+
+```cmd
+Reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsUniversal /t REG_DWORD /d 1
+```
+
+<Aside type="tip" title="What does this command do?">
+The command adds the `RealTimeIsUniversal` parameter to the Windows registry with value `1`, which tells the system to interpret hardware time as UTC rather than local time.
+</Aside>
+
+After executing the command, you should see the message:
+```
+The operation completed successfully.
+```
+
+### Step 4: Disable Time Synchronization Service
+
+To prevent Windows from trying to "fix" the time back, you need to disable the automatic synchronization service:
+
+```cmd
+sc config w32time start= disabled
+```
+
+<Aside type="caution" title="Important!">
+Note the space after `start=` — this is not a typo! The command should be exactly like this: `start= disabled` (with a space).
+</Aside>
+
+After execution, you'll see:
+```
+[SC] ChangeServiceConfig SUCCESS
+```
+
+## Result
+
+After completing all steps:
+
+- Time in Windows is always correct
+- Time in Linux is always correct
+- No need to manually adjust the clock
+- Problem solved forever
+
+## Reverting Changes
+
+If for some reason you need to revert everything back:
+
+### Remove registry parameter:
+
+```cmd
+Reg delete HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsUniversal /f
+```
+
+### Enable synchronization service:
+
+```cmd
+sc config w32time start= auto
+```
+
+After this, restart your computer.

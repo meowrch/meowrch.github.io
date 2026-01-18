@@ -55,6 +55,11 @@ export default defineConfig({
 					label: 'Optimization',
 					translations: { ru: 'Оптимизация' },
 					autogenerate: { directory: 'optimization' }
+				},
+				{
+					label: 'Troubleshooting',
+					translations: { ru: 'Решение проблем' },
+					autogenerate: { directory: 'troubleshooting' }
 				}
 			],
 			customCss: [

@@ -1,0 +1,98 @@
+---
+title: "Issues When Switching Between Windows and Linux"
+description: "Solving network, Bluetooth, and file system problems in dual-boot configuration"
+sidebar:
+  order: 1
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+If you have Windows and Linux installed on the same computer, you've probably encountered unpleasant issues when switching between operating systems.
+
+## Common Problems
+
+When using a dual-boot configuration, users regularly face the following problems:
+
+- **Network connection failures** — Ethernet and Wi-Fi stop working after switching from Windows to Linux
+- **Non-working Bluetooth** — Bluetooth adapter is not detected or cannot connect to devices
+- **Read-only file system** — Drives used by both systems are mounted in read-only mode and don't allow writing data
+
+<Aside type="caution" title="Why does this happen?">
+The cause of all these problems is **Windows hibernation mode**. When Windows enters hibernation mode (Fast Startup), it doesn't completely shut down but saves the system state to disk. This leads to locking of hardware devices and file systems, causing conflicts when booting Linux.
+</Aside>
+
+## Automatic Solution
+
+There is an elegant solution that automatically disables hibernation every time Windows shuts down. This ensures that on the next Linux boot, all devices will work correctly.
+
+### Step 1: Create Hibernation Disable Script
+
+Create a text file named `hibernate_off.bat` and add the following command:
+
+```batch
+powercfg -h off
+```
+
+<Aside type="tip" title="What does this command do?">
+The `powercfg -h off` command disables the hibernation file (hiberfil.sys) and Fast Startup mode, freeing all hardware resources when the computer shuts down.
+</Aside>
+
+### Step 2: Place Script in System Directory
+
+1. Open **Windows Explorer**
+2. Copy the `hibernate_off.bat` file
+3. Navigate to: `C:\Windows\System32\GroupPolicy\Machine\Scripts\Shutdown`
+4. Paste the file into this directory
+
+<Aside type="note">
+Administrator rights are required to access this folder. If the `Shutdown` folder doesn't exist, create it manually.
+</Aside>
+
+### Step 3: Configure Group Policy
+
+Now you need to configure Windows so that the script runs automatically every time the system shuts down.
+
+1. Press **Win + R**
+2. In the "Run" dialog, type: `gpedit.msc`
+3. Click **OK**
+
+![Run dialog with gpedit.msc command](https://media.geeksforgeeks.org/wp-content/uploads/20231224124334/Open-Group-Policy.jpg)
+
+### Step 4: Add Script to Shutdown Policy
+
+In the Local Group Policy Editor:
+
+1. Navigate to the following path in the left panel:
+   ```
+   Computer Configuration → Windows Settings → Scripts (Startup/Shutdown) → Shutdown
+   ```
+
+2. Double-click on **Shutdown**
+
+3. In the window that opens, click **Add**
+
+4. Click the **Browse** button
+
+5. Find and select the `hibernate_off.bat` file that you placed in the `Shutdown` folder
+
+6. Click **OK** to confirm
+
+7. Click **Apply** and then **OK** to save changes
+
+<Aside type="tip" title="Verify Configuration">
+After configuration, the `hibernate_off.bat` script should be displayed in the shutdown scripts list in the "Shutdown" window.
+</Aside>
+
+
+## Result
+
+After completing all steps:
+
+- Network connections work stably
+- Bluetooth devices connect without problems
+- File systems mount with write permissions
+- No need to manually disable hibernation every time
+
+<Aside type="caution" title="Important Note">
+Disabling hibernation will slightly increase Windows boot time (by 2-5 seconds), as the system will perform a full shutdown instead of fast startup. However, this is a small price to pay for stable dual-boot configuration.
+</Aside>
