@@ -259,7 +259,7 @@ export default defineConfig({
 				starlightVersions({
 					current: { label: '3.0' },
 					versions: [
-						{ slug: '2.0', redirect: 'root' }
+						{ slug: '2.0' }
 					],
 				}),
 				catppuccin({
