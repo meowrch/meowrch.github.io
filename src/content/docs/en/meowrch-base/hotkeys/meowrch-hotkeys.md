@@ -16,10 +16,6 @@ sidebar:
         <td>Open terminal</td>
 		<td colspan="2" align="center">super + enter</td>
     </tr>
-    <tr>
-        <td>Open file manager</td>
-		<td colspan="2" align="center">super + e</td>
-    </tr>
 	<tr>
         <td>Open application menu</td>
 		<td colspan="2" align="center">super + a</td>
@@ -72,6 +68,10 @@ sidebar:
         <td>Clipboard manager</td>
 		<td colspan="2" align="center">super + v</td>
     </tr>
+    <tr>
+        <td>Open notification history (if you are not using mewline)</td>
+		<td colspan="2" align="center">super + n</td>
+    </tr>
 	<tr>
         <td>Toggle bar</td>
 		<td colspan="2" align="center">super + b</td>
@@ -80,6 +80,10 @@ sidebar:
         <td>Switch bar to mewline/waybar</td>
 		<td>super + shift + b</td>
 		<td>N/A</td>
+    </tr>
+    <tr>
+        <td>See the cheat sheet for keyboard shortcuts</td>
+        <td colspan="2" align="center">super + /</td>
     </tr>
 </table>
 
@@ -146,9 +150,13 @@ sidebar:
         <td>Kill active window</td>
 		<td colspan="2" align="center">super + k</td>
     </tr>
-     <tr>
+    <tr>
         <td>Move window focus</td>
 		<td colspan="2" align="center">super + arrow keys</td>
+    </tr>
+    <tr>
+        <td>Switch to the last/next window</td>
+		<td colspan="2" align="center">alt + tab</td>
     </tr>
 	<tr>
         <td>Resize window</td>
@@ -166,6 +174,10 @@ sidebar:
         <th>Action</th>
         <th>Hyprland</th>
 		<th>Bspwm</th>
+    </tr>
+    <tr>
+        <td>Open file manager</td>
+		<td colspan="2" align="center">super + e</td>
     </tr>
 	<tr>
         <td>Open Firefox</td>
@@ -186,6 +198,10 @@ sidebar:
 	<tr>
         <td>Open pavucontrol</td>
 		<td colspan="2" align="center">super + shift + p</td>
+    </tr>
+    <tr>
+        <td>Open the terminal file manager (yazi)</td>
+		<td colspan="2" align="center">super + shift + y</td>
     </tr>
 </table>
 

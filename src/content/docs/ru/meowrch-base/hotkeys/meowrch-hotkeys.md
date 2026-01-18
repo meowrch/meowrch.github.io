@@ -16,10 +16,6 @@ sidebar:
         <td>Открыть терминал</td>
 		<td colspan="2" align="center">super + enter</td>
     </tr>
-    <tr>
-        <td>Открыть файловый менеджер</td>
-		<td colspan="2" align="center">super + e</td>
-    </tr>
 	<tr>
         <td>Открыть меню приложений</td>
 		<td colspan="2" align="center">super + a</td>
@@ -72,6 +68,10 @@ sidebar:
         <td>Менеджер буфера обмена</td>
 		<td colspan="2" align="center">super + v</td>
     </tr>
+    <tr>
+        <td>Открыть историю уведомлений (если не используете mewline)</td>
+		<td colspan="2" align="center">super + n</td>
+    </tr>
 	<tr>
         <td>Включить/выключить панель</td>
 		<td colspan="2" align="center">super + b</td>
@@ -80,6 +80,10 @@ sidebar:
         <td>Переключить панель на mewline/waybar</td>
 		<td>super + shift + b</td>
 		<td>N/A</td>
+    </tr>
+    <tr>
+        <td>Посмотреть шпаргалку по сочетаниям клавиш</td>
+        <td colspan="2" align="center">super + /</td>
     </tr>
 </table>
 
@@ -146,9 +150,13 @@ sidebar:
         <td>Убить активное окно</td>
 		<td colspan="2" align="center">super + k</td>
     </tr>
-     <tr>
+    <tr>
         <td>Перемещение фокуса окна</td>
 		<td colspan="2" align="center">super + arrow keys</td>
+    </tr>
+    <tr>
+        <td>Переключиться на последнее/следующее окно</td>
+		<td colspan="2" align="center">alt + tab</td>
     </tr>
 	<tr>
         <td>Изменение размера окна</td>
@@ -166,6 +174,10 @@ sidebar:
         <th>Название действия</th>
         <th>Hyprland</th>
 		<th>Bspwm</th>
+    </tr>
+    <tr>
+        <td>Открыть файловый менеджер</td>
+		<td colspan="2" align="center">super + e</td>
     </tr>
 	<tr>
         <td>Открыть Firefox</td>
@@ -186,6 +198,10 @@ sidebar:
 	<tr>
         <td>Открыть pavucontrol</td>
 		<td colspan="2" align="center">super + shift + p</td>
+    </tr>
+    <tr>
+        <td>Открыть терминальный файловый менеджер (yazi)</td>
+		<td colspan="2" align="center">super + shift + y</td>
     </tr>
 </table>
 
