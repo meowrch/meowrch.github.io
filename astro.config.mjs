@@ -38,28 +38,51 @@ export default defineConfig({
 				},
 				{
 					label: 'Installation',
+					collapsed: true,
 					translations: { ru: 'Установка' },
 					autogenerate: { directory: 'installation' }
 				},
 				{
 					label: 'Base of Meowrch',
 					translations: { ru: 'База про meowrch' },
-					autogenerate: { directory: 'meowrch-base' }
+					items: [
+						{
+							label: 'Customization',
+							collapsed: true,
+							translations: { ru: 'Кастомизация' },
+							autogenerate: { directory: 'meowrch-base/customization' }
+						},
+						{
+							label: 'Hotkeys',
+							collapsed: true,
+							translations: { ru: 'Горячие клавиши' },
+							autogenerate: { directory: 'meowrch-base/hotkeys' }
+						}
+					]
 				},
 				{
 					label: 'Usage',
+					collapsed: true,
 					translations: { ru: 'Использование' },
 					autogenerate: { directory: 'usage' }
 				},
 				{
 					label: 'Optimization',
+					collapsed: true,
 					translations: { ru: 'Оптимизация' },
 					autogenerate: { directory: 'optimization' }
 				},
 				{
 					label: 'Troubleshooting',
 					translations: { ru: 'Решение проблем' },
-					autogenerate: { directory: 'troubleshooting' }
+					items: [
+						{
+							label: 'Dualboot',
+							collapsed: true,
+							translations: { ru: 'Двойная загрузка' },
+							autogenerate: { directory: 'troubleshooting/dualboot' }
+						}
+					]
 				}
 			],
 			customCss: [
