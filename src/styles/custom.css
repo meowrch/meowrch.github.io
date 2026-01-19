@@ -108,6 +108,10 @@ site-search kbd {
   background-color: var(--sl-color-gray-5) !important;
 }
 
+.page {
+  overflow: hidden;
+  max-width: 100%;
+}
 
 /* Glassmorphism для баннера версий */
 /* Перехватываем баннер из starlight-versions */
