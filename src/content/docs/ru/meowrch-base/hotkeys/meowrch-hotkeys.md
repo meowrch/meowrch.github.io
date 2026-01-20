@@ -2,7 +2,7 @@
 title: Предустановленные горячие клавиши Meowrch
 description: List of standard hotkeys in Meowrch
 sidebar:
-    order: 2
+    order: 3
 ---
 
 ## Системные сочетания клавиш

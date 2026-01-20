@@ -1,0 +1,136 @@
+---
+title: Hotkeys Philosophy
+description: Understanding the logic and associations behind meowrch's hotkey system
+sidebar:
+  order: 2
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+When developing meowrch, we aimed to create a hotkey system that wasn't just a set of commands to memorize, but a logical and intuitive system based on associations. Our goal is to make you **understand** the key logic rather than mechanically memorizing them.
+
+## Core Principle: Super as the Foundation
+
+The **Super** key (also known as Windows/Command key) is the central key of the entire meowrch system. It's always the base for system actions and environment management.
+
+<Aside type="tip">
+**Remember:** Super is your main tool for interacting with the system. All primary actions start with it.
+</Aside>
+
+## Letter Associations: Think, Don't Memorize
+
+Each letter combined with Super is chosen deliberately — it should create a direct association with the action:
+
+### System Actions (Super + letter)
+
+- **Super + A** = **A**pps — opens application menu
+- **Super + W** = **W**allpaper — changes desktop wallpaper
+- **Super + T** = **T**heme — switches color theme
+- **Super + C** = **C**olor — color picker to identify colors on screen
+- **Super + L** = **L**ock — locks the screen
+- **Super + P** = **P**in — pins window on top of others
+- **Super + N** = **N**otifications — notification history
+- **Super + B** = **B**ar — show/hide panel
+- **Super + E** = **E**xplorer — opens file manager
+- **Super + Q** = **Q**uit — closes active window
+- **Super + K** = **K**ill — force kills window process
+- **Super + X** = e**X**it — shutdown/reboot menu
+
+<Aside type="note">
+Notice: even when the letter isn't in the first position (like X in exit), it still strongly associates with the English concept. This helps with internationalization.
+</Aside>
+
+## Modifiers: Action Levels
+
+### Super + Shift: Launch Specific Applications
+
+When you add **Shift** to Super, you move to the launch level for specific applications. Associations by first letter still apply:
+
+- **Super + Shift + F** = **F**irefox
+- **Super + Shift + C** = **C**ode (code editor)
+- **Super + Shift + T** = **T**elegram
+- **Super + Shift + O** = **O**bsidian (notes)
+- **Super + Shift + P** = **P**avucontrol (audio mixer)
+- **Super + Shift + Y** = **Y**azi (terminal file manager)
+- **Super + Shift + B** = toggle **B**ar (mewline/waybar)
+
+<Aside type="tip">
+**Simple logic:** Super performs system action, Super + Shift launches application. The letter always hints at the name.
+</Aside>
+
+### Super + Ctrl: Navigate Between Spaces
+
+When you hold **Ctrl** with Super, you manage **workspaces**:
+
+- **Super + Ctrl + ←/→** = switch between workspaces
+- **Super + Ctrl + ↓** = jump to first empty workspace
+
+**Logic:** Ctrl means "control" over the entire environment, not just a single window.
+
+### Super + Shift + Ctrl: Move Windows
+
+When you hold **all three keys** (Super + Shift + Ctrl), you get maximum control — **physical window movement** with arrow keys.
+
+**Logic:** The more modifiers, the more "heavy" and precise the action you're performing.
+
+## Arrows vs Numbers
+
+### Arrows — for Focus and Movement
+
+- **Super + ←/↑/→/↓** = move focus between windows
+- **Super + Shift + ←/↑/→/↓** = resize window
+- **Super + Shift + Ctrl + ←/↑/→/↓** = move window in space
+
+### Numbers — for Workspaces
+
+- **Super + 1-9** = switch to workspace by number
+- **Super + Shift + 1-9** = move window to workspace
+
+<Aside>
+**Why?** Arrows are directions in 2D space (windows on screen), numbers are layers in 3D (workspaces as building floors).
+</Aside>
+
+## Alt: Alternative Actions
+
+**Alt** in meowrch is used for actions that are "alternative" or "additional" to the main ones:
+
+- **Alt + Enter** = fullscreen mode (alternative to normal size)
+- **Alt + Tab** = switch between windows (classic alternative to arrow focus)
+- **Alt + Shift** = change keyboard layout (alternative language)
+
+## Special Keys: Obvious Actions
+
+Some keys are so obvious they don't require associations:
+
+- **PrintScreen** = screenshot area
+- **Super + PrintScreen** = screenshot entire screen
+- **Ctrl + Shift + Esc** = task manager (like in Windows)
+- **Super + Enter** = terminal (universal convention in tiling WMs)
+- **Super + .** = emoji picker (like Windows and macOS)
+- **Super + /** = hotkey cheatsheet (? = help)
+
+## Memory Practice
+
+Instead of rote memorization, try this approach:
+
+1. **Think about the action** — what do you want to do?
+2. **Take the first letter** — it's likely the key you need
+3. **Add the appropriate level:**
+   - Just Super = system action
+   - Super + Shift = launch application
+   - Super + Ctrl = workspace management
+   - Super + Shift + Ctrl = window movement
+
+<Aside type="caution">
+**Exception:** Some combinations differ (like Super + Space for floating mode), but there are very few, and they'll quickly become muscle memory.
+</Aside>
+
+## Customization: Follow the Philosophy
+
+When adding your own hotkeys, **follow the same philosophy**:
+
+- Use Super as the base for system actions
+- Choose letters that **associate** with the action
+- Use Shift for launching applications
+- Use Ctrl for actions affecting the entire environment
+- Don't break existing patterns — it creates cognitive dissonance

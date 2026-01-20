@@ -2,7 +2,7 @@
 title: Pre-set hotkeys Meowrch
 description: Complete guide to hotkeys in Meowrch
 sidebar:
-  order: 2
+  order: 3
 ---
 
 ## System Shortcuts
