@@ -1,0 +1,468 @@
+---
+title: How to uninstall Meowrch?
+description: How to partially or fully remove Meowrch, including SDDM/Plymouth themes, GRUB/mkinitcpio changes, and all configs created by Builder
+sidebar:
+  order: 2
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+You can uninstall Meowrch **partially**: for example, keep fonts/icons or some universal application configs, but remove boot/login themes and all “branding” parts.
+
+Below is the **most “hardcore”** scenario that removes *everything* Builder installs and configures (including SDDM and Plymouth themes, GRUB/mkinitcpio changes, systemd units, dotfiles, and scripts).
+
+<Aside type="caution" title="Important about “remove everything”">
+Meowrch installs many **base** packages (audio, networking, file manager, etc.). If you remove them blindly, your system may become inconvenient or even partially unusable.
+
+If your goal is to “remove Meowrch look & feel / environment”, it’s usually enough to remove themes, dotfiles, and meowrch-specific packages.
+</Aside>
+
+## What Builder creates
+
+According to `Builder/install.py`, Meowrch does (among other things):
+
+- Copies dotfiles from `meowrch/home/` into your `$HOME`:
+  - `~/.config/*` (Hyprland/BSPWM, kitty, rofi, waybar, etc.)
+  - `~/.local/bin/*` (scripts), `~/.local/share/*` (wallpapers, .desktop files, etc.)
+  - `~/.bashrc`, `~/.zshenv`, `~/.Xresources`, `~/.xinitrc`, `~/.face.icon`, `~/.icons/default/index.theme`
+- Installs and configures system components:
+  - **SDDM**: writes `/etc/sddm.conf`, copies the theme to `/usr/share/sddm/themes/meowrch`, sets ACL permissions for the `sddm` user
+  - **Plymouth**: copies the theme to `/usr/share/plymouth/themes/meowrch`, enables `plymouth-wait-for-animation.service`, adds `plymouth` to mkinitcpio HOOKS, tweaks GRUB parameters (if GRUB)
+  - **GRUB** (if GRUB): copies the theme to `/boot/grub/themes/meowrch` and adds `GRUB_THEME=...` to `/etc/default/grub`
+- Modifies `/etc/pacman.conf` (options, multilib) and may add repositories:
+  - `[chaotic-aur]` (if you selected Chaotic AUR)
+  - a local repo for `chwd` (path `/var/lib/meowrch/cachyos-local`)
+- Creates systemd units:
+  - system: `update-chwd-repo.{service,timer}`, `plymouth-wait-for-animation.service`
+  - user: `battery-monitor.{service,timer}`, `firefox-theme-update.{service,timer}`, `meowrch-hyprland-uwsm.service`
+- Writes installation metadata:
+  - `/usr/local/share/meowrch/users/$USER/version`
+  - `/usr/local/share/meowrch/users/$USER/.installed`
+- Creates backups of key configs next to the originals:
+  - `/etc/mkinitcpio.conf.meowrch.bak.*`
+  - `/etc/default/grub.meowrch.bak.*`
+  - `/etc/pacman.conf.meowrch.bak.*`
+  - `/etc/sddm.conf.meowrch.bak.*`
+
+---
+
+## Full removal (everything Meowrch creates)
+
+### Step 0: (Recommended) Find config backups in `/etc`
+
+If you want not just to “delete files”, but to **restore the system to the pre-Meowrch state**, use the backups.
+
+```bash
+sudo ls -1t /etc/*.meowrch.bak.*
+```
+
+---
+
+### Step 1: Disable services and timers (systemd)
+
+<Steps>
+
+1. **System services / timers**
+
+   ```bash
+   # Plymouth
+   sudo systemctl disable --now plymouth-wait-for-animation.service
+
+   # Chwd repo updater (if it was installed)
+   sudo systemctl disable --now update-chwd-repo.timer update-chwd-repo.service
+
+   # SDDM (disable this if you want to remove/replace the display manager)
+   sudo systemctl disable --now sddm.service
+
+   sudo systemctl daemon-reload
+   ```
+
+2. **User services / timers**
+
+   ```bash
+   systemctl --user disable --now battery-monitor.timer
+   systemctl --user disable --now firefox-theme-update.timer
+   systemctl --user disable --now meowrch-hyprland-uwsm.service
+
+   systemctl --user daemon-reload
+   ```
+
+</Steps>
+
+---
+
+### Step 2: Remove Meowrch system files/themes
+
+```bash
+# SDDM theme
+sudo rm -rf /usr/share/sddm/themes/meowrch
+
+# Plymouth theme + service
+sudo rm -rf /usr/share/plymouth/themes/meowrch
+sudo rm -f /etc/systemd/system/plymouth-wait-for-animation.service
+
+# GRUB theme (only relevant if you use GRUB)
+sudo rm -rf /boot/grub/themes/meowrch
+
+# Chwd local repo + updater
+sudo rm -rf /var/lib/meowrch
+sudo rm -f /usr/local/bin/update-chwd-repo
+sudo rm -f /etc/systemd/system/update-chwd-repo.service /etc/systemd/system/update-chwd-repo.timer
+
+# Meowrch installation metadata
+# (if you want to check the installation date, open .installed first)
+# sudo cat "/usr/local/share/meowrch/users/$USER/.installed"
+sudo rm -rf "/usr/local/share/meowrch/users/$USER"
+
+sudo systemctl daemon-reload
+```
+
+#### Remove ACL permissions that were granted for `sddm`
+
+`SDDMConfigurer` adds ACL so the `sddm` user can read `~/.face.icon` and “traverse” into `$HOME`.
+
+```bash
+sudo setfacl -x u:sddm "$HOME" 2>/dev/null || true
+sudo setfacl -x u:sddm "$HOME/.face.icon" 2>/dev/null || true
+```
+
+---
+
+### Step 3: Roll back changes in `/etc` (prefer using backups)
+
+#### Restore from backups
+
+Pick the **latest** backup for each file and restore it.
+
+```bash
+# Example: show the newest pacman.conf backup
+sudo ls -1t /etc/pacman.conf.meowrch.bak.* | head -n1
+
+# Example: restore (replace the path from the command above)
+sudo cp --preserve=all /etc/pacman.conf.meowrch.bak.YYYYMMDD-HHMMSS /etc/pacman.conf
+```
+
+Repeat for:
+
+- `/etc/sddm.conf`
+- `/etc/mkinitcpio.conf`
+- `/etc/default/grub`
+
+After restoring, regenerate configs:
+
+```bash
+# Apply mkinitcpio
+sudo mkinitcpio -P
+
+# Apply GRUB (if GRUB is used)
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+<Aside type="note" title="What GRUB/mkinitcpio changes Meowrch applies">
+The Plymouth configurer adds these parameters to `GRUB_CMDLINE_LINUX_DEFAULT`:
+- `quiet`
+- `loglevel=3`
+- `splash`
+- `vt.global_cursor_default=0`
+- `systemd.show_status=auto`
+- `rd.udev.log_level=3`
+
+It also adds the `plymouth` hook to `HOOKS=(...)` in `/etc/mkinitcpio.conf` (and may replace `udev` with `systemd`).
+
+The GRUB configurer adds/overwrites the line `GRUB_THEME=/boot/grub/themes/meowrch/theme.txt`.
+</Aside>
+
+#### If you don’t have a backup (manual rollback)
+
+- Remove/replace `/etc/sddm.conf` (Meowrch **overwrites** it).
+- Remove `plymouth` from `HOOKS=(...)` in `/etc/mkinitcpio.conf` and run `sudo mkinitcpio -P`.
+- Remove `GRUB_THEME=/boot/grub/themes/meowrch/theme.txt` and extra parameters from `GRUB_CMDLINE_LINUX_DEFAULT`, then run `sudo grub-mkconfig -o /boot/grub/grub.cfg`.
+- In `/etc/pacman.conf`, remove added sections `[chaotic-aur]` and `[meowrch-cachyos-local]` (if present).
+
+---
+
+### Step 4: Remove user files (dotfiles) copied by Meowrch
+
+Below is the **exact list** of items present in `meowrch/home/` that are copied into `$HOME` by the installer.
+
+<Aside type="caution" title="Be careful">
+If you’ve been using the system for a while and edited these configs manually, make a backup first (for example, `cp -a ~/.config ~/.config.bak`).
+</Aside>
+
+#### `~/.config` (directories and files)
+
+```bash
+rm -rf ~/.config/bspwm
+rm -rf ~/.config/btop
+rm -rf ~/.config/cava
+rm -rf ~/.config/Code
+rm -rf ~/.config/"Code - OSS"
+rm -rf ~/.config/dunst
+rm -rf ~/.config/fastfetch
+rm -rf ~/.config/fish
+rm -rf ~/.config/flameshot
+rm -rf ~/.config/gtk-2.0
+rm -rf ~/.config/gtk-3.0
+rm -rf ~/.config/gtk-4.0
+rm -rf ~/.config/hypr
+rm -rf ~/.config/kitty
+rm -rf ~/.config/lsd
+rm -rf ~/.config/micro
+rm -rf ~/.config/polybar
+rm -rf ~/.config/qt5ct
+rm -rf ~/.config/qt6ct
+rm -rf ~/.config/redshift
+rm -rf ~/.config/rofi
+rm -rf ~/.config/swaync
+rm -rf ~/.config/tmux
+rm -rf ~/.config/uwsm
+rm -rf ~/.config/waybar
+rm -rf ~/.config/wireplumber
+rm -rf ~/.config/xsettingsd
+rm -rf ~/.config/yazi
+rm -rf ~/.config/zsh
+
+rm -f ~/.config/mimeapps.list
+rm -f ~/.config/starship.toml
+rm -f ~/.config/user-dirs.dirs
+
+# environment.d (Meowrch adds 60-meowrch.conf)
+rm -f ~/.config/environment.d/60-meowrch.conf
+
+# systemd user units located in ~/.config/systemd/user/
+rm -f ~/.config/systemd/user/battery-monitor.service
+rm -f ~/.config/systemd/user/battery-monitor.timer
+rm -f ~/.config/systemd/user/firefox-theme-update.service
+rm -f ~/.config/systemd/user/firefox-theme-update.timer
+rm -f ~/.config/systemd/user/meowrch-hyprland-uwsm.service
+
+# If directories are empty, you can remove them too
+rmdir ~/.config/environment.d 2>/dev/null || true
+rmdir ~/.config/systemd/user 2>/dev/null || true
+rmdir ~/.config/systemd 2>/dev/null || true
+```
+
+#### `~/.local/bin` (scripts)
+
+```bash
+rm -rf ~/.local/bin/color-scripts
+rm -rf ~/.local/bin/rofi-menus
+
+rm -f ~/.local/bin/battery.sh
+rm -f ~/.local/bin/brightness.sh
+rm -f ~/.local/bin/color-picker.sh
+rm -f ~/.local/bin/do-not-disturb.sh
+rm -f ~/.local/bin/gpu-detect-profile.sh
+rm -f ~/.local/bin/kb-layout.sh
+rm -f ~/.local/bin/media.sh
+rm -f ~/.local/bin/playerinfo.sh
+rm -f ~/.local/bin/polkitkdeauth.sh
+rm -f ~/.local/bin/resetxdgportal.sh
+rm -f ~/.local/bin/screen-lock.sh
+rm -f ~/.local/bin/set-wallpaper.sh
+rm -f ~/.local/bin/switch-hypr-bar.sh
+rm -f ~/.local/bin/system-info.py
+rm -f ~/.local/bin/system-update.sh
+rm -f ~/.local/bin/toggle-bar.sh
+rm -f ~/.local/bin/toggle-hypr-sworkspace.sh
+rm -f ~/.local/bin/untar-all.sh
+rm -f ~/.local/bin/unzip-all.sh
+rm -f ~/.local/bin/uwsm-launcher.sh
+rm -f ~/.local/bin/volume.sh
+rm -f ~/.local/bin/window-close.sh
+rm -f ~/.local/bin/window-kill.sh
+rm -f ~/.local/bin/window-pin.sh
+```
+
+#### `~/.local/share` (wallpapers, .desktop, data)
+
+```bash
+rm -rf ~/.local/share/meowrch
+rm -rf ~/.local/share/wallpapers
+rm -rf ~/.local/share/nemo
+rm -rf ~/.local/share/nemo-tags
+
+rm -f ~/.local/share/applications/kitty.desktop
+rm -f ~/.local/share/applications/micro-kitty.desktop
+```
+
+#### Other files from `home/`
+
+```bash
+rm -rf ~/.gnome2
+
+rm -f ~/.bashrc
+rm -f ~/.zshenv
+rm -f ~/.face.icon
+rm -f ~/.Xresources
+rm -f ~/.xinitrc
+
+rm -f ~/.icons/default/index.theme
+```
+
+#### Additionally: caches/data that often appear in Meowrch
+
+```bash
+rm -rf ~/.cache/mewline
+rm -rf ~/.local/share/pawlette
+```
+
+---
+
+### Step 5: Remove packages
+
+Meowrch installs packages defined in `Builder/packages.py`.
+
+<details>
+<summary>Commands to remove all preinstalled packages</summary>
+
+#### BASE (pacman)
+
+**Common (always installed):**
+
+```bash
+sudo pacman -Rns base-devel git networkmanager libnotify bluez bluez-utils playerctl upower brightnessctl udiskie xdg-desktop-portal-gtk xdg-desktop-portal mkinitcpio xorg-server-xvfb gobject-introspection power-profiles-daemon gvfs-mtp android-udev pipewire-jack pipewire-alsa wireplumber python-pyalsa pavucontrol pamixer pipewire pipewire-pulse pipewire-audio sof-firmware jq fastfetch lsd bat micro sudo btop yazi starship openssh sshfs wget neovim tmux ffmpeg cliphist tree bash-completion sddm plymouth firefox kitty blueman file-roller nemo nemo-fileroller gvfs ffmpegthumbnailer imagemagick vlc loupe qt5ct qt6ct qt5-graphicaleffects qt5-svg qt5-multimedia qt5-quickcontrols2 gst-plugins-good redshift zenity polkit-gnome gnome-disk-utility rofimoji flameshot rofi qalculate-gtk ttf-hack-nerd noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-iosevka-nerd ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-fira-code
+```
+
+<Aside type="caution" title="It’s recommended not to remove base packages">
+Meowrch installs many **base** packages (audio, networking, file manager, etc.).
+If you remove them blindly, your system may become inconvenient or even partially unusable.
+</Aside>
+
+**If you selected BSPWM:**
+
+```bash
+sudo pacman -Rns xorg-server bspwm sxhkd xorg-xinit xclip feh wmname polybar xorg-xrandr xsettingsd clipnotify dunst xorg-xsetroot picom
+```
+
+**If you selected Hyprland:**
+
+```bash
+sudo pacman -Rns hyprland waybar hyprlock swww wl-clipboard xdg-desktop-portal-hyprland qt5-wayland qt6-wayland xdg-desktop-portal-wlr hypridle hyprpicker wlr-randr uwsm libnewt swaync wl-clip-persist
+```
+
+**Shell choice:**
+
+- if you selected Zsh:
+```bash
+sudo pacman -Rns zsh zsh-syntax-highlighting zsh-autosuggestions zsh-history-substring-search
+```
+
+- if you selected fish
+```bash
+sudo pacman -Rns fish
+```
+
+#### BASE (AUR)
+
+```bash
+yay -Rns meowrch-settings meowrch-tools update-grub visual-studio-code-bin nemo-tags hotkeyhub-bin bibata-cursor-theme-bin tela-circle-icon-theme-dracula pawlette cava pokemon-colorscripts ttf-meslo-nerd-font-powerlevel10k
+```
+
+**If you selected BSPWM (AUR):**
+```
+yay -Rns xkb-switch i3lock-color
+```
+
+**If you selected Hyprland (AUR):**
+```
+yay -Rns hyprprop grimblast-git mewline
+```
+</details>
+
+#### AUR/Chaotic/meowrch-specific packages (usually safe to remove)
+
+- `meowrch-settings`
+- `meowrch-tools`
+- `update-grub`
+- `pawlette`
+- `mewline`
+- `hotkeyhub-bin`
+- `nemo-tags`
+- `visual-studio-code-bin`
+- themes/icons/cursors: `bibata-cursor-theme-bin`, `tela-circle-icon-theme-dracula`
+
+You can remove all of these with one command:
+
+```bash
+yay -Rns meowrch-settings meowrch-tools update-grub pawlette mewline hotkeyhub-bin nemo-tags visual-studio-code-bin bibata-cursor-theme-bin tela-circle-icon-theme-dracula
+```
+
+If you enabled Chaotic AUR, at minimum remove:
+
+```bash
+sudo pacman -Rns chaotic-keyring chaotic-mirrorlist
+```
+
+And remove the `[chaotic-aur]` section from `/etc/pacman.conf`.
+
+Also remove the local repository `meowrch-cachyos-local` used to install the `chwd` package:
+
+```bash
+sudo pacman -Rns chwd
+# and remove the [meowrch-cachyos-local] section from /etc/pacman.conf
+```
+
+<Aside type="caution" title="Don’t remove critical packages if you’re not sure">
+Packages like `networkmanager`, `pipewire*`, `sudo`, `base-devel`, etc. may still be required.
+
+If you want to “fully wipe everything installed by Meowrch”, it’s better to rely on `/var/log/pacman.log` and the install date from `/usr/local/share/meowrch/users/$USER/.installed`.
+</Aside>
+
+---
+
+## Extra: applications Meowrch configures
+
+### VS Code (installing a theme from `.vsix`)
+
+Builder installs a theme in VS Code via `code --install-extension`.
+
+To remove the meowrch theme specifically:
+
+```bash
+code --list-extensions --show-versions | grep -i meowrch || true
+
+# then uninstall the found identifier (usually publisher.extension)
+code --uninstall-extension <publisher.extension>
+```
+
+If you also want to remove configs, delete `~/.config/Code` and `~/.config/"Code - OSS"` (see step 4).
+
+### Firefox (extensions/profile preferences)
+
+Builder downloads `.xpi` files into the Firefox profile extensions directory and edits `user.js`, and also adds a bookmark.
+
+The safest rollback is to remove extensions via the Firefox UI:
+
+- open `about:addons` → disable/remove the extensions you want;
+- remove the “Meowrch Wiki” bookmark if it appeared.
+
+If you want to remove files manually:
+
+```bash
+# Profiles may live in ~/.config/mozilla/firefox or ~/.mozilla/firefox
+ls -1 ~/.config/mozilla/firefox 2>/dev/null || true
+ls -1 ~/.mozilla/firefox 2>/dev/null || true
+```
+
+Then find the active profile (`*.default-release`) and delete the downloaded `.xpi` files from `<profile>/extensions/`.
+
+### Post-config (shell / groups / gsettings)
+
+Meowrch may:
+- change your login shell (`chsh -s /usr/bin/zsh` or `chsh -s /usr/bin/fish`);
+- add your user to the `gamemode` group (if you selected `gamemode`);
+- on Cinnamon, attempt to set `kitty` as the default terminal via `gsettings`.
+
+If you want to roll it back:
+
+```bash
+# Restore shell (example: bash)
+chsh -s /usr/bin/bash
+
+# Remove from gamemode group
+sudo gpasswd -d "$USER" gamemode 2>/dev/null || true
+
+# Reset Cinnamon default terminal (if you use Cinnamon)
+gsettings reset org.cinnamon.desktop.default-applications.terminal exec 2>/dev/null || true
+```

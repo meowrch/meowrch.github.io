@@ -37,9 +37,9 @@ export default defineConfig({
 					autogenerate: { directory: 'introduction' }
 				},
 				{
-					label: 'Installation',
+					label: 'Installation & Removal',
 					collapsed: true,
-					translations: { ru: 'Установка' },
+					translations: { ru: 'Установка & Удаление' },
 					autogenerate: { directory: 'installation' }
 				},
 				{
