@@ -1,0 +1,1094 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-hero class="astro-bguv2lll"> <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Welcome to Meowrch wiki | Meowrch Wiki</title><link rel="canonical" href="https://meowrch.github.io/en/"/><link rel="alternate" hreflang="en" href="https://meowrch.github.io/en/"/><link rel="alternate" hreflang="ru" href="https://meowrch.github.io/ru/"/><link rel="sitemap" href="/sitemap-index.xml"/><script>
+						(function() {
+							const theme = localStorage.getItem('starlight-theme') || 
+								(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+							document.documentElement.setAttribute('data-theme', theme);
+							
+							// Управляем DarkReader в зависимости от темы
+							function manageDarkReader(currentTheme) {
+								// Ищем или создаем meta тег для darkreader-lock
+								let darkReaderMeta = document.querySelector('meta[name="darkreader-lock"]');
+								if (!darkReaderMeta) {
+									darkReaderMeta = document.createElement('meta');
+									darkReaderMeta.name = 'darkreader-lock';
+									document.head.appendChild(darkReaderMeta);
+								}
+								
+								if (currentTheme === 'dark') {
+									// Темная тема - блокируем DarkReader
+									darkReaderMeta.content = '';
+									document.documentElement.setAttribute('data-darkreader-lock', '');
+								} else {
+									// Светлая тема - разрешаем DarkReader
+									darkReaderMeta.remove();
+									document.documentElement.removeAttribute('data-darkreader-lock');
+									
+									// Принудительно уведомляем DarkReader об изменениях
+									// Метод 1: Диспатчим события
+									setTimeout(() => {
+										window.dispatchEvent(new Event('resize'));
+										document.dispatchEvent(new Event('DOMContentLoaded'));
+									}, 100);
+									
+									// Метод 2: Принудительная перерисовка
+									setTimeout(() => {
+										const body = document.body;
+										body.style.display = 'none';
+										body.offsetHeight; // Принудительный reflow
+										body.style.display = '';
+									}, 200);
+								}
+								
+								// Обновляем остальные meta теги
+								const metaColorScheme = document.querySelector('meta[name="color-scheme"]');
+								if (metaColorScheme) {
+									metaColorScheme.setAttribute('content', currentTheme === 'dark' ? 'dark' : 'light');
+								}
+								
+								// Обновляем theme-color
+								const themeColors = document.querySelectorAll('meta[name="theme-color"]');
+								themeColors.forEach(meta => {
+									const media = meta.getAttribute('media');
+									if (media) {
+										if (currentTheme === 'dark' && media.includes('dark')) {
+											meta.setAttribute('content', '#1e1e2e');
+										} else if (currentTheme === 'light' && media.includes('light')) {
+											meta.setAttribute('content', '#eff1f5');
+										}
+									}
+								});
+							}
+							
+							manageDarkReader(theme);
+							
+							// Наблюдаем за изменениями темы
+							const observer = new MutationObserver(function(mutations) {
+								mutations.forEach(function(mutation) {
+									if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+										const newTheme = document.documentElement.getAttribute('data-theme');
+										manageDarkReader(newTheme);
+									}
+								});
+							});
+							
+							observer.observe(document.documentElement, {
+								attributes: true,
+								attributeFilter: ['data-theme']
+							});
+							
+							// Слушаем изменения системной темы
+							window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+								if (!localStorage.getItem('starlight-theme')) {
+									const newTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+									document.documentElement.setAttribute('data-theme', newTheme);
+									manageDarkReader(newTheme);
+								}
+							});
+						})();
+					</script><script src="/modal.js" defer></script><script src="/tilt.js" defer></script><script>
+						// Отслеживание изменений языка через Starlight
+						document.addEventListener('DOMContentLoaded', function() {
+							// Сохраняем текущий язык при загрузке страницы
+							const currentPath = window.location.pathname;
+							let currentLang = 'en'; // по умолчанию
+							
+							if (currentPath.startsWith('/ru/')) {
+								currentLang = 'ru';
+							} else if (currentPath.startsWith('/en/')) {
+								currentLang = 'en';
+							}
+							
+							// Сохраняем в localStorage
+							localStorage.setItem('meowrch-language', currentLang);
+							
+							// Отслеживаем клики по ссылкам смены языка
+							function handleLanguageLinks() {
+								const languageLinks = document.querySelectorAll('a[href*="/en/"], a[href*="/ru/"]');
+								languageLinks.forEach(link => {
+									link.addEventListener('click', function() {
+										const href = this.getAttribute('href');
+										if (href.includes('/ru/')) {
+											localStorage.setItem('meowrch-language', 'ru');
+										} else if (href.includes('/en/')) {
+											localStorage.setItem('meowrch-language', 'en');
+										}
+									});
+								});
+							}
+							
+							// Вызываем сразу и при изменениях DOM
+							handleLanguageLinks();
+							
+							// Наблюдаем за изменениями DOM для динамически добавляемых ссылок
+							const observer = new MutationObserver(function(mutations) {
+								mutations.forEach(function(mutation) {
+									if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+										handleLanguageLinks();
+									}
+								});
+							});
+							
+							observer.observe(document.body, {
+								childList: true,
+								subtree: true
+							});
+						});
+					</script><link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v5.16.11"/><meta name="generator" content="Starlight v0.35.3"/><meta property="og:title" content="Welcome to Meowrch wiki"/><meta property="og:type" content="article"/><meta property="og:url" content="https://meowrch.github.io/en/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Your guide to the world of Meowrch."/><meta property="og:site_name" content="Meowrch Wiki"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Your guide to the world of Meowrch."/><meta name="twitter:site" content="@me0wrch"/><meta property="og:image" content="https://meowrch.github.io/og-cover.png"/><meta name="color-scheme" content="light dark"/><meta name="theme-color" content="#1e1e2e" media="(prefers-color-scheme: dark)"/><meta name="theme-color" content="#eff1f5" media="(prefers-color-scheme: light)"/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.DNXP8c50.css" media="print"><link rel="stylesheet" href="/_astro/index.Dq2Dj2Sp.css">
+<style>@layer starlight.components{:root{--sl-badge-default-border: var(--sl-color-accent);--sl-badge-default-bg: var(--sl-color-accent-low);--sl-badge-default-text: #fff;--sl-badge-note-border: var(--sl-color-blue);--sl-badge-note-bg: var(--sl-color-blue-low);--sl-badge-note-text: #fff;--sl-badge-danger-border: var(--sl-color-red);--sl-badge-danger-bg: var(--sl-color-red-low);--sl-badge-danger-text: #fff;--sl-badge-success-border: var(--sl-color-green);--sl-badge-success-bg: var(--sl-color-green-low);--sl-badge-success-text: #fff;--sl-badge-caution-border: var(--sl-color-orange);--sl-badge-caution-bg: var(--sl-color-orange-low);--sl-badge-caution-text: #fff;--sl-badge-tip-border: var(--sl-color-purple);--sl-badge-tip-bg: var(--sl-color-purple-low);--sl-badge-tip-text: #fff}[data-theme=light]:root{--sl-badge-default-bg: var(--sl-color-accent-high);--sl-badge-note-bg: var(--sl-color-blue-high);--sl-badge-danger-bg: var(--sl-color-red-high);--sl-badge-success-bg: var(--sl-color-green-high);--sl-badge-caution-bg: var(--sl-color-orange-high);--sl-badge-tip-bg: var(--sl-color-purple-high)}.sl-badge:where(.astro-avdet4wd){display:inline-block;border:1px solid var(--sl-color-border-badge);border-radius:.25rem;font-family:var(--sl-font-system-mono);line-height:normal;color:var(--sl-color-text-badge);background-color:var(--sl-color-bg-badge);overflow-wrap:anywhere}.sidebar-content .sl-badge:where(.astro-avdet4wd){line-height:1;font-size:var(--sl-text-xs);padding:.125rem .375rem}.sidebar-content a[aria-current=page]>.sl-badge:where(.astro-avdet4wd){--sl-color-bg-badge: transparent;--sl-color-border-badge: currentColor;color:inherit}.default:where(.astro-avdet4wd){--sl-color-bg-badge: var(--sl-badge-default-bg);--sl-color-border-badge: var(--sl-badge-default-border);--sl-color-text-badge: var(--sl-badge-default-text)}.note:where(.astro-avdet4wd){--sl-color-bg-badge: var(--sl-badge-note-bg);--sl-color-border-badge: var(--sl-badge-note-border);--sl-color-text-badge: var(--sl-badge-note-text)}.danger:where(.astro-avdet4wd){--sl-color-bg-badge: var(--sl-badge-danger-bg);--sl-color-border-badge: var(--sl-badge-danger-border);--sl-color-text-badge: var(--sl-badge-danger-text)}.success:where(.astro-avdet4wd){--sl-color-bg-badge: var(--sl-badge-success-bg);--sl-color-border-badge: var(--sl-badge-success-border);--sl-color-text-badge: var(--sl-badge-success-text)}.tip:where(.astro-avdet4wd){--sl-color-bg-badge: var(--sl-badge-tip-bg);--sl-color-border-badge: var(--sl-badge-tip-border);--sl-color-text-badge: var(--sl-badge-tip-text)}.caution:where(.astro-avdet4wd){--sl-color-bg-badge: var(--sl-badge-caution-bg);--sl-color-border-badge: var(--sl-badge-caution-border);--sl-color-text-badge: var(--sl-badge-caution-text)}.small:where(.astro-avdet4wd){font-size:var(--sl-text-xs);padding:.125rem .25rem}.medium:where(.astro-avdet4wd){font-size:var(--sl-text-sm);padding:.175rem .35rem}.large:where(.astro-avdet4wd){font-size:var(--sl-text-base);padding:.225rem .45rem}.sl-markdown-content :is(h1,h2,h3,h4,h5,h6) .sl-badge:where(.astro-avdet4wd){vertical-align:middle}}
+@layer starlight.components{.card-grid:where(.astro-zntqmydn){display:grid;grid-template-columns:100%;gap:1rem}.card-grid:where(.astro-zntqmydn)>*{margin-top:0!important}@media (min-width: 50rem){.card-grid:where(.astro-zntqmydn){grid-template-columns:1fr 1fr;gap:1.5rem}.stagger:where(.astro-zntqmydn){--stagger-height: 5rem;padding-bottom:var(--stagger-height)}.stagger:where(.astro-zntqmydn)>*:nth-child(2n){transform:translateY(var(--stagger-height))}}}
+@layer starlight.components{svg:where(.astro-c6vsoqas){color:var(--sl-icon-color);font-size:var(--sl-icon-size, 1em);width:1em;height:1em}}
+@layer starlight.components{.sl-steps{--bullet-size: calc(var(--sl-line-height) * 1rem);--bullet-margin: .375rem;list-style:none;counter-reset:steps-counter var(--sl-steps-start, 0);padding-inline-start:0}.sl-steps>li{counter-increment:steps-counter;position:relative;padding-inline-start:calc(var(--bullet-size) + 1rem);padding-bottom:1px;min-height:calc(var(--bullet-size) + var(--bullet-margin))}.sl-steps>li+li{margin-top:0}.sl-steps>li:before{content:counter(steps-counter);position:absolute;top:0;inset-inline-start:0;width:var(--bullet-size);height:var(--bullet-size);line-height:var(--bullet-size);font-size:var(--sl-text-xs);font-weight:600;text-align:center;color:var(--sl-color-white);background-color:var(--sl-color-gray-6);border-radius:99rem;box-shadow:inset 0 0 0 1px var(--sl-color-gray-5)}.sl-steps>li:after{--guide-width: 1px;content:"";position:absolute;top:calc(var(--bullet-size) + var(--bullet-margin));bottom:var(--bullet-margin);inset-inline-start:calc((var(--bullet-size) - var(--guide-width)) / 2);width:var(--guide-width);background-color:var(--sl-color-hairline-light)}}@layer starlight.content{.sl-steps>li>:first-child{--lh: calc(1em * var(--sl-line-height));--shift-y: calc(.5 * (var(--bullet-size) - var(--lh)));transform:translateY(var(--shift-y));margin-bottom:var(--shift-y)}.sl-steps>li>:first-child:where(h1,h2,h3,h4,h5,h6){--lh: calc(1em * var(--sl-line-height-headings))}@supports (--prop: 1lh){.sl-steps>li>:first-child{--lh: 1lh}}}
+@layer starlight.components{starlight-file-tree:where(.astro-p67cqifm){--x-space: 1.5rem;--y-space: .125rem;--y-pad: 0;display:block;border:1px solid var(--sl-color-gray-5);padding:1rem;background-color:var(--sl-color-gray-6);font-size:var(--sl-text-xs);font-family:var(--__sl-font-mono);overflow-x:auto}starlight-file-tree:where(.astro-p67cqifm) .directory>details{border:0;padding:0;padding-inline-start:var(--x-space);background:transparent}starlight-file-tree:where(.astro-p67cqifm) .directory>details>summary{margin-inline-start:calc(-1 * var(--x-space));border:0;padding:var(--y-pad) .625rem;font-weight:400;color:var(--sl-color-white);max-width:100%}starlight-file-tree:where(.astro-p67cqifm) .directory>details>summary::marker,starlight-file-tree:where(.astro-p67cqifm) .directory>details>summary::-webkit-details-marker{color:var(--sl-color-gray-3)}starlight-file-tree:where(.astro-p67cqifm) .directory>details>summary:hover,starlight-file-tree:where(.astro-p67cqifm) .directory>details>summary:hover .tree-icon{cursor:pointer;color:var(--sl-color-text-accent);fill:currentColor}starlight-file-tree:where(.astro-p67cqifm) .directory>details>summary:hover~ul{border-color:var(--sl-color-gray-4)}starlight-file-tree:where(.astro-p67cqifm) .directory>details>summary:hover .highlight .tree-icon{color:var(--sl-color-text-invert);fill:currentColor}starlight-file-tree:where(.astro-p67cqifm) ul{margin-inline-start:.5rem;border-inline-start:1px solid var(--sl-color-gray-5);padding:0;padding-inline-start:.125rem;list-style:none}starlight-file-tree:where(.astro-p67cqifm)>ul{margin:0;border:0;padding:0}starlight-file-tree:where(.astro-p67cqifm) li{margin:var(--y-space) 0;padding:var(--y-pad) 0}starlight-file-tree:where(.astro-p67cqifm) .file{margin-inline-start:calc(var(--x-space) - .125rem);color:var(--sl-color-white)}starlight-file-tree:where(.astro-p67cqifm) .tree-entry{display:inline-flex;align-items:flex-start;flex-wrap:wrap;max-width:calc(100% - 1rem)}@media (min-width: 30em){starlight-file-tree:where(.astro-p67cqifm) .tree-entry{flex-wrap:nowrap}}starlight-file-tree:where(.astro-p67cqifm) .tree-entry>:first-child{flex-shrink:0}starlight-file-tree:where(.astro-p67cqifm) .empty{color:var(--sl-color-gray-3);padding-inline-start:.375rem}starlight-file-tree:where(.astro-p67cqifm) .comment{color:var(--sl-color-gray-3);padding-inline-start:1.625rem;max-width:24rem;min-width:12rem}starlight-file-tree:where(.astro-p67cqifm) .highlight{display:inline-block;border-radius:.25rem;padding-inline-end:.5rem;color:var(--sl-color-text-invert);background-color:var(--sl-color-text-accent)}starlight-file-tree:where(.astro-p67cqifm) svg{display:inline;fill:var(--sl-color-gray-3);vertical-align:middle;margin-inline:.25rem .375rem;width:.875rem;height:.875rem}starlight-file-tree:where(.astro-p67cqifm) .highlight svg.tree-icon{fill:currentColor}}
+@layer starlight.components{.sl-link-button:where(.astro-xwgiixxa){align-items:center;border:1px solid transparent;border-radius:999rem;display:inline-flex;font-size:var(--sl-text-sm);gap:.5em;line-height:1.1875;outline-offset:.25rem;padding:.4375rem 1.125rem;text-decoration:none}.sl-link-button:where(.astro-xwgiixxa).primary{background:var(--sl-color-text-accent);border-color:var(--sl-color-text-accent);color:var(--sl-color-black)}.sl-link-button:where(.astro-xwgiixxa).primary:hover{color:var(--sl-color-black)}.sl-link-button:where(.astro-xwgiixxa).secondary{border-color:inherit;color:var(--sl-color-white)}.sl-link-button:where(.astro-xwgiixxa).minimal{color:var(--sl-color-white);padding-inline:0}.sl-link-button:where(.astro-xwgiixxa) svg{flex-shrink:0}@media (min-width: 50rem){.sl-link-button:where(.astro-xwgiixxa){font-size:var(--sl-text-base);padding:.9375rem 1.25rem}}.sl-markdown-content .sl-link-button:where(.astro-xwgiixxa){margin-inline-end:1rem}.sl-markdown-content .sl-link-button:where(.astro-xwgiixxa):not(:where(p *)){margin-block:1rem}}
+</style><script type="module" src="/_astro/page.B1D-nYk3.js"></script><style>.aurora-background-wrapper:where(.astro-7aomxrbf){position:fixed!important;top:0!important;left:0!important;width:100vw!important;height:100vh!important;margin:0!important;padding:0!important;overflow:hidden;pointer-events:none;z-index:0!important}.aurora-background-inner:where(.astro-7aomxrbf){position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:150vw;height:150vh}.aurora-effect:where(.astro-7aomxrbf){position:absolute;inset:0;--white-gradient: repeating-linear-gradient(100deg, var(--white) 0%, var(--white) 6%, var(--transparent) 9%, var(--transparent) 11%, var(--white) 14%);--dark-gradient: repeating-linear-gradient(100deg, var(--black) 0%, var(--black) 6%, var(--transparent) 9%, var(--transparent) 11%, var(--black) 14%);--aurora: repeating-linear-gradient(100deg, var(--blue-500) 8%, var(--indigo-300) 12%, var(--blue-300) 16%, var(--violet-200) 20%, var(--blue-400) 24%);background-image:var(--dark-gradient),var(--aurora);background-size:200%,140%;background-position:50% 50%,50% 50%;filter:blur(10px);opacity:.25;pointer-events:none}.aurora-effect:where(.astro-7aomxrbf).show-radial{mask-image:radial-gradient(ellipse at 100% 0%,black 10%,transparent 48%);-webkit-mask-image:radial-gradient(ellipse at 100% 0%,black 10%,transparent 48%)}.aurora-effect:where(.astro-7aomxrbf):after{content:"";position:absolute;inset:-50%;background-image:var(--dark-gradient),var(--aurora);background-size:80%,60%;background-position:center;mix-blend-mode:difference;will-change:transform;animation:aurora-gpu 20s ease-in-out infinite;opacity:.6}:root[data-theme=light] .aurora-effect:where(.astro-7aomxrbf){background-image:var(--white-gradient),var(--aurora);filter:blur(10px) invert(1);opacity:.3}:root[data-theme=light] .aurora-effect:where(.astro-7aomxrbf):after{background-image:var(--white-gradient),var(--aurora)}:root:not([data-theme=light]) .aurora-effect:where(.astro-7aomxrbf){filter:blur(10px) invert(0)}@keyframes aurora-gpu{0%,to{transform:translateZ(0)}50%{transform:translate3d(-10%,-10%,0)}}
+</style><style>.donate-block:where(.astro-fnpkwvwd){margin:2.5rem 0;display:flex;flex-direction:column;gap:1rem}.section-title:where(.astro-fnpkwvwd){display:flex;align-items:center;gap:.6rem;margin:0;color:var(--ctp-text);font-size:clamp(1.75rem,1.2rem + 2.6vw,3rem);font-weight:900}.section-title:where(.astro-fnpkwvwd) .icon:where(.astro-fnpkwvwd){color:var(--ctp-text);background:transparent;padding:0;border-radius:0;font-weight:900;font-size:1em}.intro:where(.astro-fnpkwvwd){margin:0;color:var(--ctp-text);opacity:.9}.donate-card:where(.astro-fnpkwvwd){height:100%}.donate-inner:where(.astro-fnpkwvwd){height:100%!important;width:100%!important}.card:where(.astro-fnpkwvwd){border:1px solid var(--ctp-surface2);background:var(--card-background);backdrop-filter:blur(16px);padding:clamp(1rem,calc(.125rem + 3vw),2.5rem);gap:clamp(.5rem,calc(.125rem + 1vw),1rem);border-radius:.75rem;display:flex;flex-direction:column;height:100%;transition:all .3s ease}.card:where(.astro-fnpkwvwd):hover{border-color:var(--ctp-mauve);transform:translateY(-4px);background:var(--card-background-hover)}:root{--card-background: rgba(49, 50, 68, .7);--card-background-hover: rgba(49, 50, 68, .9)}:root[data-theme=light]{--card-background: #DCE0E8;--card-background-hover: #E5E9F0}.title-row:where(.astro-fnpkwvwd){display:flex;align-items:center;justify-content:space-between;gap:8px}.title:where(.astro-fnpkwvwd){color:var(--ctp-text);font-weight:700;display:flex;align-items:center;gap:.75rem;line-height:1.3;margin:0}.icon:where(.astro-fnpkwvwd){color:#fff;padding:.5rem;border-radius:.5rem;font-size:1.2em;font-weight:700;min-width:2.5rem;display:flex;align-items:center;justify-content:center}.icon:where(.astro-fnpkwvwd).package{background:linear-gradient(45deg,var(--ctp-red),var(--ctp-maroon))}.icon:where(.astro-fnpkwvwd).peach{background:linear-gradient(45deg,var(--ctp-peach),var(--ctp-yellow))}.icon:where(.astro-fnpkwvwd).mauve{background:linear-gradient(45deg,var(--ctp-mauve),var(--ctp-lavender))}.icon:where(.astro-fnpkwvwd).teal{background:linear-gradient(45deg,var(--ctp-teal),var(--ctp-green))}.icon:where(.astro-fnpkwvwd).sapphire{background:linear-gradient(45deg,var(--ctp-sapphire),var(--ctp-blue))}.coin-symbol:where(.astro-fnpkwvwd){font-weight:900;font-size:1.1rem;letter-spacing:.5px}.coin-svg:where(.astro-fnpkwvwd){display:block;color:#fff}.body:where(.astro-fnpkwvwd){display:flex;flex-direction:column;gap:10px}.addr:where(.astro-fnpkwvwd){display:block;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\"Liberation Mono\",\"Courier New\";font-size:12px;color:var(--ctp-text);font-weight:700;background:color-mix(in oklab,var(--ctp-surface0) 60%,var(--ctp-base));padding:12px;border-radius:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}@media (max-width: 425px){.addr:where(.astro-fnpkwvwd){white-space:normal;word-break:break-all}}.copy:where(.astro-fnpkwvwd){display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ctp-lavender);color:var(--ctp-crust);background:var(--ctp-lavender);padding:8px 12px;border-radius:12px;cursor:pointer;transition:transform .08s ease,box-shadow .2s ease,background .2s ease}.copy:where(.astro-fnpkwvwd).copy--small{padding:6px 10px;border-radius:10px}.copy:where(.astro-fnpkwvwd)>svg:where(.astro-fnpkwvwd){width:16px;height:16px;flex:0 0 16px;min-width:16px;min-height:16px;display:block}.copy-label:where(.astro-fnpkwvwd){font-size:12px;margin-left:6px;white-space:nowrap}.copy:where(.astro-fnpkwvwd).copied .copy-label:where(.astro-fnpkwvwd){content:"Copied"}.copy:where(.astro-fnpkwvwd):hover{box-shadow:0 6px 16px #00000040}.copy:where(.astro-fnpkwvwd):active{transform:translateY(1px)}.copy:where(.astro-fnpkwvwd).copied{background:var(--ctp-green);border-color:var(--ctp-green);color:var(--ctp-crust)}.copy-text:where(.astro-fnpkwvwd){font-family:Aldrich,sans-serif;font-size:12px}
+</style><style>.feature-card:where(.astro-lxmfzltz){height:100%}.feature-card-inner:where(.astro-lxmfzltz){height:100%!important;width:100%!important}.card:where(.astro-lxmfzltz){border:1px solid var(--ctp-surface2);background:var(--card-background);backdrop-filter:blur(16px);padding:clamp(1rem,calc(.125rem + 3vw),2.5rem);gap:clamp(.5rem,calc(.125rem + 1vw),1rem);border-radius:.75rem;display:flex;flex-direction:column;height:100%;transition:all .3s ease}.card:where(.astro-lxmfzltz):hover{border-color:var(--ctp-mauve);transform:translateY(-4px);background:var(--card-background-hover)}.title:where(.astro-lxmfzltz){color:var(--ctp-text);font-weight:700;display:flex;align-items:center;gap:.75rem;line-height:1.3;margin:0}:root{--card-background: rgba(49, 50, 68, .7);--card-background-hover: rgba(49, 50, 68, .9)}:root[data-theme=light]{--card-background: #DCE0E8;--card-background-hover: #E5E9F0}.icon:where(.astro-lxmfzltz){color:#fff;padding:.5rem;border-radius:.5rem;font-size:1.2em;font-weight:700;min-width:2.5rem;display:flex;align-items:center;justify-content:center}.icon:where(.astro-lxmfzltz).settings{background:linear-gradient(45deg,var(--ctp-mauve),var(--ctp-pink))}.icon:where(.astro-lxmfzltz).custom{background:linear-gradient(45deg,var(--ctp-peach),var(--ctp-yellow))}.icon:where(.astro-lxmfzltz).performance{background:linear-gradient(45deg,var(--ctp-blue),var(--ctp-sapphire))}.icon:where(.astro-lxmfzltz).robot{background:linear-gradient(45deg,var(--ctp-green),var(--ctp-teal))}.icon:where(.astro-lxmfzltz).package{background:linear-gradient(45deg,var(--ctp-red),var(--ctp-maroon))}.icon:where(.astro-lxmfzltz).design{background:linear-gradient(45deg,var(--ctp-lavender),var(--ctp-sky))}.icon:where(.astro-lxmfzltz).teal{background:linear-gradient(45deg,var(--ctp-teal),var(--ctp-sky))}.icon:where(.astro-lxmfzltz).blue{background:linear-gradient(45deg,var(--ctp-blue),var(--ctp-lavender))}.icon:where(.astro-lxmfzltz).mauve{background:linear-gradient(45deg,var(--ctp-mauve),var(--ctp-lavender))}.icon:where(.astro-lxmfzltz).peach{background:linear-gradient(45deg,var(--ctp-peach),var(--ctp-maroon))}.icon:where(.astro-lxmfzltz).maroon{background:linear-gradient(45deg,var(--ctp-maroon),var(--ctp-red))}.icon:where(.astro-lxmfzltz).green{background:linear-gradient(45deg,var(--ctp-green),var(--ctp-teal))}.icon:where(.astro-lxmfzltz).red{background:linear-gradient(45deg,var(--ctp-red),var(--ctp-pink))}.icon:where(.astro-lxmfzltz).sapphire{background:linear-gradient(45deg,var(--ctp-sapphire),var(--ctp-blue))}.icon:where(.astro-lxmfzltz).yellow{background:linear-gradient(45deg,var(--ctp-yellow),var(--ctp-peach))}.icon:where(.astro-lxmfzltz).default{background:linear-gradient(45deg,var(--ctp-surface1),var(--ctp-surface2))}.body:where(.astro-lxmfzltz){color:var(--ctp-subtext1);font-size:clamp(var(--sl-text-sm),calc(.5rem + 1vw),var(--sl-text-body));line-height:1.6;margin:0}
+</style><style>.premium-card:where(.astro-bfn3wzgc){height:100%}.premium-card-inner:where(.astro-bfn3wzgc){height:100%!important;width:100%!important}.card:where(.astro-bfn3wzgc){border:1px solid var(--ctp-surface2);background:var(--card-background);backdrop-filter:blur(16px);padding:clamp(1rem,calc(.125rem + 3vw),2.5rem);gap:clamp(.5rem,calc(.125rem + 1vw),1rem);border-radius:.75rem;display:flex;flex-direction:column;height:100%;transition:all .3s ease}.card:where(.astro-bfn3wzgc):hover{border-color:var(--ctp-mauve);transform:translateY(-4px);background:var(--card-background-hover)}.title:where(.astro-bfn3wzgc){color:var(--ctp-text);font-weight:700;display:flex;align-items:center;gap:.75rem;line-height:1.3;margin:0;font-size:1.2rem}:root{--card-background: rgba(49, 50, 68, .7);--card-background-hover: rgba(49, 50, 68, .9)}:root[data-theme=light]{--card-background: #DCE0E8;--card-background-hover: #E5E9F0}.icon:where(.astro-bfn3wzgc){color:#fff;padding:.5rem;border-radius:.5rem;font-size:1.2em;font-weight:700;min-width:2.5rem;display:flex;align-items:center;justify-content:center}.icon:where(.astro-bfn3wzgc).default{background:linear-gradient(45deg,var(--ctp-overlay2),var(--ctp-subtext0))}.icon:where(.astro-bfn3wzgc).settings{background:linear-gradient(45deg,var(--ctp-mauve),var(--ctp-pink))}.icon:where(.astro-bfn3wzgc).custom{background:linear-gradient(45deg,var(--ctp-peach),var(--ctp-yellow))}.icon:where(.astro-bfn3wzgc).performance{background:linear-gradient(45deg,var(--ctp-blue),var(--ctp-sapphire))}.icon:where(.astro-bfn3wzgc).robot{background:linear-gradient(45deg,var(--ctp-green),var(--ctp-teal))}.icon:where(.astro-bfn3wzgc).package{background:linear-gradient(45deg,var(--ctp-red),var(--ctp-maroon))}.icon:where(.astro-bfn3wzgc).design{background:linear-gradient(45deg,var(--ctp-lavender),var(--ctp-sky))}.icon:where(.astro-bfn3wzgc).rosewater{background:linear-gradient(45deg,var(--ctp-rosewater),var(--ctp-flamingo))}.icon:where(.astro-bfn3wzgc).flamingo{background:linear-gradient(45deg,var(--ctp-flamingo),var(--ctp-pink))}.icon:where(.astro-bfn3wzgc).pink{background:linear-gradient(45deg,var(--ctp-pink),var(--ctp-mauve))}.icon:where(.astro-bfn3wzgc).mauve{background:linear-gradient(45deg,var(--ctp-mauve),var(--ctp-lavender))}.icon:where(.astro-bfn3wzgc).red{background:linear-gradient(45deg,var(--ctp-red),var(--ctp-maroon))}.icon:where(.astro-bfn3wzgc).maroon{background:linear-gradient(45deg,var(--ctp-maroon),var(--ctp-red))}.icon:where(.astro-bfn3wzgc).peach{background:linear-gradient(45deg,var(--ctp-peach),var(--ctp-yellow))}.icon:where(.astro-bfn3wzgc).yellow{background:linear-gradient(45deg,var(--ctp-yellow),var(--ctp-peach))}.icon:where(.astro-bfn3wzgc).green{background:linear-gradient(45deg,var(--ctp-green),var(--ctp-teal))}.icon:where(.astro-bfn3wzgc).teal{background:linear-gradient(45deg,var(--ctp-teal),var(--ctp-green))}.icon:where(.astro-bfn3wzgc).sky{background:linear-gradient(45deg,var(--ctp-sky),var(--ctp-sapphire))}.icon:where(.astro-bfn3wzgc).sapphire{background:linear-gradient(45deg,var(--ctp-sapphire),var(--ctp-blue))}.icon:where(.astro-bfn3wzgc).blue{background:linear-gradient(45deg,var(--ctp-blue),var(--ctp-sky))}.icon:where(.astro-bfn3wzgc).lavender{background:linear-gradient(45deg,var(--ctp-lavender),var(--ctp-mauve))}.body:where(.astro-bfn3wzgc){color:var(--ctp-subtext1);font-size:clamp(var(--sl-text-sm),calc(.5rem + 1vw),var(--sl-text-body));line-height:1.6;margin:0;flex-grow:1;display:flex;flex-direction:column;gap:.5rem}.subtext:where(.astro-bfn3wzgc){margin-top:auto;font-size:.85em;opacity:.7}.body:where(.astro-bfn3wzgc) a{color:var(--ctp-mauve);text-decoration:none;font-weight:600;transition:color .2s}.body:where(.astro-bfn3wzgc) a:hover{color:var(--ctp-pink);text-decoration:underline}
+</style><style>.showcase-card:where(.astro-cb7d7j45){height:100%}.card:where(.astro-cb7d7j45){border:1px solid var(--ctp-surface2);background:var(--showcase-card-background);backdrop-filter:blur(16px);border-radius:.75rem;overflow:hidden;transition:all .3s ease}.card:where(.astro-cb7d7j45):hover{border-color:var(--ctp-mauve);transform:translateY(-4px);background:var(--showcase-card-background-hover)}:root{--showcase-card-background: rgba(49, 50, 68, .7);--showcase-card-background-hover: rgba(49, 50, 68, .9)}:root[data-theme=light]{--showcase-card-background: #DCE0E8;--showcase-card-background-hover: #E5E9F0}.image-container:where(.astro-cb7d7j45){position:relative;overflow:hidden;height:280px;cursor:pointer}.showcase-image:where(.astro-cb7d7j45){width:100%;height:100%;object-fit:cover;transition:transform .3s ease}.card:where(.astro-cb7d7j45):hover .showcase-image:where(.astro-cb7d7j45){transform:scale(1.05)}.image-modal:where(.astro-cb7d7j45){display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:var(--modal-background);backdrop-filter:blur(10px)}:root{--modal-background: rgba(17, 17, 27, .95)}:root[data-theme=light]{--modal-background: rgba(255, 255, 255, .95)}.modal-image:where(.astro-cb7d7j45){margin:120px auto 80px;display:block;width:90%;max-width:1200px;max-height:calc(100vh - 200px);object-fit:contain;border-radius:12px}.modal-close:where(.astro-cb7d7j45){position:absolute;top:80px;right:calc(5% + 20px);color:var(--ctp-text);font-size:40px;font-weight:700;transition:.3s;cursor:pointer;z-index:1001}.modal-close:where(.astro-cb7d7j45):hover,.modal-close:where(.astro-cb7d7j45):focus{color:var(--ctp-mauve)}.modal-caption:where(.astro-cb7d7j45){margin:auto;display:block;width:80%;max-width:700px;text-align:center;color:var(--ctp-subtext1);padding:10px 0;height:50px}
+</style><style>.terminal-wrapper:where(.astro-v5fu5hyu){margin:2rem 0;border-radius:.75rem;position:relative}
+</style><style>.video-card:where(.astro-g6m6frnh){margin-bottom:2rem;border-radius:1rem;overflow:hidden;border:1px solid var(--ctp-surface2);transition:transform .3s ease,box-shadow .3s ease}.video-card:where(.astro-g6m6frnh):hover{transform:translateY(-5px);box-shadow:0 8px 30px #0006;border-color:var(--ctp-mauve)}.card-link:where(.astro-g6m6frnh){display:block;text-decoration:none}.image-container:where(.astro-g6m6frnh){position:relative;width:100%;aspect-ratio:16/9}.video-image:where(.astro-g6m6frnh){width:100%;height:100%;object-fit:cover}.play-overlay:where(.astro-g6m6frnh){position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center}.play-icon:where(.astro-g6m6frnh){color:#fff;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));transition:transform .3s cubic-bezier(.175,.885,.32,1.275)}.video-card:where(.astro-g6m6frnh):hover .play-icon:where(.astro-g6m6frnh){transform:scale(1.2);color:red}
+</style><link rel="stylesheet" href="/_astro/ReviewsSection_astro_astro_type_style_index_0_lang.BNiRJeVZ.css"></head> <body class="astro-bguv2lll"> <a href="#_top" class="astro-7q3lir66">Skip to content</a>  <div class="page sl-flex astro-vrdttmbt"> <header class="header astro-vrdttmbt"><div class="header astro-kmkmnagf"> <div class="title-wrapper sl-flex astro-kmkmnagf"> <a href="/en/" class="site-title sl-flex astro-m46x6ez3">  <img class="astro-m46x6ez3" alt src="/_astro/logo.C6WJX5mK.png" width="1000" height="1000">  <span class="sr-only astro-m46x6ez3" translate="no"> Meowrch Wiki </span> </a>  </div> <div class="sl-flex print:hidden astro-kmkmnagf"> <site-search class=" astro-os2q3ane" data-pagefind-filter="version:current" data-translations="{&#34;placeholder&#34;:&#34;Search&#34;}" data-version="current"> <button data-open-modal disabled class="astro-os2q3ane"> <svg aria-hidden="true" class="astro-os2q3ane astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg> <span class="sl-hidden md:sl-block astro-os2q3ane" aria-hidden="true">Search</span> <kbd class="sl-hidden md:sl-flex astro-os2q3ane" style="display: none;"> <kbd class="astro-os2q3ane">Ctrl</kbd><kbd class="astro-os2q3ane">K</kbd> </kbd> </button> <dialog style="padding:0" aria-label="Search" class="astro-os2q3ane"> <div class="dialog-frame sl-flex astro-os2q3ane"> <button data-close-modal class="sl-flex md:sl-hidden astro-os2q3ane"> Cancel </button> <div class="search-container astro-os2q3ane"> <div id="starlight__search" class="astro-os2q3ane">  </div> </div> </div> </dialog> </site-search>  <script>
+  ;(() => {
+    const openBtn = document.querySelector('button[data-open-modal]')
+    const shortcut = openBtn?.querySelector('kbd')
+    if (!openBtn || !(shortcut instanceof HTMLElement)) return
+    const platformKey = shortcut.querySelector('kbd')
+    if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+      platformKey.textContent = '⌘'
+      openBtn.setAttribute('aria-keyshortcuts', 'Meta+K')
+    }
+    shortcut.style.display = ''
+  })()
+</script> <script type="module" src="/_astro/VersionSearch.astro_astro_type_script_index_0_lang.D1ooT5qh.js"></script>   </div> <div class="sl-hidden md:sl-flex print:hidden right-group astro-kmkmnagf"> <div class="sl-flex social-icons astro-kmkmnagf"> <a href="https://github.com/meowrch/meowrch" rel="me" class="sl-flex astro-wy4te6ga"><span class="sr-only astro-wy4te6ga">GitHub</span><svg aria-hidden="true" class="astro-wy4te6ga astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a><a href="https://t.me/meowrch" rel="me" class="sl-flex astro-wy4te6ga"><span class="sr-only astro-wy4te6ga">Telegram</span><svg aria-hidden="true" class="astro-wy4te6ga astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M22.265 2.428a2.048 2.048 0 0 0-2.078-.324L2.266 9.339a2.043 2.043 0 0 0 .104 3.818l3.625 1.261 2.02 6.682a.998.998 0 0 0 .119.252c.008.012.019.02.027.033a.988.988 0 0 0 .211.215.972.972 0 0 0 .07.05.986.986 0 0 0 .31.136l.013.001.006.003a1.022 1.022 0 0 0 .203.02l.018-.003a.993.993 0 0 0 .301-.052c.023-.008.042-.02.064-.03a.993.993 0 0 0 .205-.114 250.76 250.76 0 0 1 .152-.129l2.702-2.983 4.03 3.122a2.023 2.023 0 0 0 1.241.427 2.054 2.054 0 0 0 2.008-1.633l3.263-16.017a2.03 2.03 0 0 0-.693-1.97ZM9.37 14.736a.994.994 0 0 0-.272.506l-.31 1.504-.784-2.593 4.065-2.117Zm8.302 5.304-4.763-3.69a1.001 1.001 0 0 0-1.353.12l-.866.955.306-1.487 7.083-7.083a1 1 0 0 0-1.169-1.593L6.745 12.554 3.02 11.191 20.999 4Z"/></svg></a><a href="https://x.com/me0wrch" rel="me" class="sl-flex astro-wy4te6ga"><span class="sr-only astro-wy4te6ga">Twitter</span><svg aria-hidden="true" class="astro-wy4te6ga astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M24 4.4a10 10 0 0 1-2.83.78 5.05 5.05 0 0 0 2.17-2.79 9.7 9.7 0 0 1-3.13 1.23 4.89 4.89 0 0 0-5.94-1.03 5 5 0 0 0-2.17 2.38 5.15 5.15 0 0 0-.3 3.25c-1.95-.1-3.86-.63-5.61-1.53a14.04 14.04 0 0 1-4.52-3.74 5.2 5.2 0 0 0-.09 4.91c.39.74.94 1.35 1.61 1.82a4.77 4.77 0 0 1-2.23-.63v.06c0 1.16.4 2.29 1.12 3.18a4.9 4.9 0 0 0 2.84 1.74c-.73.22-1.5.26-2.24.12a4.89 4.89 0 0 0 4.59 3.49A9.78 9.78 0 0 1 0 19.73 13.65 13.65 0 0 0 7.55 22a13.63 13.63 0 0 0 9.96-4.16A14.26 14.26 0 0 0 21.6 7.65V7c.94-.72 1.75-1.6 2.4-2.6Z"/></svg></a> </div> <starlight-version-select class="astro-qctxnyr5"> <label class="astro-qctxnyr5"> <span class="sr-only astro-qctxnyr5">Select version</span> <svg aria-hidden="true" class="icon label-icon astro-qctxnyr5 astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M11.328 0.198L11.328 0.198L12.924 0.198Q13.260 0.240 13.848 0.303Q14.436 0.366 14.772 0.450L14.772 0.450Q17.124 1.038 19.098 2.424L19.098 2.424Q20.694 3.642 21.576 5.028L21.576 5.028Q23.298 7.296 23.676 10.278L23.676 10.278Q23.676 10.404 23.739 10.698Q23.802 10.992 23.802 11.202L23.802 11.202L23.802 12.924Q23.760 13.176 23.697 13.659Q23.634 14.142 23.550 14.352L23.550 14.352Q22.920 16.914 21.597 18.804Q20.274 20.694 18.048 22.122L18.048 22.122Q16.788 22.794 15.822 23.130L15.822 23.130Q14.604 23.592 13.428 23.676L13.428 23.676Q13.302 23.676 13.050 23.739Q12.798 23.802 12.672 23.802L12.672 23.802L10.950 23.802Q10.698 23.760 10.215 23.697Q9.732 23.634 9.522 23.550L9.522 23.550Q6.960 22.920 5.070 21.597Q3.180 20.274 1.752 18.048L1.752 18.048Q1.080 16.788 0.744 15.822L0.744 15.822Q0.282 14.604 0.198 13.428L0.198 13.428Q0.282 13.344 0.240 13.071Q0.198 12.798 0.198 12.672L0.198 12.672L0.198 11.076Q0.240 10.740 0.303 10.152Q0.366 9.564 0.450 9.228L0.450 9.228Q1.038 6.876 2.424 4.902L2.424 4.902Q3.642 3.138 5.952 1.752L5.952 1.752Q8.052 0.492 10.278 0.324L10.278 0.324Q10.488 0.324 10.824 0.261Q11.160 0.198 11.328 0.198ZM2.172 12.252L2.172 12.252Q2.214 14.898 3.579 17.124Q4.944 19.350 7.212 20.673Q9.480 21.996 12.168 21.975Q14.856 21.954 17.145 20.589Q19.434 19.224 20.736 16.872Q22.038 14.520 21.996 11.748L21.996 11.748Q21.912 9.144 20.526 6.918Q19.140 4.692 16.872 3.432L16.872 3.432Q14.478 2.088 11.748 2.172L11.748 2.172Q9.144 2.214 6.918 3.558Q4.692 4.902 3.432 7.170L3.432 7.170Q2.088 9.522 2.172 12.252ZM12.546 11.958L12.546 12Q12.672 11.874 12.987 11.685Q13.302 11.496 13.428 11.328L13.428 11.328Q15.822 9.774 16.872 8.976L16.872 8.976L16.998 8.892Q17.124 8.808 17.124 8.724L17.124 8.724Q17.292 8.514 17.565 8.577Q17.838 8.640 18.027 8.829Q18.216 9.018 18.174 9.291Q18.132 9.564 17.922 9.774L17.922 9.774L15.780 11.244Q14.352 12.210 13.722 12.798L13.722 12.798L12.252 13.848Q11.958 14.016 11.643 13.890Q11.328 13.764 11.328 13.428L11.328 13.428L11.328 4.902Q11.328 4.272 11.874 4.272L11.874 4.272Q12.084 4.146 12.315 4.314Q12.546 4.482 12.546 4.776L12.546 4.776L12.546 12L12.546 11.958Z"/></svg> <select value="current" autocomplete="off" class="astro-qctxnyr5"> <option selected value="/en/" class="astro-qctxnyr5">3.0</option> <option value="/en/2.0/" class="astro-qctxnyr5"> 2.0 </option> </select> <svg aria-hidden="true" class="icon caret-icon astro-qctxnyr5 astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label> </starlight-version-select>  <script type="module">customElements.define("starlight-version-select",class extends HTMLElement{constructor(){super();const e=this.querySelector("select");e&&(e?.addEventListener("change",t=>{t.currentTarget instanceof HTMLSelectElement&&(globalThis.location.pathname=t.currentTarget.value)}),window.addEventListener("pageshow",t=>{if(!t.persisted)return;const n=e.querySelector("option[selected]")?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}});</script> <starlight-theme-select>  <label style="--sl-select-width: 6.25em" class="astro-4yphtoen"> <span class="sr-only astro-4yphtoen">Select theme</span> <svg aria-hidden="true" class="icon label-icon astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg> <select autocomplete="off" class="astro-4yphtoen"> <option value="dark" class="astro-4yphtoen">Dark</option><option value="light" class="astro-4yphtoen">Light</option><option value="auto" selected class="astro-4yphtoen">Auto</option> </select> <svg aria-hidden="true" class="icon caret astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label>  </starlight-theme-select>  <script>
+	StarlightThemeProvider.updatePickers();
+</script> <script type="module">const r="starlight-theme",o=e=>e==="auto"||e==="dark"||e==="light"?e:"auto",c=()=>o(typeof localStorage<"u"&&localStorage.getItem(r));function n(e){typeof localStorage<"u"&&localStorage.setItem(r,e==="light"||e==="dark"?e:"")}const l=()=>matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";function t(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e==="auto"?l():e,n(e)}matchMedia("(prefers-color-scheme: light)").addEventListener("change",()=>{c()==="auto"&&t("auto")});class s extends HTMLElement{constructor(){super(),t(c()),this.querySelector("select")?.addEventListener("change",a=>{a.currentTarget instanceof HTMLSelectElement&&t(o(a.currentTarget.value))})}}customElements.define("starlight-theme-select",s);</script> <starlight-lang-select><label style="--sl-select-width: 7em" class="astro-4yphtoen"> <span class="sr-only astro-4yphtoen">Select language</span> <svg aria-hidden="true" class="icon label-icon astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg> <select autocomplete="off" class="astro-4yphtoen"> <option value="/en/" selected class="astro-4yphtoen">English</option><option value="/ru/" class="astro-4yphtoen">Русский</option> </select> <svg aria-hidden="true" class="icon caret astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label> </starlight-lang-select><script type="module">class s extends HTMLElement{constructor(){super();const e=this.querySelector("select");e&&(e.addEventListener("change",t=>{t.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=t.currentTarget.value)}),window.addEventListener("pageshow",t=>{if(!t.persisted)return;const n=e.querySelector("option[selected]")?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}}customElements.define("starlight-lang-select",s);</script> </div> </div> </header>  <div class="main-frame astro-vrdttmbt">  <script type="module">const a=document.getElementById("starlight__sidebar"),n=a?.querySelector("sl-sidebar-state-persist"),o="sl-sidebar-state",i=()=>{let t=[];const e=n?.dataset.hash||"";try{const s=sessionStorage.getItem(o),r=JSON.parse(s||"{}");Array.isArray(r.open)&&r.hash===e&&(t=r.open)}catch{}return{hash:e,open:t,scroll:a?.scrollTop||0}},c=t=>{try{sessionStorage.setItem(o,JSON.stringify(t))}catch{}},d=()=>c(i()),l=(t,e)=>{const s=i();s.open[e]=t,c(s)};n?.addEventListener("click",t=>{if(!(t.target instanceof Element))return;const e=t.target.closest("summary")?.closest("details");if(!e)return;const s=e.querySelector("sl-sidebar-restore"),r=parseInt(s?.dataset.index||"");isNaN(r)||l(!e.open,r)});addEventListener("visibilitychange",()=>{document.visibilityState==="hidden"&&d()});addEventListener("pageHide",d);</script> <div class="lg:sl-flex astro-67yu43on">  <div class="main-pane astro-67yu43on">  <main data-pagefind-body class="astro-bguv2lll" lang="en" dir="ltr">    <div class="content-panel astro-7nkwcw3z"> <div class="sl-container astro-7nkwcw3z"> <div class="hero astro-jbfsktt5"> <img src="/_astro/logo.C6WJX5mK_AKtWJ.webp" loading="eager" decoding="async" alt fetchpriority="auto" width="400" height="400" class="astro-jbfsktt5">   <div class="sl-flex stack astro-jbfsktt5"> <div class="sl-flex copy astro-jbfsktt5"> <h1 id="_top" data-page-title class="astro-jbfsktt5"><b>Welcome to<br>Meowrch Wiki</b></h1> <div class="tagline astro-jbfsktt5"><b>Beautiful dots for Arch hyprland and bspwm</b></div> </div> <div class="sl-flex actions astro-jbfsktt5"> <a class="sl-link-button not-content primary astro-jbfsktt5 astro-xwgiixxa" href="/en/introduction/overview/">  Wiki <svg aria-hidden="true" class="astro-xwgiixxa astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M21.17 2.06A13.1 13.1 0 0 0 19 1.87a12.94 12.94 0 0 0-7 2.05 12.94 12.94 0 0 0-7-2 13.1 13.1 0 0 0-2.17.19 1 1 0 0 0-.83 1v12a1 1 0 0 0 1.17 1 10.9 10.9 0 0 1 8.25 1.91l.12.07h.11a.91.91 0 0 0 .7 0h.11l.12-.07A10.899 10.899 0 0 1 20.83 16 1 1 0 0 0 22 15V3a1 1 0 0 0-.83-.94ZM11 15.35a12.87 12.87 0 0 0-6-1.48H4v-10c.333-.02.667-.02 1 0a10.86 10.86 0 0 1 6 1.8v9.68Zm9-1.44h-1a12.87 12.87 0 0 0-6 1.48V5.67a10.86 10.86 0 0 1 6-1.8c.333-.02.667-.02 1 0v10.04Zm1.17 4.15a13.098 13.098 0 0 0-2.17-.19 12.94 12.94 0 0 0-7 2.05 12.94 12.94 0 0 0-7-2.05c-.727.003-1.453.066-2.17.19A1 1 0 0 0 2 19.21a1 1 0 0 0 1.17.79 10.9 10.9 0 0 1 8.25 1.91 1 1 0 0 0 1.16 0A10.9 10.9 0 0 1 20.83 20a1 1 0 0 0 1.17-.79 1 1 0 0 0-.83-1.15Z"/></svg> </a> <a class="sl-link-button not-content secondary astro-jbfsktt5 astro-xwgiixxa" href="https://t.me/meowrch">  Community <svg aria-hidden="true" class="astro-xwgiixxa astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M22.265 2.428a2.048 2.048 0 0 0-2.078-.324L2.266 9.339a2.043 2.043 0 0 0 .104 3.818l3.625 1.261 2.02 6.682a.998.998 0 0 0 .119.252c.008.012.019.02.027.033a.988.988 0 0 0 .211.215.972.972 0 0 0 .07.05.986.986 0 0 0 .31.136l.013.001.006.003a1.022 1.022 0 0 0 .203.02l.018-.003a.993.993 0 0 0 .301-.052c.023-.008.042-.02.064-.03a.993.993 0 0 0 .205-.114 250.76 250.76 0 0 1 .152-.129l2.702-2.983 4.03 3.122a2.023 2.023 0 0 0 1.241.427 2.054 2.054 0 0 0 2.008-1.633l3.263-16.017a2.03 2.03 0 0 0-.693-1.97ZM9.37 14.736a.994.994 0 0 0-.272.506l-.31 1.504-.784-2.593 4.065-2.117Zm8.302 5.304-4.763-3.69a1.001 1.001 0 0 0-1.353.12l-.866.955.306-1.487 7.083-7.083a1 1 0 0 0-1.169-1.593L6.745 12.554 3.02 11.191 20.999 4Z"/></svg> </a>  </div> </div> </div>  <div class="sl-markdown-content"> <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("aurora-portal");e&&document.body.appendChild(e)});</script><!-- Задаем уникальный ID, чтобы скрипт мог легко найти элемент --><div id="aurora-portal" class="aurora-background-wrapper astro-7aomxrbf"> <div class="aurora-background-inner astro-7aomxrbf"> <div class="aurora-effect show-radial astro-7aomxrbf"></div> </div> </div>  
+<div style="margin-top: 4rem; margin-bottom: 3rem;"><h1 id="why-another-rice" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;"><svg aria-hidden="true" class=" astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 22H5a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3h1a4 4 0 0 1 7.3-2.18c.448.64.692 1.4.7 2.18h3a1 1 0 0 1 1 1v3a4 4 0 0 1 2.18 7.3A3.86 3.86 0 0 1 18 18v3a1 1 0 0 1-1 1ZM5 8a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11v-3.18a1 1 0 0 1 1.33-.95 1.77 1.77 0 0 0 1.74-.23 2 2 0 0 0 .93-1.37 2 2 0 0 0-.48-1.59 1.89 1.89 0 0 0-2.17-.55 1 1 0 0 1-1.33-.95V8h-3.2a1 1 0 0 1-1-1.33 1.77 1.77 0 0 0-.23-1.74 1.939 1.939 0 0 0-3-.43A2 2 0 0 0 8 6c.002.23.046.456.13.67A1 1 0 0 1 7.18 8H5Z"/></svg><p>Why Another Rice?</p></h1></div>
+<aside aria-label="The Problem with Ready-Made Rice Configs" class="starlight-aside starlight-aside--note"><p class="starlight-aside__title" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" class="starlight-aside__icon"><path d="M12 11C11.7348 11 11.4804 11.1054 11.2929 11.2929C11.1054 11.4804 11 11.7348 11 12V16C11 16.2652 11.1054 16.5196 11.2929 16.7071C11.4804 16.8946 11.7348 17 12 17C12.2652 17 12.5196 16.8946 12.7071 16.7071C12.8946 16.5196 13 16.2652 13 16V12C13 11.7348 12.8946 11.4804 12.7071 11.2929C12.5196 11.1054 12.2652 11 12 11ZM12.38 7.08C12.1365 6.97998 11.8635 6.97998 11.62 7.08C11.4973 7.12759 11.3851 7.19896 11.29 7.29C11.2017 7.3872 11.1306 7.49882 11.08 7.62C11.024 7.73868 10.9966 7.86882 11 8C10.9992 8.13161 11.0245 8.26207 11.0742 8.38391C11.124 8.50574 11.1973 8.61656 11.29 8.71C11.3872 8.79833 11.4988 8.86936 11.62 8.92C11.7715 8.98224 11.936 9.00632 12.099 8.99011C12.2619 8.97391 12.4184 8.91792 12.5547 8.82707C12.691 8.73622 12.8029 8.61328 12.8805 8.46907C12.9582 8.32486 12.9992 8.16378 13 8C12.9963 7.73523 12.8927 7.48163 12.71 7.29C12.6149 7.19896 12.5028 7.12759 12.38 7.08ZM12 2C10.0222 2 8.08879 2.58649 6.4443 3.6853C4.79981 4.78412 3.51809 6.3459 2.76121 8.17317C2.00433 10.0004 1.8063 12.0111 2.19215 13.9509C2.578 15.8907 3.53041 17.6725 4.92894 19.0711C6.32746 20.4696 8.10929 21.422 10.0491 21.8079C11.9889 22.1937 13.9996 21.9957 15.8268 21.2388C17.6541 20.4819 19.2159 19.2002 20.3147 17.5557C21.4135 15.9112 22 13.9778 22 12C22 10.6868 21.7413 9.38642 21.2388 8.17317C20.7363 6.95991 19.9997 5.85752 19.0711 4.92893C18.1425 4.00035 17.0401 3.26375 15.8268 2.7612C14.6136 2.25866 13.3132 2 12 2ZM12 20C10.4178 20 8.87104 19.5308 7.55544 18.6518C6.23985 17.7727 5.21447 16.5233 4.60897 15.0615C4.00347 13.5997 3.84504 11.9911 4.15372 10.4393C4.4624 8.88743 5.22433 7.46197 6.34315 6.34315C7.46197 5.22433 8.88743 4.4624 10.4393 4.15372C11.9911 3.84504 13.5997 4.00346 15.0615 4.60896C16.5233 5.21447 17.7727 6.23984 18.6518 7.55544C19.5308 8.87103 20 10.4177 20 12C20 14.1217 19.1572 16.1566 17.6569 17.6569C16.1566 19.1571 14.1217 20 12 20Z"></path></svg>The Problem with Ready-Made Rice Configs</p><div class="starlight-aside__content"><p><strong>Most ready-made rice setups for Arch solve only one problem:</strong></p><ul>
+<li>Either <strong>beauty</strong>, but the system eats RAM.</li>
+<li>Or <strong>performance</strong>, but the UI looks ugly.</li>
+<li>Or <strong>functionality</strong>, but the code turns into “spaghetti” that you can’t fix yourself.</li>
+</ul></div></aside>
+<div style="margin-top: 4rem; margin-bottom: 2rem;"><h2 id="meowrch-is-different-approach" style="font-family: 'Roboto', sans-serif; font-weight: 900; color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem;"><svg aria-hidden="true" class=" astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5Zm3 15a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10Z"/><path d="M15.293 6.707a1 1 0 1 1 1.414 1.414l-8.485 8.486a1 1 0 0 1-1.414-1.415l8.485-8.485Z"/></svg><p style="margin: 0;">Meowrch is a different approach</p></h2></div>
+<p>We don’t sacrifice one for the other. Instead, we create a system where each component is chosen based on the principle of <strong>“maximum results with minimum resources”</strong>.</p>
+<p><strong>But most importantly</strong> — we don’t limit ourselves to beautiful configs.</p>
+<div class="card-grid astro-zntqmydn"><div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon mauve astro-bfn3wzgc"><iconify-icon icon="mdi:tag-multiple" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Nemo Tags</span> </h4> <div class="body astro-bfn3wzgc"> <p><strong>For 10+ years the community requested a tagging system for Nemo.</strong></p><p>Developers ignored it. We made it.</p><p style="margin-top: 0.75rem; color: var(--ctp-green);">Now file organization like in macOS Finder is available to everyone.</p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon blue astro-bfn3wzgc"><iconify-icon icon="mdi:bluetooth" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">BlueVein</span> </h4> <div class="body astro-bfn3wzgc"> <p><strong>Dual-boot Windows/Linux = Bluetooth hell.</strong></p><p>Switched OS? Reconnect your mouse, keyboard, headphones. <strong>Every. Single. Time.</strong></p><p style="margin-top: 0.75rem; color: var(--ctp-green);">We solved this agonizing problem.</p>  </div> </article> </div> </div> </div> 
+<aside aria-label="Open-source Ecosystem" class="starlight-aside starlight-aside--tip"><p class="starlight-aside__title" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" class="starlight-aside__icon"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.43909 8.85483L1.44039 8.85354L4.96668 5.33815C5.30653 4.99386 5.7685 4.79662 6.2524 4.78972L6.26553 4.78963L12.9014 4.78962L13.8479 3.84308C16.9187 0.772319 20.0546 0.770617 21.4678 0.975145C21.8617 1.02914 22.2271 1.21053 22.5083 1.4917C22.7894 1.77284 22.9708 2.13821 23.0248 2.53199C23.2294 3.94517 23.2278 7.08119 20.1569 10.1521L19.2107 11.0983V17.7338L19.2106 17.7469C19.2037 18.2308 19.0067 18.6933 18.6624 19.0331L15.1456 22.5608C14.9095 22.7966 14.6137 22.964 14.29 23.0449C13.9663 23.1259 13.6267 23.1174 13.3074 23.0204C12.9881 22.9235 12.7011 22.7417 12.4771 22.4944C12.2533 22.2473 12.1006 21.9441 12.0355 21.6171L11.1783 17.3417L6.65869 12.822L4.34847 12.3589L2.38351 11.965C2.05664 11.8998 1.75272 11.747 1.50564 11.5232C1.25835 11.2992 1.07653 11.0122 0.979561 10.6929C0.882595 10.3736 0.874125 10.034 0.955057 9.7103C1.03599 9.38659 1.20328 9.09092 1.43909 8.85483ZM6.8186 10.8724L2.94619 10.096L6.32006 6.73268H10.9583L6.8186 10.8724ZM15.2219 5.21703C17.681 2.75787 20.0783 2.75376 21.1124 2.8876C21.2462 3.92172 21.2421 6.31895 18.783 8.77812L12.0728 15.4883L8.51172 11.9272L15.2219 5.21703ZM13.9042 21.0538L13.1279 17.1811L17.2676 13.0414V17.68L13.9042 21.0538Z"></path><path d="M9.31827 18.3446C9.45046 17.8529 9.17864 17.3369 8.68945 17.1724C8.56178 17.1294 8.43145 17.1145 8.30512 17.1243C8.10513 17.1398 7.91519 17.2172 7.76181 17.3434C7.62613 17.455 7.51905 17.6048 7.45893 17.7835C6.97634 19.2186 5.77062 19.9878 4.52406 20.4029C4.08525 20.549 3.6605 20.644 3.29471 20.7053C3.35607 20.3395 3.45098 19.9148 3.59711 19.476C4.01221 18.2294 4.78141 17.0237 6.21648 16.5411C6.39528 16.481 6.54504 16.3739 6.65665 16.2382C6.85126 16.0016 6.92988 15.678 6.84417 15.3647C6.83922 15.3466 6.83373 15.3286 6.82767 15.3106C6.74106 15.053 6.55701 14.8557 6.33037 14.7459C6.10949 14.6389 5.84816 14.615 5.59715 14.6994C5.47743 14.7397 5.36103 14.7831 5.24786 14.8294C3.22626 15.6569 2.2347 17.4173 1.75357 18.8621C1.49662 19.6337 1.36993 20.3554 1.30679 20.8818C1.27505 21.1464 1.25893 21.3654 1.25072 21.5213C1.24662 21.5993 1.24448 21.6618 1.24337 21.7066L1.243 21.7226L1.24235 21.7605L1.2422 21.7771L1.24217 21.7827L1.24217 21.7856C1.24217 22.3221 1.67703 22.7579 2.2137 22.7579L2.2155 22.7579L2.22337 22.7578L2.23956 22.7577C2.25293 22.7575 2.27096 22.7572 2.29338 22.7567C2.33821 22.7555 2.40073 22.7534 2.47876 22.7493C2.63466 22.7411 2.85361 22.725 3.11822 22.6932C3.64462 22.6301 4.36636 22.5034 5.13797 22.2464C6.58274 21.7653 8.3431 20.7738 9.17063 18.7522C9.21696 18.639 9.26037 18.5226 9.30064 18.4029C9.30716 18.3835 9.31304 18.364 9.31827 18.3446Z"></path></svg>Open-source Ecosystem</p><div class="starlight-aside__content"><p><strong>All our tools are open-source</strong> and work not only in Meowrch.</p><p>We develop an ecosystem <strong>for the entire Linux community</strong>, not just “making it pretty for ourselves”.</p></div></aside>
+<div style="margin-top: 4rem; margin-bottom: 3rem;"><h1 id="why-meowrch" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;"><svg aria-hidden="true" class=" astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M22 9.67a1 1 0 0 0-.86-.67l-5.69-.83L12.9 3a1 1 0 0 0-1.8 0L8.55 8.16 2.86 9a1 1 0 0 0-.81.68 1 1 0 0 0 .25 1l4.13 4-1 5.68a1 1 0 0 0 1.45 1.07L12 18.76l5.1 2.68c.14.08.3.12.46.12a1 1 0 0 0 .99-1.19l-1-5.68 4.13-4A1 1 0 0 0 22 9.67Zm-6.15 4a1 1 0 0 0-.29.89l.72 4.19-3.76-2a1 1 0 0 0-.94 0l-3.76 2 .72-4.19a1 1 0 0 0-.29-.89l-3-3 4.21-.61a1 1 0 0 0 .76-.55L12 5.7l1.88 3.82a1 1 0 0 0 .76.55l4.21.61-3 2.99Z"/></svg><p>Why Meowrch?</p></h1></div>
+<div class="card-grid stagger astro-zntqmydn"><div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon performance astro-lxmfzltz"><iconify-icon icon="line-md:speed-twotone" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">Optimization</span> </h4> <div class="body astro-lxmfzltz"> The system has the best optimizations from ARU and CachyOS. Performance on par with CachyOS. </div> </article> </div> </div> <div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon custom astro-lxmfzltz"><iconify-icon icon="mdi:color" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">Theme Store</span> </h4> <div class="body astro-lxmfzltz"> Change the entire system&#39;s appearance with one command via our community theme store. </div> </article> </div> </div> <div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon robot astro-lxmfzltz"><iconify-icon icon="ph:code-fill" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">Open Source</span> </h4> <div class="body astro-lxmfzltz"> We support Linux development by creating our own components useful to the global Linux community. </div> </article> </div> </div> <div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon settings astro-lxmfzltz"><iconify-icon icon="mdi:auto-fix" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">Automation</span> </h4> <div class="body astro-lxmfzltz"> Installation in 10 minutes, full setup and optimization — without manual config editing. </div> </article> </div> </div> <div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon design astro-lxmfzltz"><iconify-icon icon="streamline-ultimate:laptop-smiley-1" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">Ergonomics</span> </h4> <div class="body astro-lxmfzltz"> Hotkeys designed down to the smallest detail — work faster. </div> </article> </div> </div> <div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon package astro-lxmfzltz"><iconify-icon icon="fluent:dual-screen-status-bar-24-filled" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">Two Environments</span> </h4> <div class="body astro-lxmfzltz"> BSPWM (X11) or Hyprland (Wayland) — stability or modernity. </div> </article> </div> </div> </div> 
+<div style="margin-top: 4rem; margin-bottom: 3rem;"><h1 id="visual-presentation" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;"><svg aria-hidden="true" class=" astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M23.5 6.2A3 3 0 0 0 21.4 4c-1.9-.5-9.4-.5-9.4-.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.3C0 8 0 12 0 12s0 4 .5 5.8A3 3 0 0 0 2.6 20c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2c.5-2 .5-5.9.5-5.9s0-4-.5-5.8zm-14 9.4V8.4l6.3 3.6-6.3 3.6z"/></svg><p>Visual Presentation</p></h1></div>
+<div class="video-card astro-g6m6frnh"> <a href="https://youtu.be/ZZnBopmVzz4" target="_blank" rel="noopener noreferrer" class="card-link astro-g6m6frnh"> <div class="image-container astro-g6m6frnh"> <img src="/_astro/video-preview-youtube.fjejtQK5.png" alt="Meowrch Video Preview" class="video-image astro-g6m6frnh"> <div class="play-overlay astro-g6m6frnh"> <svg aria-hidden="true" class="play-icon astro-g6m6frnh astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 4rem;"><path d="M23.5 6.2A3 3 0 0 0 21.4 4c-1.9-.5-9.4-.5-9.4-.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.3C0 8 0 12 0 12s0 4 .5 5.8A3 3 0 0 0 2.6 20c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2c.5-2 .5-5.9.5-5.9s0-4-.5-5.8zm-14 9.4V8.4l6.3 3.6-6.3 3.6z"/></svg> </div> </div> </a> </div> 
+<div class="card-grid astro-zntqmydn"><div class="showcase-card astro-cb7d7j45"> <article class="card astro-cb7d7j45"> <div class="image-container astro-cb7d7j45" onclick="openModal(this)"> <img src="/_astro/1.CJD8gtkA.png" alt="Basic applications and widgets" class="showcase-image astro-cb7d7j45" data-full-src="/_astro/1.CJD8gtkA.png"> </div> </article> </div> <!-- Modal для полноразмерного просмотра --> <div id="image-modal" class="image-modal astro-cb7d7j45" onclick="closeModal()"> <span class="modal-close astro-cb7d7j45">&times;</span> <img class="modal-image astro-cb7d7j45" id="modal-img"> <div class="modal-caption astro-cb7d7j45" id="modal-caption"></div> </div> <div class="showcase-card astro-cb7d7j45"> <article class="card astro-cb7d7j45"> <div class="image-container astro-cb7d7j45" onclick="openModal(this)"> <img src="/_astro/2.DN0YffV5.png" alt="Music visualization" class="showcase-image astro-cb7d7j45" data-full-src="/_astro/2.DN0YffV5.png"> </div> </article> </div> <!-- Modal для полноразмерного просмотра --> <div id="image-modal" class="image-modal astro-cb7d7j45" onclick="closeModal()"> <span class="modal-close astro-cb7d7j45">&times;</span> <img class="modal-image astro-cb7d7j45" id="modal-img"> <div class="modal-caption astro-cb7d7j45" id="modal-caption"></div> </div> <div class="showcase-card astro-cb7d7j45"> <article class="card astro-cb7d7j45"> <div class="image-container astro-cb7d7j45" onclick="openModal(this)"> <img src="/_astro/3.CjkzECa-.png" alt="Adobe software" class="showcase-image astro-cb7d7j45" data-full-src="/_astro/3.CjkzECa-.png"> </div> </article> </div> <!-- Modal для полноразмерного просмотра --> <div id="image-modal" class="image-modal astro-cb7d7j45" onclick="closeModal()"> <span class="modal-close astro-cb7d7j45">&times;</span> <img class="modal-image astro-cb7d7j45" id="modal-img"> <div class="modal-caption astro-cb7d7j45" id="modal-caption"></div> </div> <div class="showcase-card astro-cb7d7j45"> <article class="card astro-cb7d7j45"> <div class="image-container astro-cb7d7j45" onclick="openModal(this)"> <img src="/_astro/4.rd7l91_h.png" alt="Gaming" class="showcase-image astro-cb7d7j45" data-full-src="/_astro/4.rd7l91_h.png"> </div> </article> </div> <!-- Modal для полноразмерного просмотра --> <div id="image-modal" class="image-modal astro-cb7d7j45" onclick="closeModal()"> <span class="modal-close astro-cb7d7j45">&times;</span> <img class="modal-image astro-cb7d7j45" id="modal-img"> <div class="modal-caption astro-cb7d7j45" id="modal-caption"></div> </div> <div class="showcase-card astro-cb7d7j45"> <article class="card astro-cb7d7j45"> <div class="image-container astro-cb7d7j45" onclick="openModal(this)"> <img src="/_astro/5.NR7s2fx8.png" alt="VSCode workflow" class="showcase-image astro-cb7d7j45" data-full-src="/_astro/5.NR7s2fx8.png"> </div> </article> </div> <!-- Modal для полноразмерного просмотра --> <div id="image-modal" class="image-modal astro-cb7d7j45" onclick="closeModal()"> <span class="modal-close astro-cb7d7j45">&times;</span> <img class="modal-image astro-cb7d7j45" id="modal-img"> <div class="modal-caption astro-cb7d7j45" id="modal-caption"></div> </div> <div class="showcase-card astro-cb7d7j45"> <article class="card astro-cb7d7j45"> <div class="image-container astro-cb7d7j45" onclick="openModal(this)"> <img src="/_astro/6.BRPfrPrS.png" alt="Dynamic Island" class="showcase-image astro-cb7d7j45" data-full-src="/_astro/6.BRPfrPrS.png"> </div> </article> </div> <!-- Modal для полноразмерного просмотра --> <div id="image-modal" class="image-modal astro-cb7d7j45" onclick="closeModal()"> <span class="modal-close astro-cb7d7j45">&times;</span> <img class="modal-image astro-cb7d7j45" id="modal-img"> <div class="modal-caption astro-cb7d7j45" id="modal-caption"></div> </div> </div> 
+<div style="margin-top: 4rem; margin-bottom: 3rem;"><h1 id="mewline" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;"><svg aria-hidden="true" class=" astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M1.44 8.855v-.001l3.527-3.516c.34-.344.802-.541 1.285-.548h6.649l.947-.947c3.07-3.07 6.207-3.072 7.62-2.868a1.821 1.821 0 0 1 1.557 1.557c.204 1.413.203 4.55-2.868 7.62l-.946.946v6.649a1.845 1.845 0 0 1-.549 1.286l-3.516 3.528a1.844 1.844 0 0 1-3.11-.944l-.858-4.275-4.52-4.52-2.31-.463-1.964-.394A1.847 1.847 0 0 1 .98 10.693a1.843 1.843 0 0 1 .46-1.838Zm5.379 2.017-3.873-.776L6.32 6.733h4.638l-4.14 4.14Zm8.403-5.655c2.459-2.46 4.856-2.463 5.89-2.33.134 1.035.13 3.432-2.329 5.891l-6.71 6.71-3.561-3.56 6.71-6.711Zm-1.318 15.837-.776-3.873 4.14-4.14v4.639l-3.364 3.374Z" clip-rule="evenodd"/><path d="M9.318 18.345a.972.972 0 0 0-1.86-.561c-.482 1.435-1.687 2.204-2.934 2.619a8.22 8.22 0 0 1-1.23.302c.062-.365.157-.79.303-1.229.415-1.247 1.184-2.452 2.62-2.935a.971.971 0 1 0-.62-1.842c-.12.04-.236.084-.35.13-2.02.828-3.012 2.588-3.493 4.033a10.383 10.383 0 0 0-.51 2.845l-.001.016v.063c0 .536.434.972.97.972H2.24a7.21 7.21 0 0 0 .878-.065c.527-.063 1.248-.19 2.02-.447 1.445-.48 3.205-1.472 4.033-3.494a5.828 5.828 0 0 0 .147-.407Z"/></svg><p>Mewline — Dynamic island for Linux</p></h1></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="compact-interface-maximum-information">Compact interface, maximum information</h3><a class="sl-anchor-link" href="#compact-interface-maximum-information"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “Compact interface, maximum information”</span></a></div>
+<div class="card-grid stagger astro-zntqmydn"><div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon teal astro-lxmfzltz"><iconify-icon icon="mdi:application-outline" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">System Tray</span> </h4> <div class="body astro-lxmfzltz"> All your background applications </div> </article> </div> </div> <div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon blue astro-lxmfzltz"><iconify-icon icon="mdi:view-dashboard" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">Workspaces</span> </h4> <div class="body astro-lxmfzltz"> Quick switching between desktops </div> </article> </div> </div> <div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon mauve astro-lxmfzltz"><iconify-icon icon="mdi:calendar-clock" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">Date & Time</span> </h4> <div class="body astro-lxmfzltz"> Always visible </div> </article> </div> </div> <div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon peach astro-lxmfzltz"><iconify-icon icon="mdi:brightness-6" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">Brightness</span> </h4> <div class="body astro-lxmfzltz"> Screen brightness control </div> </article> </div> </div> <div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon maroon astro-lxmfzltz"><iconify-icon icon="mdi:volume-high" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">Volume</span> </h4> <div class="body astro-lxmfzltz"> Sound control </div> </article> </div> </div> <div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon green astro-lxmfzltz"><iconify-icon icon="mdi:battery" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">Battery</span> </h4> <div class="body astro-lxmfzltz"> Charge and charging status </div> </article> </div> </div> <div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon red astro-lxmfzltz"><iconify-icon icon="mdi:power" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">Power</span> </h4> <div class="body astro-lxmfzltz"> Power management menu </div> </article> </div> </div> <div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon sapphire astro-lxmfzltz"><iconify-icon icon="mdi:text-recognition" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">OCR</span> </h4> <div class="body astro-lxmfzltz"> Text recognition from screen </div> </article> </div> </div> </div> 
+<div class="sl-heading-wrapper level-h4"><h4 id="interactive-system-control-center">Interactive system control center</h4><a class="sl-anchor-link" href="#interactive-system-control-center"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “Interactive system control center”</span></a></div>
+<br>
+<br>
+<div class="card-grid astro-zntqmydn"><div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon mauve astro-bfn3wzgc"><iconify-icon icon="mdi:music-note" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Compact Mode</span> </h4> <div class="body astro-bfn3wzgc"> <p>Information about active window and playing music</p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon blue astro-bfn3wzgc"><iconify-icon icon="mdi:calendar" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Information Menu</span> </h4> <div class="body astro-bfn3wzgc"> <p>Calendar and notification history<br/>
+<code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+D</code></p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon peach astro-bfn3wzgc"><iconify-icon icon="mdi:rocket-launch" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">App Launcher</span> </h4> <div class="body astro-bfn3wzgc"> <p>Application launcher<br/>
+<code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+A</code></p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon teal astro-bfn3wzgc"><iconify-icon icon="mdi:image-multiple" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Wallpapers</span> </h4> <div class="body astro-bfn3wzgc"> <p>Wallpaper change with preview<br/>
+<code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+W</code></p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon yellow astro-bfn3wzgc"><iconify-icon icon="mdi:emoticon-outline" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Emoji Picker</span> </h4> <div class="body astro-bfn3wzgc"> <p>Emoji selection<br/>
+<code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+.</code></p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon sapphire astro-bfn3wzgc"><iconify-icon icon="mdi:content-copy" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Clipboard</span> </h4> <div class="body astro-bfn3wzgc"> <p>Clipboard history<br/>
+<code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+V</code></p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon green astro-bfn3wzgc"><iconify-icon icon="mdi:wifi" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Network Manager</span> </h4> <div class="body astro-bfn3wzgc"> <p>Wi-Fi and Ethernet<br/>
+<code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+N</code></p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon maroon astro-bfn3wzgc"><iconify-icon icon="mdi:monitor-multiple" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Workspaces</span> </h4> <div class="body astro-bfn3wzgc"> <p>Windows and workspaces manager<br/>
+<code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+Tab</code></p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon blue astro-bfn3wzgc"><iconify-icon icon="mdi:bluetooth" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Bluetooth</span> </h4> <div class="body astro-bfn3wzgc"> <p>Device management<br/>
+<code style="font-size: 0.9em; color: var(--ctp-flamingo);">Super+Alt+B</code></p>  </div> </article> </div> </div> </div> 
+<aside aria-label="All in One Utility" class="starlight-aside starlight-aside--tip"><p class="starlight-aside__title" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" class="starlight-aside__icon"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.43909 8.85483L1.44039 8.85354L4.96668 5.33815C5.30653 4.99386 5.7685 4.79662 6.2524 4.78972L6.26553 4.78963L12.9014 4.78962L13.8479 3.84308C16.9187 0.772319 20.0546 0.770617 21.4678 0.975145C21.8617 1.02914 22.2271 1.21053 22.5083 1.4917C22.7894 1.77284 22.9708 2.13821 23.0248 2.53199C23.2294 3.94517 23.2278 7.08119 20.1569 10.1521L19.2107 11.0983V17.7338L19.2106 17.7469C19.2037 18.2308 19.0067 18.6933 18.6624 19.0331L15.1456 22.5608C14.9095 22.7966 14.6137 22.964 14.29 23.0449C13.9663 23.1259 13.6267 23.1174 13.3074 23.0204C12.9881 22.9235 12.7011 22.7417 12.4771 22.4944C12.2533 22.2473 12.1006 21.9441 12.0355 21.6171L11.1783 17.3417L6.65869 12.822L4.34847 12.3589L2.38351 11.965C2.05664 11.8998 1.75272 11.747 1.50564 11.5232C1.25835 11.2992 1.07653 11.0122 0.979561 10.6929C0.882595 10.3736 0.874125 10.034 0.955057 9.7103C1.03599 9.38659 1.20328 9.09092 1.43909 8.85483ZM6.8186 10.8724L2.94619 10.096L6.32006 6.73268H10.9583L6.8186 10.8724ZM15.2219 5.21703C17.681 2.75787 20.0783 2.75376 21.1124 2.8876C21.2462 3.92172 21.2421 6.31895 18.783 8.77812L12.0728 15.4883L8.51172 11.9272L15.2219 5.21703ZM13.9042 21.0538L13.1279 17.1811L17.2676 13.0414V17.68L13.9042 21.0538Z"></path><path d="M9.31827 18.3446C9.45046 17.8529 9.17864 17.3369 8.68945 17.1724C8.56178 17.1294 8.43145 17.1145 8.30512 17.1243C8.10513 17.1398 7.91519 17.2172 7.76181 17.3434C7.62613 17.455 7.51905 17.6048 7.45893 17.7835C6.97634 19.2186 5.77062 19.9878 4.52406 20.4029C4.08525 20.549 3.6605 20.644 3.29471 20.7053C3.35607 20.3395 3.45098 19.9148 3.59711 19.476C4.01221 18.2294 4.78141 17.0237 6.21648 16.5411C6.39528 16.481 6.54504 16.3739 6.65665 16.2382C6.85126 16.0016 6.92988 15.678 6.84417 15.3647C6.83922 15.3466 6.83373 15.3286 6.82767 15.3106C6.74106 15.053 6.55701 14.8557 6.33037 14.7459C6.10949 14.6389 5.84816 14.615 5.59715 14.6994C5.47743 14.7397 5.36103 14.7831 5.24786 14.8294C3.22626 15.6569 2.2347 17.4173 1.75357 18.8621C1.49662 19.6337 1.36993 20.3554 1.30679 20.8818C1.27505 21.1464 1.25893 21.3654 1.25072 21.5213C1.24662 21.5993 1.24448 21.6618 1.24337 21.7066L1.243 21.7226L1.24235 21.7605L1.2422 21.7771L1.24217 21.7827L1.24217 21.7856C1.24217 22.3221 1.67703 22.7579 2.2137 22.7579L2.2155 22.7579L2.22337 22.7578L2.23956 22.7577C2.25293 22.7575 2.27096 22.7572 2.29338 22.7567C2.33821 22.7555 2.40073 22.7534 2.47876 22.7493C2.63466 22.7411 2.85361 22.725 3.11822 22.6932C3.64462 22.6301 4.36636 22.5034 5.13797 22.2464C6.58274 21.7653 8.3431 20.7738 9.17063 18.7522C9.21696 18.639 9.26037 18.5226 9.30064 18.4029C9.30716 18.3835 9.31304 18.364 9.31827 18.3446Z"></path></svg>All in One Utility</p><div class="starlight-aside__content"><p><strong>Yes-yes. All this is in one utility.</strong></p><p>Instead of configuring Rofi + Waybar + Dunst + wlogout + network-manager-applet + clipboard manager — <strong>one installation command</strong>.</p><p><strong><a href="https://github.com/meowrch/mewline">📖 Full Mewline documentation</a></strong> • <strong><a href="https://github.com/meowrch/mewline/issues">🐛 Report an issue</a></strong></p></div></aside>
+<div style="margin-top: 4rem; margin-bottom: 3rem;"><h1 id="installation" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;"><svg aria-hidden="true" class=" astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M8.29 13.29a1 1 0 0 0 0 1.42l3 3a1 1 0 0 0 1.42 0l3-3a1 1 0 0 0-1.42-1.42L13 14.59V3a1 1 0 0 0-2 0v11.59l-1.29-1.3a1 1 0 0 0-1.42 0ZM18 9h-2a1 1 0 0 0 0 2h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h2a1 1 0 0 0 0-2H6a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-7a3 3 0 0 0-3-3Z"/></svg><p>Installation</p></h1></div>
+<aside aria-label="Warning" class="starlight-aside starlight-aside--caution"><p class="starlight-aside__title" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" class="starlight-aside__icon"><path d="M12 16C11.8022 16 11.6089 16.0587 11.4444 16.1686C11.28 16.2784 11.1518 16.4346 11.0761 16.6173C11.0004 16.8001 10.9806 17.0011 11.0192 17.1951C11.0578 17.3891 11.153 17.5673 11.2929 17.7071C11.4327 17.847 11.6109 17.9422 11.8049 17.9808C11.9989 18.0194 12.2 17.9996 12.3827 17.9239C12.5654 17.8482 12.7216 17.72 12.8315 17.5556C12.9413 17.3911 13 17.1978 13 17C13 16.7348 12.8946 16.4805 12.7071 16.2929C12.5196 16.1054 12.2652 16 12 16ZM22.67 17.47L14.62 3.47003C14.3598 3.00354 13.9798 2.61498 13.5192 2.3445C13.0586 2.07401 12.5341 1.9314 12 1.9314C11.4659 1.9314 10.9414 2.07401 10.4808 2.3445C10.0202 2.61498 9.64019 3.00354 9.38 3.47003L1.38 17.47C1.11079 17.924 0.966141 18.441 0.960643 18.9688C0.955144 19.4966 1.089 20.0166 1.34868 20.4761C1.60837 20.9356 1.9847 21.3185 2.43968 21.5861C2.89466 21.8536 3.41218 21.9964 3.94 22H20.06C20.5921 22.0053 21.1159 21.8689 21.5779 21.6049C22.0399 21.341 22.4234 20.9589 22.689 20.4978C22.9546 20.0368 23.0928 19.5134 23.0895 18.9814C23.0862 18.4493 22.9414 17.9277 22.67 17.47ZM20.94 19.47C20.8523 19.626 20.7245 19.7556 20.5697 19.8453C20.4149 19.935 20.2389 19.9815 20.06 19.98H3.94C3.76111 19.9815 3.5851 19.935 3.43032 19.8453C3.27553 19.7556 3.14765 19.626 3.06 19.47C2.97223 19.318 2.92602 19.1456 2.92602 18.97C2.92602 18.7945 2.97223 18.622 3.06 18.47L11.06 4.47003C11.1439 4.30623 11.2714 4.16876 11.4284 4.07277C11.5855 3.97678 11.766 3.92599 11.95 3.92599C12.134 3.92599 12.3145 3.97678 12.4716 4.07277C12.6286 4.16876 12.7561 4.30623 12.84 4.47003L20.89 18.47C20.9892 18.6199 21.0462 18.7937 21.055 18.9732C21.0638 19.1527 21.0241 19.3312 20.94 19.49V19.47ZM12 8.00003C11.7348 8.00003 11.4804 8.10538 11.2929 8.29292C11.1054 8.48046 11 8.73481 11 9.00003V13C11 13.2652 11.1054 13.5196 11.2929 13.7071C11.4804 13.8947 11.7348 14 12 14C12.2652 14 12.5196 13.8947 12.7071 13.7071C12.8946 13.5196 13 13.2652 13 13V9.00003C13 8.73481 12.8946 8.48046 12.7071 8.29292C12.5196 8.10538 12.2652 8.00003 12 8.00003Z"></path></svg>Warning</p><div class="starlight-aside__content"><p>The installer is designed for <strong>clean Arch Linux</strong>.
+If you already have a configured system, the installation <strong>will overwrite</strong> configurations.
+For testing, create a new user.</p></div></aside>
+<div class="terminal-wrapper astro-v5fu5hyu"> <div class="terminal-content astro-v5fu5hyu"> <div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.v4551.css"><script type="module" src="/_astro/ec.p1z7b.js"></script><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># 1. Clone the repository</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">git</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">clone</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">https://github.com/meowrch/meowrch</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--depth</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--single-branch</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">cd</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">meowrch</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># 2. Run the installer</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">sh</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">install.sh</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># 3. Reboot</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">reboot</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="git clone https://github.com/meowrch/meowrch --depth 1 --single-branchcd meowrchsh install.shreboot"><div></div></button></div></figure></div> </div> </div> 
+<div style="margin-top: 4rem; margin-bottom: 3rem;"><h1 id="components" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;"><svg aria-hidden="true" class=" astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3.71 16.29a1 1 0 0 0-.33-.21 1 1 0 0 0-.76 0 1 1 0 0 0-.33.21 1 1 0 0 0-.21.33 1 1 0 0 0 .21 1.09c.097.088.209.16.33.21a.94.94 0 0 0 .76 0 1.15 1.15 0 0 0 .33-.21 1 1 0 0 0 .21-1.09 1 1 0 0 0-.21-.33ZM7 8h14a1 1 0 1 0 0-2H7a1 1 0 0 0 0 2Zm-3.29 3.29a1 1 0 0 0-1.09-.21 1.15 1.15 0 0 0-.33.21 1 1 0 0 0-.21.33.94.94 0 0 0 0 .76c.05.121.122.233.21.33.097.088.209.16.33.21a.94.94 0 0 0 .76 0 1.15 1.15 0 0 0 .33-.21 1.15 1.15 0 0 0 .21-.33.94.94 0 0 0 0-.76 1 1 0 0 0-.21-.33ZM21 11H7a1 1 0 0 0 0 2h14a1 1 0 0 0 0-2ZM3.71 6.29a1 1 0 0 0-.33-.21 1 1 0 0 0-1.09.21 1.15 1.15 0 0 0-.21.33.94.94 0 0 0 0 .76c.05.121.122.233.21.33.097.088.209.16.33.21a1 1 0 0 0 1.09-.21 1.15 1.15 0 0 0 .21-.33.94.94 0 0 0 0-.76 1.15 1.15 0 0 0-.21-.33ZM21 16H7a1 1 0 0 0 0 2h14a1 1 0 0 0 0-2Z"/></svg><p>What do you get?</p></h1></div>
+<div class="card-grid astro-zntqmydn"><div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon maroon astro-bfn3wzgc"><iconify-icon icon="bi:pc" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Base OS</span> </h4> <div class="body astro-bfn3wzgc"> <p><a href="https://archlinux.org/">Arch Linux</a> + <a href="/en/optimization/performance-advantages/">aggressive optimization</a></p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon mauve astro-bfn3wzgc"><iconify-icon icon="bi:window-stack" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Window Managers</span> </h4> <div class="body astro-bfn3wzgc"> <p><a href="https://github.com/baskerville/bspwm">BSPWM</a> (X11) | <a href="https://hyprland.org/">Hyprland</a> (Wayland)</p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon blue astro-bfn3wzgc"><iconify-icon icon="lets-icons:status-list" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Panels</span> </h4> <div class="body astro-bfn3wzgc"> <p><a href="https://github.com/polybar/polybar">Polybar</a> | <a href="https://github.com/Alexays/Waybar">Waybar</a> | <a href="https://github.com/meowrch/mewline">Mewline</a></p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon peach astro-bfn3wzgc"><iconify-icon icon="material-symbols:palette" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Customization</span> </h4> <div class="body astro-bfn3wzgc"> <p><a href="https://github.com/meowrch/pawlette">Pawlette</a> with pre-installed Catppuccin Mocha theme</p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon teal astro-bfn3wzgc"><iconify-icon icon="ic:twotone-terminal" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Terminal</span> </h4> <div class="body astro-bfn3wzgc"> <a href="https://github.com/kovidgoyal/kitty">Kitty</a>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon sapphire astro-bfn3wzgc"><iconify-icon icon="codicon:terminal-powershell" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Shells</span> </h4> <div class="body astro-bfn3wzgc"> <p><a href="https://github.com/fish-shell/fish-shell">Fish</a> | <a href="https://www.zsh.org">Zsh</a></p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon custom astro-bfn3wzgc"><iconify-icon icon="solar:widget-4-bold-duotone" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Menus</span> </h4> <div class="body astro-bfn3wzgc"> <p><a href="https://github.com/davatorium/rofi">Rofi</a> | <a href="https://github.com/meowrch/mewline">Mewline</a></p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon design astro-bfn3wzgc"><iconify-icon icon="si:notifications-alt-2-duotone" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Notifications</span> </h4> <div class="body astro-bfn3wzgc"> <p><a href="https://github.com/dunst-project/dunst">Dunst</a> | <a href="https://github.com/ErikReider/SwayNotificationCenter">Swaync</a></p>  </div> </article> </div> </div> </div> 
+<div style="margin-top: 4rem; margin-bottom: 3rem;"><h1 id="hotkeys" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;"><iconify-icon icon="material-symbols:keyboard-alt" width="3rem" height="3rem"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script><p>Key Shortcuts</p></h1></div>
+<div class="card-grid astro-zntqmydn"><div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon teal astro-bfn3wzgc"><iconify-icon icon="ic:twotone-terminal" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Terminal</span> </h4> <div class="body astro-bfn3wzgc"> <p><b>Super + Enter</b><br>
+Quick access to universal tool.</p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon performance astro-bfn3wzgc"><iconify-icon icon="fluent:window-apps-16-filled" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Applications</span> </h4> <div class="body astro-bfn3wzgc"> <p><b>Super + A</b><br>
+Convenient way to choose the needed application.</p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon custom astro-bfn3wzgc"><iconify-icon icon="mdi:color" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Themes</span> </h4> <div class="body astro-bfn3wzgc"> <p><b>Super + T</b><br>
+New theme in 2 seconds. Without config editing.</p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon design astro-bfn3wzgc"><iconify-icon icon="material-symbols:wall-art" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Wallpapers</span> </h4> <div class="body astro-bfn3wzgc"> <p><b>Super + W</b><br>
+Rofi with preview. One button — new desktop look.</p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon mauve astro-bfn3wzgc"><iconify-icon icon="pepicons-pop:color-picker" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Color Picker</span> </h4> <div class="body astro-bfn3wzgc"> <p><b>Super + C</b><br>
+Pick color from screen for design/development.</p>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon peach astro-bfn3wzgc"><iconify-icon icon="fluent:emoji-32-regular" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Emoji</span> </h4> <div class="body astro-bfn3wzgc"> <p><b>Super + .</b><br>
+Like Windows 11, but faster.</p>  </div> </article> </div> </div> </div> 
+<div style="margin-top: 4rem; margin-bottom: 3rem;"><h1 id="support" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;"><svg aria-hidden="true" class=" astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M20.16 5A6.29 6.29 0 0 0 12 4.36a6.27 6.27 0 0 0-8.16 9.48l6.21 6.22a2.78 2.78 0 0 0 3.9 0l6.21-6.22a6.27 6.27 0 0 0 0-8.84m-1.41 7.46-6.21 6.21a.76.76 0 0 1-1.08 0l-6.21-6.24a4.29 4.29 0 0 1 0-6 4.27 4.27 0 0 1 6 0 1 1 0 0 0 1.42 0 4.27 4.27 0 0 1 6 0 4.29 4.29 0 0 1 .08 6Z"/></svg><p>Community &#x26; Support</p></h1></div>
+<div class="card-grid astro-zntqmydn"><div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon default astro-bfn3wzgc"><iconify-icon icon="fontisto:wikipedia" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Official Wiki</span> </h4> <div class="body astro-bfn3wzgc"> <a href="/en/">Guides, FAQ, troubleshooting</a>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon blue astro-bfn3wzgc"><iconify-icon icon="ic:baseline-telegram" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Telegram</span> </h4> <div class="body astro-bfn3wzgc"> <a href="https://t.me/meowrch">News, updates and quick support</a>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon maroon astro-bfn3wzgc"><iconify-icon icon="mdi:github" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">GitHub Issues</span> </h4> <div class="body astro-bfn3wzgc"> <a href="https://github.com/meowrch/meowrch/issues">Report a bug or suggest a feature</a>  </div> </article> </div> </div> <div class="premium-card astro-bfn3wzgc"> <div class="premium-card-inner tilt-element astro-bfn3wzgc" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-bfn3wzgc"> <h4 class="title astro-bfn3wzgc"> <div class="icon lavender astro-bfn3wzgc"><iconify-icon icon="line-md:twitter-x" width="1.4rem" height="1.4rem" class="astro-bfn3wzgc"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-bfn3wzgc">Twitter (X)</span> </h4> <div class="body astro-bfn3wzgc"> <a href="https://x.com/me0wrch">News</a>  </div> </article> </div> </div> </div> 
+<section class="reviews-section" data-owner="meowrch" data-repo="meowrch" data-category="Reviews" data-locale="en" data-heading="Reviews"> <div class="section-header"> <h2 class="section-title" id="reviews"> <svg aria-hidden="true" class="icon section-icon astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M22 9.67a1 1 0 0 0-.86-.67l-5.69-.83L12.9 3a1 1 0 0 0-1.8 0L8.55 8.16 2.86 9a1 1 0 0 0-.81.68 1 1 0 0 0 .25 1l4.13 4-1 5.68a1 1 0 0 0 1.45 1.07L12 18.76l5.1 2.68c.14.08.3.12.46.12a1 1 0 0 0 .99-1.19l-1-5.68 4.13-4A1 1 0 0 0 22 9.67Zm-6.15 4a1 1 0 0 0-.29.89l.72 4.19-3.76-2a1 1 0 0 0-.94 0l-3.76 2 .72-4.19a1 1 0 0 0-.29-.89l-3-3 4.21-.61a1 1 0 0 0 .76-.55L12 5.7l1.88 3.82a1 1 0 0 0 .76.55l4.21.61-3 2.99Z"/></svg> <span class="title-text">Reviews</span> </h2> <div class="avg-chip" aria-live="polite"> <span class="avg-stars" aria-hidden="true"></span> <span class="avg-number">–</span> <span class="avg-count text-muted"></span> </div> </div> <p class="intro">We value your honesty, so all reviews are published directly through GitHub Discussions. This ensures their authenticity and transparency. When writing a review, you will be redirected to GitHub, where you can also view author profiles to verify their feedback.</p> <div class="grid" data-grid> <div class="skeleton-card"></div> <div class="skeleton-card"></div> <div class="skeleton-card"></div> </div> <div class="actions"> <button type="button" class="btn-primary" data-open-modal> <span class="btn-text">Leave a review</span> </button> </div> <div class="reviews-nav" hidden data-nav> <button type="button" class="nav-btn" data-prev aria-label="Previous">‹</button> <span class="nav-page" data-page>1 / 1</span> <button type="button" class="nav-btn" data-next aria-label="Next">›</button> </div> <!-- Modal: Leave a review --> <div class="modal-mask" hidden data-modal> <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"> <div class="modal-header"> <h3 id="modal-title"> <span class="icon" aria-hidden="true">★</span> <span class="modal-title-text"></span> </h3> <button type="button" class="modal-close" data-close-modal aria-label="Close">✕</button> </div> <div class="modal-body"> <textarea class="review-text" rows="5" data-text placeholder=""></textarea> <details class="why-card" data-why-card> <summary class="why-summary"> <span class="why-icon" aria-hidden="true">ⓘ</span> <span class="why-title" data-why-title></span> <span class="why-caret" aria-hidden="true">▾</span> </summary> <div class="why-content"> <p class="why-text" data-why-text></p> <a class="why-link" data-why-link target="_blank" rel="noopener noreferrer"></a> </div> </details> <div class="modal-actions"> <div class="stars-select" data-stars> <label data-stars-label></label> <div class="stars-row" role="radiogroup" aria-label="Rating"> <button type="button" class="star-btn" data-value="1" aria-label="1 star">☆</button> <button type="button" class="star-btn" data-value="2" aria-label="2 stars">☆</button> <button type="button" class="star-btn" data-value="3" aria-label="3 stars">☆</button> <button type="button" class="star-btn" data-value="4" aria-label="4 stars">☆</button> <button type="button" class="star-btn" data-value="5" aria-label="5 stars">☆</button> </div> </div> <a class="btn-primary" target="_blank" rel="noopener noreferrer" data-submit disabled></a> </div> <div class="hint" data-hint></div> </div> </div> </div> <!-- Modal: View full review --> <div class="modal-mask" hidden data-view-modal> <div class="modal" role="dialog" aria-modal="true" aria-labelledby="view-modal-title"> <div class="modal-header"> <h3 id="view-modal-title"> <span class="icon" aria-hidden="true">★</span> <span class="view-title-text"></span> </h3> <button type="button" class="modal-close" data-close-view aria-label="Close">✕</button> </div> <div class="modal-body"> <div class="modal-review-header"> <div class="view-author"> <img class="avatar" data-v-avatar alt=""> <a class="username" target="_blank" rel="noopener noreferrer" data-v-link></a> </div> <div class="view-rating"> <span class="stars" data-v-stars></span> <time class="date" data-v-date></time> </div> </div> <blockquote class="text" data-v-text></blockquote> </div> </div> </div> <div class="sr-only" aria-live="polite" data-status></div> <noscript> <div class="empty">Enable JavaScript to load reviews from GitHub Discussions.</div> </noscript> </section> <script>
+(() => {
+  // Guard against double initialization on pages with multiple renders
+  const INIT_ATTR = 'data-reviews-init';
+
+  // Shared helpers (scoped to this IIFE, so no global redeclarations)
+  const CACHE_PREFIX = 'reviews_';
+  const CACHE_DURATION = 60 * 60 * 1000; // 60 minutes cache to reduce API calls
+  const MIN_FETCH_INTERVAL = 10 * 60 * 1000; // at most one network refresh per 10 minutes
+  const qs = (root, sel) => root.querySelector(sel);
+
+  const i18nDict = {
+    en: {
+      heading: 'Reviews',
+      loading: 'Loading reviews…',
+      empty: 'No reviews yet',
+      error: 'Failed to load reviews',
+      rateLimit: 'GitHub API rate limit reached. Please try again later.',
+      count: (n) => `· ${n}`,
+      leave: 'Leave a review',
+      modalTitle: 'Leave a review',
+      viewTitle: 'Review',
+      yourRating: 'Your rating',
+      placeholder: 'Write your review here…',
+      submit: 'Open GitHub to submit',
+      ratingRequired: 'Please select a rating',
+      minChars: 'Write at least 10 characters',
+      whyGitHubTitle: 'Why GitHub?',
+      whyGitHubText: 'Reviews are posted via GitHub Discussions. On submit you will be redirected to GitHub and may be asked to authorize so the review is posted from your account.',
+      whyGitHubLearn: 'Learn more',
+      date: (d) => new Date(d).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' })
+    },
+    ru: {
+      heading: 'Отзывы',
+      loading: 'Загрузка отзывов…',
+      empty: 'Пока нет отзывов',
+      error: 'Не удалось загрузить отзывы',
+      rateLimit: 'Превышен лимит GitHub API. Попробуйте позже.',
+      count: (n) => `· ${n}`,
+      leave: 'Оставить отзыв',
+      modalTitle: 'Оставить отзыв',
+      viewTitle: 'Отзыв',
+      yourRating: 'Ваш рейтинг',
+      placeholder: 'Напишите ваш отзыв здесь…',
+      submit: 'Открыть GitHub для отправки',
+      ratingRequired: 'Поставьте оценку',
+      minChars: 'Напишите минимум 10 символов',
+      whyGitHubTitle: 'Почему GitHub?',
+      whyGitHubText: 'Мы публикуем отзывы через GitHub Discussions. При отправке вы перейдёте на GitHub и, возможно, потребуется авторизация, чтобы отзыв был опубликован от вашего аккаунта.',
+      whyGitHubLearn: 'Подробнее',
+      date: (d) => new Date(d).toLocaleDateString('ru', { year: 'numeric', month: 'short', day: 'numeric' })
+    }
+  };
+
+  let RATE_LIMITED = false;
+
+  function isCacheDisabled() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('noReviewsCache') === '1') return true;
+      if (localStorage.getItem('reviews_disable_cache') === '1') return true;
+    } catch (_) {}
+    return false;
+  }
+  function parseReviewBody(body) {
+    const review = { rating: 0, text: '', author_info: '' };
+    const firstLine = (body || '').split('\n')[0] || '';
+    const starMatches = firstLine.match(/(?:⭐️|⭐|★)/g);
+    if (starMatches && starMatches.length) {
+      review.rating = starMatches.length;
+    } else {
+      const ratingMatch = body.match(/Rating:\s*(\d+)/);
+      if (ratingMatch) review.rating = parseInt(ratingMatch[1]);
+    }
+    review.rating = Math.max(0, Math.min(5, review.rating || 0));
+    let textContent = body
+      .replace(/^(?:\s*)(?:⭐️|⭐|★)+\s*/m, '')
+      .replace(/Rating:\s*\d+/, '');
+    const authorMatch = textContent.match(/Author:\s*(.+?)(?:\n|$)/m);
+    if (authorMatch) {
+      review.author_info = authorMatch[1].trim();
+      textContent = textContent.replace(/Author:\s*.+?(?:\n|$)/m, '');
+    }
+    review.text = textContent.trim();
+    return review;
+  }
+  async function getReviewsFromDiscussions(owner, repo) {
+    try {
+      const resp = await fetch(`https://api.github.com/repos/${owner}/${repo}/discussions?per_page=20`, {
+        headers: { 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' }
+      });
+      if (resp.status === 403) { RATE_LIMITED = true; return []; }
+      if (!resp.ok) return [];
+      const discussions = await resp.json();
+      return discussions.map(d => {
+        const parsed = parseReviewBody(d.body || '');
+        const user = d.user || d.author || {};
+        return {
+          id: `d_${String(d.id)}`,
+          title: d.title,
+          rating: parsed.rating,
+          text: parsed.text,
+          author: {
+            name: parsed.author_info || user.login || 'Anonymous',
+            username: user.login,
+            avatar: user.avatar_url || user.avatarUrl,
+            url: user.html_url || user.url
+          },
+          createdAt: d.created_at || d.createdAt,
+          updatedAt: d.updated_at || d.updatedAt,
+          upvotes: (d.reactions && d.reactions['+1']) || d.upvoteCount || 0,
+          commentsCount: d.comments || (d.comments_count ?? 0)
+        };
+      }).filter(r => r.rating > 0);
+    } catch (e) {
+      console.error('Discussions fetch failed:', e);
+      return [];
+    }
+  }
+  async function getReviewsFromIssues(owner, repo) {
+    try {
+      const resp = await fetch(`https://api.github.com/repos/${owner}/${repo}/issues?labels=review&state=all&per_page=20`, {
+        headers: { 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' }
+      });
+      if (resp.status === 403) { RATE_LIMITED = true; return []; }
+      if (!resp.ok) return [];
+      const issues = await resp.json();
+      return issues.map(issue => {
+        const parsed = parseReviewBody(issue.body || '');
+        return {
+          id: String(issue.id),
+          title: issue.title,
+          rating: parsed.rating,
+          text: parsed.text,
+          author: {
+            name: parsed.author_info || issue.user?.login || 'Anonymous',
+            username: issue.user?.login,
+            avatar: issue.user?.avatar_url,
+            url: issue.user?.html_url
+          },
+          createdAt: issue.created_at,
+          updatedAt: issue.updated_at,
+          upvotes: issue.reactions?.['+1'] || 0,
+          commentsCount: issue.comments || 0
+        };
+      }).filter(r => r.rating > 0);
+    } catch (e) {
+      console.error('Issues fallback failed:', e);
+      return [];
+    }
+  }
+  function getCachedData(key) {
+    try {
+      const cached = localStorage.getItem(key);
+      if (!cached) return null;
+      const { data, timestamp } = JSON.parse(cached);
+      if (Date.now() - timestamp > CACHE_DURATION) {
+        localStorage.removeItem(key);
+        return null;
+      }
+      return data;
+    } catch (e) {
+      console.error('Cache read failed:', e);
+      return null;
+    }
+  }
+  function setCachedData(key, data) {
+    try {
+      localStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() }));
+    } catch (e) {
+      console.error('Cache write failed:', e);
+    }
+  }
+  function getLastFetchTS(key) {
+    try { const v = localStorage.getItem('lf_' + key); return v ? parseInt(v) : 0; } catch { return 0; }
+  }
+  function setLastFetchTS(key) {
+    try { localStorage.setItem('lf_' + key, String(Date.now())); } catch {}
+  }
+  async function getReviews(owner, repo, category = 'Reviews') {
+    const cacheKey = `${CACHE_PREFIX}${owner}_${repo}_${category}`;
+    const cached = isCacheDisabled() ? null : getCachedData(cacheKey);
+    const lastTs = getLastFetchTS(cacheKey);
+    // If we have cache and we fetched recently, serve cache and skip network
+    if (cached && (Date.now() - lastTs) < MIN_FETCH_INTERVAL) return cached;
+
+    const [a, b] = await Promise.all([
+      getReviewsFromDiscussions(owner, repo),
+      getReviewsFromIssues(owner, repo)
+    ]);
+    const all = [...a, ...b].sort((x, y) => new Date(y.createdAt) - new Date(x.createdAt));
+
+    if (!isCacheDisabled() && all.length) {
+      setCachedData(cacheKey, all);
+      setLastFetchTS(cacheKey);
+    } else if (cached) {
+      // No new data (or request failed), return cached to avoid empty UI
+      return cached;
+    }
+    return all;
+  }
+  function calculateAverageRating(reviews) {
+    if (!reviews || !reviews.length) return 0;
+    const sum = reviews.reduce((acc, r) => acc + Math.max(0, Math.min(5, r.rating || 0)), 0);
+    return Math.round((sum / reviews.length) * 10) / 10;
+  }
+  function renderStars(value, size = 18) {
+    const v = Math.max(0, Math.min(5, Math.round(value)));
+    const full = '★'.repeat(v);
+    const empty = '☆'.repeat(5 - v);
+    return `<span class="stars" style="font-size:${size}px" aria-label="${v} / 5">${full}<span class="empty">${empty}</span></span>`;
+  }
+  function escapeHtml(str = '') {
+    return String(str).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+  }
+
+  function initSection(root) {
+    if (!root || root.hasAttribute(INIT_ATTR)) return;
+    root.setAttribute(INIT_ATTR, '1');
+
+    const grid = qs(root, '[data-grid]');
+    const status = qs(root, '[data-status]');
+    const avgStars = qs(root, '.avg-stars');
+    const avgNumber = qs(root, '.avg-number');
+    const avgCount = qs(root, '.avg-count');
+    const titleText = qs(root, '.title-text');
+
+    const nav = qs(root, '[data-nav]');
+    const prevBtn = qs(root, '[data-prev]');
+    const nextBtn = qs(root, '[data-next]');
+    const pageEl = qs(root, '[data-page]');
+
+    const btnOpenModal = qs(root, '[data-open-modal]');
+    const modal = qs(root, '[data-modal]');
+    const btnCloseModal = qs(root, '[data-close-modal]');
+    const viewModal = qs(root, '[data-view-modal]');
+    const btnCloseView = viewModal ? viewModal.querySelector('[data-close-view]') : null;
+    const starsLabel = qs(root, '[data-stars-label]');
+    const starsRow = qs(root, '.stars-row');
+    const textarea = qs(root, '[data-text]');
+    const btnSubmit = qs(root, '[data-submit]');
+    const hintEl = qs(root, '[data-hint]');
+    const whyTitleEl = qs(root, '[data-why-title]');
+    const whyTextEl = qs(root, '[data-why-text]');
+    const whyLinkEl = qs(root, '[data-why-link]');
+
+
+    const vAvatar = qs(root, '[data-v-avatar]');
+    const vLink = qs(root, '[data-v-link]');
+    const vStars = qs(root, '[data-v-stars]');
+    const vDate = qs(root, '[data-v-date]');
+    const vText = qs(root, '[data-v-text]');
+    const viewTitle = qs(root, '.view-title-text');
+
+    const owner = root.dataset.owner || 'meowrch';
+    const repo = root.dataset.repo || 'meowrch';
+    const category = root.dataset.category || 'Reviews';
+    const dsLocale = (root.dataset.locale || '').toLowerCase();
+    let L = 'en';
+    if (dsLocale === 'ru' || dsLocale.startsWith('ru')) {
+      L = 'ru';
+    } else if (dsLocale === 'en' || dsLocale.startsWith('en')) {
+      L = 'en';
+    } else if (/^\/ru(\/|$)/.test(location.pathname)) {
+      L = 'ru';
+    }
+    const i18n = i18nDict[L];
+
+    // Texts
+    titleText.textContent = (root.getAttribute('data-heading') || '') || i18n.heading;
+    status.textContent = i18n.loading;
+    btnOpenModal.querySelector('.btn-text').textContent = i18n.leave;
+    qs(root, '.modal-title-text').textContent = i18n.modalTitle;
+    starsLabel.textContent = i18n.yourRating;
+    textarea.placeholder = i18n.placeholder;
+    btnSubmit.textContent = i18n.submit;
+    if (whyTitleEl) whyTitleEl.textContent = i18n.whyGitHubTitle;
+    if (whyTextEl) whyTextEl.textContent = i18n.whyGitHubText;
+    if (whyLinkEl) { whyLinkEl.textContent = i18n.whyGitHubLearn; whyLinkEl.href = `https://github.com/${owner}/${repo}/discussions`; }
+
+
+    // --- Paging state
+    let allReviews = [];
+    let currentPage = 1;
+    let perPage = computePerPage();
+    function computePerPage() {
+      return window.matchMedia('(max-width: 640px)').matches ? 1 : 6;
+    }
+    function totalPages() {
+      return Math.max(1, Math.ceil((allReviews?.length || 0) / perPage));
+    }
+    function renderPage() {
+      if (!Array.isArray(allReviews) || allReviews.length === 0) {
+        // handled earlier (empty/rateLimit)
+        if (nav) nav.hidden = true;
+        return;
+      }
+      const tp = totalPages();
+      const start = (currentPage - 1) * perPage;
+      const end = start + perPage;
+      const pageItems = allReviews.slice(start, end);
+
+      grid.innerHTML = pageItems.map((r) => {
+        const avatar = r?.author?.avatar ? `<img class=\"avatar\" src=\"${r.author.avatar}\" alt=\"\" loading=\"lazy\" />` : '';
+        const username = r?.author?.username || r?.author?.name || 'User';
+        const userLinkOpen = r?.author?.url ? `<a class=\"username\" href=\"${r.author.url}\" target=\"_blank\" rel=\"noopener noreferrer\">` : `<span class=\"username\">`;
+        const userLinkClose = r?.author?.url ? `</a>` : `</span>`;
+        const date = (r?.createdAt ? i18n.date(r.createdAt) : '');
+        return `
+          <article class=\"card\" tabindex=\"0\" data-rating=\"${r.rating}\" data-created=\"${r.createdAt}\">
+            <header class=\"card-header\">${avatar}<div class=\"meta\">${userLinkOpen}${username}${userLinkClose}</div></header>
+            <blockquote class=\"text\">${escapeHtml(r.text)}</blockquote>
+            <div class=\"full-text\" style=\"display:none\">${escapeHtml(r.text)}</div>
+            <footer class=\"card-footer\"><div class=\"rating\">${renderStars(r.rating, 20)}</div><time class=\"date\">${date}</time></footer>
+          </article>`;
+      }).join('');
+
+      if (nav && prevBtn && nextBtn && pageEl) {
+        nav.hidden = tp <= 1;
+        pageEl.textContent = `${currentPage} / ${tp}`;
+        prevBtn.disabled = currentPage <= 1;
+        nextBtn.disabled = currentPage >= tp;
+      }
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => {
+      if (currentPage > 1) { currentPage--; renderPage(); }
+    });
+    if (nextBtn) nextBtn.addEventListener('click', () => {
+      if (currentPage < totalPages()) { currentPage++; renderPage(); }
+    });
+    window.addEventListener('resize', () => {
+      const newPer = computePerPage();
+      if (newPer !== perPage) {
+        perPage = newPer;
+        if (currentPage > totalPages()) currentPage = totalPages();
+        renderPage();
+      }
+    });
+
+    // --- Modal state
+    let draftRating = 0;
+    let draftText = '';
+    function updateStarsUI() {
+      const btns = starsRow.querySelectorAll('.star-btn');
+      btns.forEach(btn => {
+        const v = Number(btn.dataset.value || '0');
+        btn.textContent = v <= draftRating ? '★' : '☆';
+        btn.setAttribute('aria-pressed', String(v <= draftRating));
+      });
+      updateSubmitState();
+    }
+    function updateSubmitState() {
+      const textLen = draftText.trim().length;
+      const ok = draftRating > 0 && textLen >= 10;
+      btnSubmit.toggleAttribute('disabled', !ok);
+      btnSubmit.setAttribute('aria-disabled', String(!ok));
+
+      if (hintEl) {
+        if (draftRating <= 0) {
+          hintEl.textContent = i18n.ratingRequired;
+        } else if (textLen < 10) {
+          hintEl.textContent = i18n.minChars;
+        } else {
+          hintEl.textContent = '';
+        }
+      }
+
+      const url = new URL(`https://github.com/${owner}/${repo}/discussions/new`);
+      if (category) url.searchParams.set('category', category);
+      const stars = '⭐'.repeat(draftRating);
+      const bodyLines = [stars, '', draftText.trim()];
+      url.searchParams.set('title', L === 'ru' ? `Отзыв (${draftRating}/5)` : `Review (${draftRating}/5)`);
+      url.searchParams.set('body', bodyLines.join('\n'));
+      if (ok) {
+        btnSubmit.href = url.toString();
+      } else {
+        btnSubmit.removeAttribute('href');
+      }
+    }
+    btnOpenModal.addEventListener('click', () => {
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+    });
+    btnCloseModal.addEventListener('click', () => {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+    });
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.hidden = true;
+        document.body.style.overflow = '';
+      }
+    });
+
+    // View modal handlers
+    if (btnCloseView) {
+      btnCloseView.addEventListener('click', () => {
+        viewModal.hidden = true;
+        document.body.style.overflow = '';
+      });
+    }
+    if (viewModal) {
+      viewModal.addEventListener('click', (e) => {
+        if (e.target === viewModal) {
+          viewModal.hidden = true;
+          document.body.style.overflow = '';
+        }
+      });
+    }
+    starsRow.addEventListener('click', (e) => {
+      const t = e.target;
+      if (!(t instanceof HTMLElement)) return;
+      const val = Number(t.dataset.value || '0');
+      if (val >= 1 && val <= 5) {
+        draftRating = val;
+        updateStarsUI();
+      }
+    });
+    textarea.addEventListener('input', () => {
+      draftText = textarea.value;
+      updateSubmitState();
+    });
+
+    // Prevent navigation when disabled
+    btnSubmit.addEventListener('click', (e) => {
+      if (btnSubmit.hasAttribute('disabled') || !btnSubmit.getAttribute('href')) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    });
+
+
+    // Open view modal on card click (event delegation)
+    grid.addEventListener('click', (e) => {
+      const t = e.target;
+      if (!(t instanceof Element)) return;
+      const card = t.closest('.card');
+      if (!card || !viewModal) return;
+      const avatarEl = card.querySelector('.avatar');
+      const nameEl = card.querySelector('.username');
+      const rating = Number(card.getAttribute('data-rating') || '0');
+      const created = card.getAttribute('data-created') || '';
+      const fullTextEl = card.querySelector('.full-text');
+
+      // Fill modal
+      if (viewTitle) viewTitle.textContent = i18n.viewTitle;
+      if (vAvatar) vAvatar.src = avatarEl ? (avatarEl.getAttribute('src') || '') : '';
+      if (vLink) {
+        const text = nameEl ? nameEl.textContent : 'User';
+        vLink.textContent = text || '';
+        if (nameEl && nameEl.tagName === 'A') {
+          const href = nameEl.getAttribute('href');
+          if (href) vLink.href = href; else vLink.removeAttribute('href');
+        } else {
+          vLink.removeAttribute('href');
+        }
+      }
+      if (vStars) vStars.innerHTML = renderStars(rating, 22);
+      if (vDate) vDate.textContent = created ? i18n.date(created) : '';
+      if (vText) vText.textContent = fullTextEl ? fullTextEl.textContent : '';
+
+      // Show
+      viewModal.hidden = false;
+      document.body.style.overflow = 'hidden';
+    });
+
+    // Load reviews
+    (async () => {
+      try {
+        const reviews = await getReviews(owner, repo, category);
+        if (!Array.isArray(reviews) || reviews.length === 0) {
+          const msg = RATE_LIMITED ? i18n.rateLimit : i18n.empty;
+          const cls = RATE_LIMITED ? 'error' : 'empty';
+          grid.innerHTML = `<div class=\"empty-grid\"><div class=\"${cls}\">${msg}</div></div>`;
+          avgStars.innerHTML = renderStars(0, 18);
+          avgNumber.textContent = RATE_LIMITED ? '–' : '0.0';
+          avgCount.textContent = RATE_LIMITED ? '' : i18n.count(0);
+          status.textContent = msg;
+          return;
+        }
+        const avg = calculateAverageRating(reviews);
+        avgStars.innerHTML = renderStars(avg, 18);
+        avgNumber.textContent = avg.toFixed(1);
+        avgCount.textContent = i18n.count(reviews.length);
+
+        allReviews = reviews;
+        currentPage = 1;
+        perPage = computePerPage();
+        renderPage();
+        status.textContent = '';
+        updateStarsUI();
+      } catch (e) {
+        console.error(e);
+        grid.innerHTML = `<div class=\"empty-grid\"><div class=\"error\">${i18n.error}</div></div>`;
+        avgStars.innerHTML = renderStars(0, 18);
+        avgNumber.textContent = '–';
+        avgCount.textContent = '';
+        status.textContent = i18n.error;
+      }
+    })();
+  }
+
+  function initAll() {
+    document.querySelectorAll('.reviews-section').forEach(initSection);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll, { once: true });
+  } else {
+    initAll();
+  }
+  // Re-init after Astro view transitions if enabled
+  document.addEventListener('astro:page-load', initAll);
+})();
+</script> 
+<section class="donate-block astro-fnpkwvwd" aria-labelledby="donate-title"> <h2 id="donate-title" class="section-title astro-fnpkwvwd"> <span class="icon header-currency astro-fnpkwvwd">$</span> <span class="astro-fnpkwvwd">Support the author</span> </h2> <p class="intro astro-fnpkwvwd">If my work helps you and you&#39;d like to support it, you can use any wallet below.</p> <div class="card-grid stagger astro-zntqmydn"><div class="donate-card astro-fnpkwvwd"> <div class="donate-inner tilt-element astro-fnpkwvwd" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-fnpkwvwd"> <div class="title-row astro-fnpkwvwd"> <h4 class="title astro-fnpkwvwd"> <div class="icon teal astro-fnpkwvwd"> <span class="coin-symbol astro-fnpkwvwd">₮</span> </div> <span class="astro-fnpkwvwd">USDT (TRC20)</span> </h4> <button type="button" class="copy copy--small astro-fnpkwvwd" data-copy data-address="TBTZ5RRMfGQQ8Vpf8i5N8DZhNxSum2rzAs" title="Copy" aria-label="Copy"> <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" class="astro-fnpkwvwd"> <path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0 2-2zm0 16H8V7h11v14z" class="astro-fnpkwvwd"></path> </svg> <span class="copy-label astro-fnpkwvwd" data-copy-text>Copy</span> </button> </div> <div class="body astro-fnpkwvwd"> <code class="addr astro-fnpkwvwd" title="TBTZ5RRMfGQQ8Vpf8i5N8DZhNxSum2rzAs">TBTZ5RRMfGQQ8Vpf8i5N8DZhNxSum2rzAs</code> </div> </article> </div> </div><div class="donate-card astro-fnpkwvwd"> <div class="donate-inner tilt-element astro-fnpkwvwd" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-fnpkwvwd"> <div class="title-row astro-fnpkwvwd"> <h4 class="title astro-fnpkwvwd"> <div class="icon mauve astro-fnpkwvwd"> <svg class="coin-svg astro-fnpkwvwd" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"> <path fill="currentColor" d="M12 3 L21 9 L12 21 L3 9 Z" class="astro-fnpkwvwd"></path> </svg> </div> <span class="astro-fnpkwvwd">TON / USDT(TON)</span> </h4> <button type="button" class="copy copy--small astro-fnpkwvwd" data-copy data-address="UQB9qNTcAazAbFoeobeDPMML9MG73DUCAFTpVanQnLk3BHg3" title="Copy" aria-label="Copy"> <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" class="astro-fnpkwvwd"> <path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0 2-2zm0 16H8V7h11v14z" class="astro-fnpkwvwd"></path> </svg> <span class="copy-label astro-fnpkwvwd" data-copy-text>Copy</span> </button> </div> <div class="body astro-fnpkwvwd"> <code class="addr astro-fnpkwvwd" title="UQB9qNTcAazAbFoeobeDPMML9MG73DUCAFTpVanQnLk3BHg3">UQB9qNTcAazAbFoeobeDPMML9MG73DUCAFTpVanQnLk3BHg3</code> </div> </article> </div> </div><div class="donate-card astro-fnpkwvwd"> <div class="donate-inner tilt-element astro-fnpkwvwd" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-fnpkwvwd"> <div class="title-row astro-fnpkwvwd"> <h4 class="title astro-fnpkwvwd"> <div class="icon peach astro-fnpkwvwd"> <span class="coin-symbol astro-fnpkwvwd">₿</span> </div> <span class="astro-fnpkwvwd">BTC (Bitcoin)</span> </h4> <button type="button" class="copy copy--small astro-fnpkwvwd" data-copy data-address="bc1qt5urnw7esunf0v7e9az0jhatxrdd0smem98gdn" title="Copy" aria-label="Copy"> <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" class="astro-fnpkwvwd"> <path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0 2-2zm0 16H8V7h11v14z" class="astro-fnpkwvwd"></path> </svg> <span class="copy-label astro-fnpkwvwd" data-copy-text>Copy</span> </button> </div> <div class="body astro-fnpkwvwd"> <code class="addr astro-fnpkwvwd" title="bc1qt5urnw7esunf0v7e9az0jhatxrdd0smem98gdn">bc1qt5urnw7esunf0v7e9az0jhatxrdd0smem98gdn</code> </div> </article> </div> </div><div class="donate-card astro-fnpkwvwd"> <div class="donate-inner tilt-element astro-fnpkwvwd" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-fnpkwvwd"> <div class="title-row astro-fnpkwvwd"> <h4 class="title astro-fnpkwvwd"> <div class="icon sapphire astro-fnpkwvwd"> <svg class="coin-svg astro-fnpkwvwd" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"> <polygon fill="currentColor" points="12,2 5,12 12,9 19,12" class="astro-fnpkwvwd"></polygon> <polygon fill="currentColor" points="12,22 5,13 12,16 19,13" class="astro-fnpkwvwd"></polygon> </svg> </div> <span class="astro-fnpkwvwd">ETH (Ethereum)</span> </h4> <button type="button" class="copy copy--small astro-fnpkwvwd" data-copy data-address="0x56e8bf8Ec07b6F2d6aEdA7Bd8814DB5A72164b13" title="Copy" aria-label="Copy"> <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" class="astro-fnpkwvwd"> <path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0 2-2zm0 16H8V7h11v14z" class="astro-fnpkwvwd"></path> </svg> <span class="copy-label astro-fnpkwvwd" data-copy-text>Copy</span> </button> </div> <div class="body astro-fnpkwvwd"> <code class="addr astro-fnpkwvwd" title="0x56e8bf8Ec07b6F2d6aEdA7Bd8814DB5A72164b13">0x56e8bf8Ec07b6F2d6aEdA7Bd8814DB5A72164b13</code> </div> </article> </div> </div></div>  </section> <script>
+(() => {
+  const root = document.currentScript?.closest?.('.donate-block') || document.querySelector('.donate-block');
+  if (!root) return;
+  root.addEventListener('click', async (e) => {
+    const btn = e.target instanceof Element ? e.target.closest('[data-copy]') : null;
+    if (!btn) return;
+    const addr = btn.getAttribute('data-address') || '';
+    const txt = btn.querySelector('[data-copy-text]');
+    const original = txt ? txt.textContent : '';
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(addr);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = addr; document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+      }
+      if (txt) {
+        const copied = (location.pathname.startsWith('/ru/') ? 'Скопировано!' : 'Copied!');
+        txt.textContent = copied;
+        setTimeout(() => { txt.textContent = original; }, 1500);
+      }
+      btn.classList.add('copied');
+      setTimeout(() => btn.classList.remove('copied'), 600);
+    } catch (_) {}
+  });
+})();
+</script>  </div> <footer class="sl-flex astro-3yyafb3n"> <div class="meta sl-flex astro-3yyafb3n">   </div> <div class="pagination-links print:hidden astro-u2l5gyhi" dir="ltr">   </div>   </footer>  </div> </div>  </main> </div> </div>  </div> </div>  </body></html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html><html lang="ru" dir="ltr" data-theme="dark" data-has-hero class="astro-bguv2lll"> <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Добро пожаловать в Meowrch wiki | Meowrch Wiki</title><link rel="canonical" href="https://meowrch.github.io/ru/2.0/"/><link rel="alternate" hreflang="en" href="https://meowrch.github.io/en/2.0/"/><link rel="alternate" hreflang="ru" href="https://meowrch.github.io/ru/2.0/"/><link rel="sitemap" href="/sitemap-index.xml"/><script>
+						(function() {
+							const theme = localStorage.getItem('starlight-theme') || 
+								(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+							document.documentElement.setAttribute('data-theme', theme);
+							
+							// Управляем DarkReader в зависимости от темы
+							function manageDarkReader(currentTheme) {
+								// Ищем или создаем meta тег для darkreader-lock
+								let darkReaderMeta = document.querySelector('meta[name="darkreader-lock"]');
+								if (!darkReaderMeta) {
+									darkReaderMeta = document.createElement('meta');
+									darkReaderMeta.name = 'darkreader-lock';
+									document.head.appendChild(darkReaderMeta);
+								}
+								
+								if (currentTheme === 'dark') {
+									// Темная тема - блокируем DarkReader
+									darkReaderMeta.content = '';
+									document.documentElement.setAttribute('data-darkreader-lock', '');
+								} else {
+									// Светлая тема - разрешаем DarkReader
+									darkReaderMeta.remove();
+									document.documentElement.removeAttribute('data-darkreader-lock');
+									
+									// Принудительно уведомляем DarkReader об изменениях
+									// Метод 1: Диспатчим события
+									setTimeout(() => {
+										window.dispatchEvent(new Event('resize'));
+										document.dispatchEvent(new Event('DOMContentLoaded'));
+									}, 100);
+									
+									// Метод 2: Принудительная перерисовка
+									setTimeout(() => {
+										const body = document.body;
+										body.style.display = 'none';
+										body.offsetHeight; // Принудительный reflow
+										body.style.display = '';
+									}, 200);
+								}
+								
+								// Обновляем остальные meta теги
+								const metaColorScheme = document.querySelector('meta[name="color-scheme"]');
+								if (metaColorScheme) {
+									metaColorScheme.setAttribute('content', currentTheme === 'dark' ? 'dark' : 'light');
+								}
+								
+								// Обновляем theme-color
+								const themeColors = document.querySelectorAll('meta[name="theme-color"]');
+								themeColors.forEach(meta => {
+									const media = meta.getAttribute('media');
+									if (media) {
+										if (currentTheme === 'dark' && media.includes('dark')) {
+											meta.setAttribute('content', '#1e1e2e');
+										} else if (currentTheme === 'light' && media.includes('light')) {
+											meta.setAttribute('content', '#eff1f5');
+										}
+									}
+								});
+							}
+							
+							manageDarkReader(theme);
+							
+							// Наблюдаем за изменениями темы
+							const observer = new MutationObserver(function(mutations) {
+								mutations.forEach(function(mutation) {
+									if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+										const newTheme = document.documentElement.getAttribute('data-theme');
+										manageDarkReader(newTheme);
+									}
+								});
+							});
+							
+							observer.observe(document.documentElement, {
+								attributes: true,
+								attributeFilter: ['data-theme']
+							});
+							
+							// Слушаем изменения системной темы
+							window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+								if (!localStorage.getItem('starlight-theme')) {
+									const newTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+									document.documentElement.setAttribute('data-theme', newTheme);
+									manageDarkReader(newTheme);
+								}
+							});
+						})();
+					</script><script src="/modal.js" defer></script><script src="/tilt.js" defer></script><script>
+						// Отслеживание изменений языка через Starlight
+						document.addEventListener('DOMContentLoaded', function() {
+							// Сохраняем текущий язык при загрузке страницы
+							const currentPath = window.location.pathname;
+							let currentLang = 'en'; // по умолчанию
+							
+							if (currentPath.startsWith('/ru/')) {
+								currentLang = 'ru';
+							} else if (currentPath.startsWith('/en/')) {
+								currentLang = 'en';
+							}
+							
+							// Сохраняем в localStorage
+							localStorage.setItem('meowrch-language', currentLang);
+							
+							// Отслеживаем клики по ссылкам смены языка
+							function handleLanguageLinks() {
+								const languageLinks = document.querySelectorAll('a[href*="/en/"], a[href*="/ru/"]');
+								languageLinks.forEach(link => {
+									link.addEventListener('click', function() {
+										const href = this.getAttribute('href');
+										if (href.includes('/ru/')) {
+											localStorage.setItem('meowrch-language', 'ru');
+										} else if (href.includes('/en/')) {
+											localStorage.setItem('meowrch-language', 'en');
+										}
+									});
+								});
+							}
+							
+							// Вызываем сразу и при изменениях DOM
+							handleLanguageLinks();
+							
+							// Наблюдаем за изменениями DOM для динамически добавляемых ссылок
+							const observer = new MutationObserver(function(mutations) {
+								mutations.forEach(function(mutation) {
+									if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+										handleLanguageLinks();
+									}
+								});
+							});
+							
+							observer.observe(document.body, {
+								childList: true,
+								subtree: true
+							});
+						});
+					</script><link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v5.16.11"/><meta name="generator" content="Starlight v0.35.3"/><meta property="og:title" content="Добро пожаловать в Meowrch wiki"/><meta property="og:type" content="article"/><meta property="og:url" content="https://meowrch.github.io/ru/2.0/"/><meta property="og:locale" content="ru"/><meta property="og:description"/><meta property="og:site_name" content="Meowrch Wiki"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:site" content="@me0wrch"/><meta property="og:image" content="https://meowrch.github.io/og-cover.png"/><meta name="color-scheme" content="light dark"/><meta name="theme-color" content="#1e1e2e" media="(prefers-color-scheme: dark)"/><meta name="theme-color" content="#eff1f5" media="(prefers-color-scheme: light)"/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.DNXP8c50.css" media="print"><link rel="stylesheet" href="/_astro/index.Dq2Dj2Sp.css">
+<style>@layer starlight.components{:root{--sl-badge-default-border: var(--sl-color-accent);--sl-badge-default-bg: var(--sl-color-accent-low);--sl-badge-default-text: #fff;--sl-badge-note-border: var(--sl-color-blue);--sl-badge-note-bg: var(--sl-color-blue-low);--sl-badge-note-text: #fff;--sl-badge-danger-border: var(--sl-color-red);--sl-badge-danger-bg: var(--sl-color-red-low);--sl-badge-danger-text: #fff;--sl-badge-success-border: var(--sl-color-green);--sl-badge-success-bg: var(--sl-color-green-low);--sl-badge-success-text: #fff;--sl-badge-caution-border: var(--sl-color-orange);--sl-badge-caution-bg: var(--sl-color-orange-low);--sl-badge-caution-text: #fff;--sl-badge-tip-border: var(--sl-color-purple);--sl-badge-tip-bg: var(--sl-color-purple-low);--sl-badge-tip-text: #fff}[data-theme=light]:root{--sl-badge-default-bg: var(--sl-color-accent-high);--sl-badge-note-bg: var(--sl-color-blue-high);--sl-badge-danger-bg: var(--sl-color-red-high);--sl-badge-success-bg: var(--sl-color-green-high);--sl-badge-caution-bg: var(--sl-color-orange-high);--sl-badge-tip-bg: var(--sl-color-purple-high)}.sl-badge:where(.astro-avdet4wd){display:inline-block;border:1px solid var(--sl-color-border-badge);border-radius:.25rem;font-family:var(--sl-font-system-mono);line-height:normal;color:var(--sl-color-text-badge);background-color:var(--sl-color-bg-badge);overflow-wrap:anywhere}.sidebar-content .sl-badge:where(.astro-avdet4wd){line-height:1;font-size:var(--sl-text-xs);padding:.125rem .375rem}.sidebar-content a[aria-current=page]>.sl-badge:where(.astro-avdet4wd){--sl-color-bg-badge: transparent;--sl-color-border-badge: currentColor;color:inherit}.default:where(.astro-avdet4wd){--sl-color-bg-badge: var(--sl-badge-default-bg);--sl-color-border-badge: var(--sl-badge-default-border);--sl-color-text-badge: var(--sl-badge-default-text)}.note:where(.astro-avdet4wd){--sl-color-bg-badge: var(--sl-badge-note-bg);--sl-color-border-badge: var(--sl-badge-note-border);--sl-color-text-badge: var(--sl-badge-note-text)}.danger:where(.astro-avdet4wd){--sl-color-bg-badge: var(--sl-badge-danger-bg);--sl-color-border-badge: var(--sl-badge-danger-border);--sl-color-text-badge: var(--sl-badge-danger-text)}.success:where(.astro-avdet4wd){--sl-color-bg-badge: var(--sl-badge-success-bg);--sl-color-border-badge: var(--sl-badge-success-border);--sl-color-text-badge: var(--sl-badge-success-text)}.tip:where(.astro-avdet4wd){--sl-color-bg-badge: var(--sl-badge-tip-bg);--sl-color-border-badge: var(--sl-badge-tip-border);--sl-color-text-badge: var(--sl-badge-tip-text)}.caution:where(.astro-avdet4wd){--sl-color-bg-badge: var(--sl-badge-caution-bg);--sl-color-border-badge: var(--sl-badge-caution-border);--sl-color-text-badge: var(--sl-badge-caution-text)}.small:where(.astro-avdet4wd){font-size:var(--sl-text-xs);padding:.125rem .25rem}.medium:where(.astro-avdet4wd){font-size:var(--sl-text-sm);padding:.175rem .35rem}.large:where(.astro-avdet4wd){font-size:var(--sl-text-base);padding:.225rem .45rem}.sl-markdown-content :is(h1,h2,h3,h4,h5,h6) .sl-badge:where(.astro-avdet4wd){vertical-align:middle}}
+@layer starlight.components{.card-grid:where(.astro-zntqmydn){display:grid;grid-template-columns:100%;gap:1rem}.card-grid:where(.astro-zntqmydn)>*{margin-top:0!important}@media (min-width: 50rem){.card-grid:where(.astro-zntqmydn){grid-template-columns:1fr 1fr;gap:1.5rem}.stagger:where(.astro-zntqmydn){--stagger-height: 5rem;padding-bottom:var(--stagger-height)}.stagger:where(.astro-zntqmydn)>*:nth-child(2n){transform:translateY(var(--stagger-height))}}}
+@layer starlight.components{svg:where(.astro-c6vsoqas){color:var(--sl-icon-color);font-size:var(--sl-icon-size, 1em);width:1em;height:1em}}
+@layer starlight.components{.sl-steps{--bullet-size: calc(var(--sl-line-height) * 1rem);--bullet-margin: .375rem;list-style:none;counter-reset:steps-counter var(--sl-steps-start, 0);padding-inline-start:0}.sl-steps>li{counter-increment:steps-counter;position:relative;padding-inline-start:calc(var(--bullet-size) + 1rem);padding-bottom:1px;min-height:calc(var(--bullet-size) + var(--bullet-margin))}.sl-steps>li+li{margin-top:0}.sl-steps>li:before{content:counter(steps-counter);position:absolute;top:0;inset-inline-start:0;width:var(--bullet-size);height:var(--bullet-size);line-height:var(--bullet-size);font-size:var(--sl-text-xs);font-weight:600;text-align:center;color:var(--sl-color-white);background-color:var(--sl-color-gray-6);border-radius:99rem;box-shadow:inset 0 0 0 1px var(--sl-color-gray-5)}.sl-steps>li:after{--guide-width: 1px;content:"";position:absolute;top:calc(var(--bullet-size) + var(--bullet-margin));bottom:var(--bullet-margin);inset-inline-start:calc((var(--bullet-size) - var(--guide-width)) / 2);width:var(--guide-width);background-color:var(--sl-color-hairline-light)}}@layer starlight.content{.sl-steps>li>:first-child{--lh: calc(1em * var(--sl-line-height));--shift-y: calc(.5 * (var(--bullet-size) - var(--lh)));transform:translateY(var(--shift-y));margin-bottom:var(--shift-y)}.sl-steps>li>:first-child:where(h1,h2,h3,h4,h5,h6){--lh: calc(1em * var(--sl-line-height-headings))}@supports (--prop: 1lh){.sl-steps>li>:first-child{--lh: 1lh}}}
+@layer starlight.components{starlight-file-tree:where(.astro-p67cqifm){--x-space: 1.5rem;--y-space: .125rem;--y-pad: 0;display:block;border:1px solid var(--sl-color-gray-5);padding:1rem;background-color:var(--sl-color-gray-6);font-size:var(--sl-text-xs);font-family:var(--__sl-font-mono);overflow-x:auto}starlight-file-tree:where(.astro-p67cqifm) .directory>details{border:0;padding:0;padding-inline-start:var(--x-space);background:transparent}starlight-file-tree:where(.astro-p67cqifm) .directory>details>summary{margin-inline-start:calc(-1 * var(--x-space));border:0;padding:var(--y-pad) .625rem;font-weight:400;color:var(--sl-color-white);max-width:100%}starlight-file-tree:where(.astro-p67cqifm) .directory>details>summary::marker,starlight-file-tree:where(.astro-p67cqifm) .directory>details>summary::-webkit-details-marker{color:var(--sl-color-gray-3)}starlight-file-tree:where(.astro-p67cqifm) .directory>details>summary:hover,starlight-file-tree:where(.astro-p67cqifm) .directory>details>summary:hover .tree-icon{cursor:pointer;color:var(--sl-color-text-accent);fill:currentColor}starlight-file-tree:where(.astro-p67cqifm) .directory>details>summary:hover~ul{border-color:var(--sl-color-gray-4)}starlight-file-tree:where(.astro-p67cqifm) .directory>details>summary:hover .highlight .tree-icon{color:var(--sl-color-text-invert);fill:currentColor}starlight-file-tree:where(.astro-p67cqifm) ul{margin-inline-start:.5rem;border-inline-start:1px solid var(--sl-color-gray-5);padding:0;padding-inline-start:.125rem;list-style:none}starlight-file-tree:where(.astro-p67cqifm)>ul{margin:0;border:0;padding:0}starlight-file-tree:where(.astro-p67cqifm) li{margin:var(--y-space) 0;padding:var(--y-pad) 0}starlight-file-tree:where(.astro-p67cqifm) .file{margin-inline-start:calc(var(--x-space) - .125rem);color:var(--sl-color-white)}starlight-file-tree:where(.astro-p67cqifm) .tree-entry{display:inline-flex;align-items:flex-start;flex-wrap:wrap;max-width:calc(100% - 1rem)}@media (min-width: 30em){starlight-file-tree:where(.astro-p67cqifm) .tree-entry{flex-wrap:nowrap}}starlight-file-tree:where(.astro-p67cqifm) .tree-entry>:first-child{flex-shrink:0}starlight-file-tree:where(.astro-p67cqifm) .empty{color:var(--sl-color-gray-3);padding-inline-start:.375rem}starlight-file-tree:where(.astro-p67cqifm) .comment{color:var(--sl-color-gray-3);padding-inline-start:1.625rem;max-width:24rem;min-width:12rem}starlight-file-tree:where(.astro-p67cqifm) .highlight{display:inline-block;border-radius:.25rem;padding-inline-end:.5rem;color:var(--sl-color-text-invert);background-color:var(--sl-color-text-accent)}starlight-file-tree:where(.astro-p67cqifm) svg{display:inline;fill:var(--sl-color-gray-3);vertical-align:middle;margin-inline:.25rem .375rem;width:.875rem;height:.875rem}starlight-file-tree:where(.astro-p67cqifm) .highlight svg.tree-icon{fill:currentColor}}
+@layer starlight.components{.sl-link-button:where(.astro-xwgiixxa){align-items:center;border:1px solid transparent;border-radius:999rem;display:inline-flex;font-size:var(--sl-text-sm);gap:.5em;line-height:1.1875;outline-offset:.25rem;padding:.4375rem 1.125rem;text-decoration:none}.sl-link-button:where(.astro-xwgiixxa).primary{background:var(--sl-color-text-accent);border-color:var(--sl-color-text-accent);color:var(--sl-color-black)}.sl-link-button:where(.astro-xwgiixxa).primary:hover{color:var(--sl-color-black)}.sl-link-button:where(.astro-xwgiixxa).secondary{border-color:inherit;color:var(--sl-color-white)}.sl-link-button:where(.astro-xwgiixxa).minimal{color:var(--sl-color-white);padding-inline:0}.sl-link-button:where(.astro-xwgiixxa) svg{flex-shrink:0}@media (min-width: 50rem){.sl-link-button:where(.astro-xwgiixxa){font-size:var(--sl-text-base);padding:.9375rem 1.25rem}}.sl-markdown-content .sl-link-button:where(.astro-xwgiixxa){margin-inline-end:1rem}.sl-markdown-content .sl-link-button:where(.astro-xwgiixxa):not(:where(p *)){margin-block:1rem}}
+</style><script type="module" src="/_astro/page.B1D-nYk3.js"></script><style>.aurora-background-wrapper:where(.astro-7aomxrbf){position:fixed!important;top:0!important;left:0!important;width:100vw!important;height:100vh!important;margin:0!important;padding:0!important;overflow:hidden;pointer-events:none;z-index:0!important}.aurora-background-inner:where(.astro-7aomxrbf){position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:150vw;height:150vh}.aurora-effect:where(.astro-7aomxrbf){position:absolute;inset:0;--white-gradient: repeating-linear-gradient(100deg, var(--white) 0%, var(--white) 6%, var(--transparent) 9%, var(--transparent) 11%, var(--white) 14%);--dark-gradient: repeating-linear-gradient(100deg, var(--black) 0%, var(--black) 6%, var(--transparent) 9%, var(--transparent) 11%, var(--black) 14%);--aurora: repeating-linear-gradient(100deg, var(--blue-500) 8%, var(--indigo-300) 12%, var(--blue-300) 16%, var(--violet-200) 20%, var(--blue-400) 24%);background-image:var(--dark-gradient),var(--aurora);background-size:200%,140%;background-position:50% 50%,50% 50%;filter:blur(10px);opacity:.25;pointer-events:none}.aurora-effect:where(.astro-7aomxrbf).show-radial{mask-image:radial-gradient(ellipse at 100% 0%,black 10%,transparent 48%);-webkit-mask-image:radial-gradient(ellipse at 100% 0%,black 10%,transparent 48%)}.aurora-effect:where(.astro-7aomxrbf):after{content:"";position:absolute;inset:-50%;background-image:var(--dark-gradient),var(--aurora);background-size:80%,60%;background-position:center;mix-blend-mode:difference;will-change:transform;animation:aurora-gpu 20s ease-in-out infinite;opacity:.6}:root[data-theme=light] .aurora-effect:where(.astro-7aomxrbf){background-image:var(--white-gradient),var(--aurora);filter:blur(10px) invert(1);opacity:.3}:root[data-theme=light] .aurora-effect:where(.astro-7aomxrbf):after{background-image:var(--white-gradient),var(--aurora)}:root:not([data-theme=light]) .aurora-effect:where(.astro-7aomxrbf){filter:blur(10px) invert(0)}@keyframes aurora-gpu{0%,to{transform:translateZ(0)}50%{transform:translate3d(-10%,-10%,0)}}
+</style><style>.contributor-card:where(.astro-56nme5iy){height:100%}.contributor-card-inner:where(.astro-56nme5iy){height:100%!important;width:100%!important}.card:where(.astro-56nme5iy){border:1px solid var(--ctp-surface2);background:var(--card-background);backdrop-filter:blur(16px);padding:1.5rem;border-radius:.75rem;display:flex;flex-direction:column;gap:1rem;height:100%;min-height:120px;transition:all .3s ease}.card:where(.astro-56nme5iy):hover{border-color:var(--ctp-mauve);transform:translateY(-4px);background:var(--card-background-hover)}.user-block:where(.astro-56nme5iy){display:flex;align-items:center;gap:1.2rem}.avatar:where(.astro-56nme5iy){flex-shrink:0}.avatar:where(.astro-56nme5iy) img:where(.astro-56nme5iy){width:70px;height:70px;border-radius:50%;border:2px solid var(--ctp-surface0);transition:all .3s ease}.card:where(.astro-56nme5iy):hover .avatar:where(.astro-56nme5iy) img:where(.astro-56nme5iy){border-color:var(--ctp-mauve);transform:scale(1.05)}.user-info:where(.astro-56nme5iy){flex:1;display:flex;flex-direction:column;justify-content:center}.name-line:where(.astro-56nme5iy){display:flex;align-items:center;gap:.5rem;margin-bottom:.1rem}.name:where(.astro-56nme5iy){color:var(--ctp-text);font-weight:700;font-size:1.1rem;text-decoration:none;transition:color .3s ease}.name:where(.astro-56nme5iy):hover{color:var(--ctp-mauve)}.username:where(.astro-56nme5iy){color:var(--ctp-subtext1);font-size:.9rem;font-weight:500}.status:where(.astro-56nme5iy){color:var(--ctp-subtext0);font-size:.85rem;line-height:1.3;font-style:italic}.quote-block:where(.astro-56nme5iy){position:relative;background:linear-gradient(135deg,var(--ctp-surface0),var(--ctp-surface1));border-radius:8px;padding:.75rem;border-left:3px solid var(--ctp-mauve);color:var(--ctp-subtext1);font-size:.9rem;line-height:1.4;font-style:italic}.quote-icon:where(.astro-56nme5iy){position:absolute;top:-8px;right:8px;width:20px;height:20px;opacity:.7}.quote-icon:where(.astro-56nme5iy) svg{width:100%;height:100%;fill:var(--ctp-mauve)!important}.quote-icon:where(.astro-56nme5iy) svg path:not([fill=none]){fill:var(--ctp-mauve)!important}.contributor-card:where(.astro-56nme5iy) :where(.astro-56nme5iy):not(a,strong,em,del,span,input,code,br)+:where(.astro-56nme5iy):not(a,strong,em,del,span,input,code,br){margin-top:0!important}:root{--card-background: rgba(49, 50, 68, .7);--card-background-hover: rgba(49, 50, 68, .9)}:root[data-theme=light]{--card-background: #DCE0E8;--card-background-hover: #E5E9F0}.icon:where(.astro-56nme5iy){color:#fff;padding:.5rem;border-radius:.5rem;font-size:1.2em;font-weight:700;min-width:2.5rem;display:flex;align-items:center;justify-content:center}.icon:where(.astro-56nme5iy).contributor{background:linear-gradient(45deg,var(--ctp-red),var(--ctp-pink))}@media (max-width: 768px){.card:where(.astro-56nme5iy){padding:1rem}.user-block:where(.astro-56nme5iy){gap:.75rem}.avatar:where(.astro-56nme5iy) img:where(.astro-56nme5iy){width:50px;height:50px}.name:where(.astro-56nme5iy){font-size:1rem}.username:where(.astro-56nme5iy){font-size:.8rem}.status:where(.astro-56nme5iy){font-size:.8rem}.quote-block:where(.astro-56nme5iy){font-size:.85rem;padding:.6rem}}
+</style><style>.feature-card:where(.astro-lxmfzltz){height:100%}.feature-card-inner:where(.astro-lxmfzltz){height:100%!important;width:100%!important}.card:where(.astro-lxmfzltz){border:1px solid var(--ctp-surface2);background:var(--card-background);backdrop-filter:blur(16px);padding:clamp(1rem,calc(.125rem + 3vw),2.5rem);gap:clamp(.5rem,calc(.125rem + 1vw),1rem);border-radius:.75rem;display:flex;flex-direction:column;height:100%;transition:all .3s ease}.card:where(.astro-lxmfzltz):hover{border-color:var(--ctp-mauve);transform:translateY(-4px);background:var(--card-background-hover)}.title:where(.astro-lxmfzltz){color:var(--ctp-text);font-weight:700;display:flex;align-items:center;gap:.75rem;line-height:1.3;margin:0}:root{--card-background: rgba(49, 50, 68, .7);--card-background-hover: rgba(49, 50, 68, .9)}:root[data-theme=light]{--card-background: #DCE0E8;--card-background-hover: #E5E9F0}.icon:where(.astro-lxmfzltz){color:#fff;padding:.5rem;border-radius:.5rem;font-size:1.2em;font-weight:700;min-width:2.5rem;display:flex;align-items:center;justify-content:center}.icon:where(.astro-lxmfzltz).settings{background:linear-gradient(45deg,var(--ctp-mauve),var(--ctp-pink))}.icon:where(.astro-lxmfzltz).custom{background:linear-gradient(45deg,var(--ctp-peach),var(--ctp-yellow))}.icon:where(.astro-lxmfzltz).performance{background:linear-gradient(45deg,var(--ctp-blue),var(--ctp-sapphire))}.icon:where(.astro-lxmfzltz).robot{background:linear-gradient(45deg,var(--ctp-green),var(--ctp-teal))}.icon:where(.astro-lxmfzltz).package{background:linear-gradient(45deg,var(--ctp-red),var(--ctp-maroon))}.icon:where(.astro-lxmfzltz).design{background:linear-gradient(45deg,var(--ctp-lavender),var(--ctp-sky))}.icon:where(.astro-lxmfzltz).teal{background:linear-gradient(45deg,var(--ctp-teal),var(--ctp-sky))}.icon:where(.astro-lxmfzltz).blue{background:linear-gradient(45deg,var(--ctp-blue),var(--ctp-lavender))}.icon:where(.astro-lxmfzltz).mauve{background:linear-gradient(45deg,var(--ctp-mauve),var(--ctp-lavender))}.icon:where(.astro-lxmfzltz).peach{background:linear-gradient(45deg,var(--ctp-peach),var(--ctp-maroon))}.icon:where(.astro-lxmfzltz).maroon{background:linear-gradient(45deg,var(--ctp-maroon),var(--ctp-red))}.icon:where(.astro-lxmfzltz).green{background:linear-gradient(45deg,var(--ctp-green),var(--ctp-teal))}.icon:where(.astro-lxmfzltz).red{background:linear-gradient(45deg,var(--ctp-red),var(--ctp-pink))}.icon:where(.astro-lxmfzltz).sapphire{background:linear-gradient(45deg,var(--ctp-sapphire),var(--ctp-blue))}.icon:where(.astro-lxmfzltz).yellow{background:linear-gradient(45deg,var(--ctp-yellow),var(--ctp-peach))}.icon:where(.astro-lxmfzltz).default{background:linear-gradient(45deg,var(--ctp-surface1),var(--ctp-surface2))}.body:where(.astro-lxmfzltz){color:var(--ctp-subtext1);font-size:clamp(var(--sl-text-sm),calc(.5rem + 1vw),var(--sl-text-body));line-height:1.6;margin:0}
+</style><style>.showcase-card:where(.astro-cb7d7j45){height:100%}.card:where(.astro-cb7d7j45){border:1px solid var(--ctp-surface2);background:var(--showcase-card-background);backdrop-filter:blur(16px);border-radius:.75rem;overflow:hidden;transition:all .3s ease}.card:where(.astro-cb7d7j45):hover{border-color:var(--ctp-mauve);transform:translateY(-4px);background:var(--showcase-card-background-hover)}:root{--showcase-card-background: rgba(49, 50, 68, .7);--showcase-card-background-hover: rgba(49, 50, 68, .9)}:root[data-theme=light]{--showcase-card-background: #DCE0E8;--showcase-card-background-hover: #E5E9F0}.image-container:where(.astro-cb7d7j45){position:relative;overflow:hidden;height:280px;cursor:pointer}.showcase-image:where(.astro-cb7d7j45){width:100%;height:100%;object-fit:cover;transition:transform .3s ease}.card:where(.astro-cb7d7j45):hover .showcase-image:where(.astro-cb7d7j45){transform:scale(1.05)}.image-modal:where(.astro-cb7d7j45){display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:var(--modal-background);backdrop-filter:blur(10px)}:root{--modal-background: rgba(17, 17, 27, .95)}:root[data-theme=light]{--modal-background: rgba(255, 255, 255, .95)}.modal-image:where(.astro-cb7d7j45){margin:120px auto 80px;display:block;width:90%;max-width:1200px;max-height:calc(100vh - 200px);object-fit:contain;border-radius:12px}.modal-close:where(.astro-cb7d7j45){position:absolute;top:80px;right:calc(5% + 20px);color:var(--ctp-text);font-size:40px;font-weight:700;transition:.3s;cursor:pointer;z-index:1001}.modal-close:where(.astro-cb7d7j45):hover,.modal-close:where(.astro-cb7d7j45):focus{color:var(--ctp-mauve)}.modal-caption:where(.astro-cb7d7j45){margin:auto;display:block;width:80%;max-width:700px;text-align:center;color:var(--ctp-subtext1);padding:10px 0;height:50px}
+</style></head> <body class="astro-bguv2lll"> <a href="#_top" class="astro-7q3lir66">Перейти к содержимому</a>  <div class="page sl-flex astro-vrdttmbt"> <header class="header astro-vrdttmbt"><div class="header astro-kmkmnagf"> <div class="title-wrapper sl-flex astro-kmkmnagf"> <a href="/ru/" class="site-title sl-flex astro-m46x6ez3">  <img class="astro-m46x6ez3" alt src="/_astro/logo.C6WJX5mK.png" width="1000" height="1000">  <span class="sr-only astro-m46x6ez3" translate="no"> Meowrch Wiki </span> </a>  </div> <div class="sl-flex print:hidden astro-kmkmnagf"> <site-search class=" astro-os2q3ane" data-pagefind-filter="version:2.0" data-translations="{&#34;placeholder&#34;:&#34;Поиск&#34;}" data-version="2.0"> <button data-open-modal disabled class="astro-os2q3ane"> <svg aria-hidden="true" class="astro-os2q3ane astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg> <span class="sl-hidden md:sl-block astro-os2q3ane" aria-hidden="true">Поиск</span> <kbd class="sl-hidden md:sl-flex astro-os2q3ane" style="display: none;"> <kbd class="astro-os2q3ane">Ctrl</kbd><kbd class="astro-os2q3ane">K</kbd> </kbd> </button> <dialog style="padding:0" aria-label="Поиск" class="astro-os2q3ane"> <div class="dialog-frame sl-flex astro-os2q3ane"> <button data-close-modal class="sl-flex md:sl-hidden astro-os2q3ane"> Отменить </button> <div class="search-container astro-os2q3ane"> <div id="starlight__search" class="astro-os2q3ane"> <div class="starlight-versions-pagefind-notice astro-os2q3ane"> <svg aria-hidden="true" class="astro-os2q3ane astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-color: var(--sl-color-orange-high);--sl-icon-size: 1em;"><path d="M11.328 0.198L11.328 0.198L12.924 0.198Q13.260 0.240 13.848 0.303Q14.436 0.366 14.772 0.450L14.772 0.450Q17.124 1.038 19.098 2.424L19.098 2.424Q20.694 3.642 21.576 5.028L21.576 5.028Q23.298 7.296 23.676 10.278L23.676 10.278Q23.676 10.404 23.739 10.698Q23.802 10.992 23.802 11.202L23.802 11.202L23.802 12.924Q23.760 13.176 23.697 13.659Q23.634 14.142 23.550 14.352L23.550 14.352Q22.920 16.914 21.597 18.804Q20.274 20.694 18.048 22.122L18.048 22.122Q16.788 22.794 15.822 23.130L15.822 23.130Q14.604 23.592 13.428 23.676L13.428 23.676Q13.302 23.676 13.050 23.739Q12.798 23.802 12.672 23.802L12.672 23.802L10.950 23.802Q10.698 23.760 10.215 23.697Q9.732 23.634 9.522 23.550L9.522 23.550Q6.960 22.920 5.070 21.597Q3.180 20.274 1.752 18.048L1.752 18.048Q1.080 16.788 0.744 15.822L0.744 15.822Q0.282 14.604 0.198 13.428L0.198 13.428Q0.282 13.344 0.240 13.071Q0.198 12.798 0.198 12.672L0.198 12.672L0.198 11.076Q0.240 10.740 0.303 10.152Q0.366 9.564 0.450 9.228L0.450 9.228Q1.038 6.876 2.424 4.902L2.424 4.902Q3.642 3.138 5.952 1.752L5.952 1.752Q8.052 0.492 10.278 0.324L10.278 0.324Q10.488 0.324 10.824 0.261Q11.160 0.198 11.328 0.198ZM2.172 12.252L2.172 12.252Q2.214 14.898 3.579 17.124Q4.944 19.350 7.212 20.673Q9.480 21.996 12.168 21.975Q14.856 21.954 17.145 20.589Q19.434 19.224 20.736 16.872Q22.038 14.520 21.996 11.748L21.996 11.748Q21.912 9.144 20.526 6.918Q19.140 4.692 16.872 3.432L16.872 3.432Q14.478 2.088 11.748 2.172L11.748 2.172Q9.144 2.214 6.918 3.558Q4.692 4.902 3.432 7.170L3.432 7.170Q2.088 9.522 2.172 12.252ZM12.546 11.958L12.546 12Q12.672 11.874 12.987 11.685Q13.302 11.496 13.428 11.328L13.428 11.328Q15.822 9.774 16.872 8.976L16.872 8.976L16.998 8.892Q17.124 8.808 17.124 8.724L17.124 8.724Q17.292 8.514 17.565 8.577Q17.838 8.640 18.027 8.829Q18.216 9.018 18.174 9.291Q18.132 9.564 17.922 9.774L17.922 9.774L15.780 11.244Q14.352 12.210 13.722 12.798L13.722 12.798L12.252 13.848Q11.958 14.016 11.643 13.890Q11.328 13.764 11.328 13.428L11.328 13.428L11.328 4.902Q11.328 4.272 11.874 4.272L11.874 4.272Q12.084 4.146 12.315 4.314Q12.546 4.482 12.546 4.776L12.546 4.776L12.546 12L12.546 11.958Z"/></svg> <span class="astro-os2q3ane">
+Search limited to the 2.0 version. Switch to the
+ <a href="/ru/" class="astro-os2q3ane">latest version</a>
+for up-to-date results.
+</span> </div> </div> </div> </div> </dialog> </site-search>  <script>
+  ;(() => {
+    const openBtn = document.querySelector('button[data-open-modal]')
+    const shortcut = openBtn?.querySelector('kbd')
+    if (!openBtn || !(shortcut instanceof HTMLElement)) return
+    const platformKey = shortcut.querySelector('kbd')
+    if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+      platformKey.textContent = '⌘'
+      openBtn.setAttribute('aria-keyshortcuts', 'Meta+K')
+    }
+    shortcut.style.display = ''
+  })()
+</script> <script type="module" src="/_astro/VersionSearch.astro_astro_type_script_index_0_lang.D1ooT5qh.js"></script>   </div> <div class="sl-hidden md:sl-flex print:hidden right-group astro-kmkmnagf"> <div class="sl-flex social-icons astro-kmkmnagf"> <a href="https://github.com/meowrch/meowrch" rel="me" class="sl-flex astro-wy4te6ga"><span class="sr-only astro-wy4te6ga">GitHub</span><svg aria-hidden="true" class="astro-wy4te6ga astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a><a href="https://t.me/meowrch" rel="me" class="sl-flex astro-wy4te6ga"><span class="sr-only astro-wy4te6ga">Telegram</span><svg aria-hidden="true" class="astro-wy4te6ga astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M22.265 2.428a2.048 2.048 0 0 0-2.078-.324L2.266 9.339a2.043 2.043 0 0 0 .104 3.818l3.625 1.261 2.02 6.682a.998.998 0 0 0 .119.252c.008.012.019.02.027.033a.988.988 0 0 0 .211.215.972.972 0 0 0 .07.05.986.986 0 0 0 .31.136l.013.001.006.003a1.022 1.022 0 0 0 .203.02l.018-.003a.993.993 0 0 0 .301-.052c.023-.008.042-.02.064-.03a.993.993 0 0 0 .205-.114 250.76 250.76 0 0 1 .152-.129l2.702-2.983 4.03 3.122a2.023 2.023 0 0 0 1.241.427 2.054 2.054 0 0 0 2.008-1.633l3.263-16.017a2.03 2.03 0 0 0-.693-1.97ZM9.37 14.736a.994.994 0 0 0-.272.506l-.31 1.504-.784-2.593 4.065-2.117Zm8.302 5.304-4.763-3.69a1.001 1.001 0 0 0-1.353.12l-.866.955.306-1.487 7.083-7.083a1 1 0 0 0-1.169-1.593L6.745 12.554 3.02 11.191 20.999 4Z"/></svg></a><a href="https://x.com/me0wrch" rel="me" class="sl-flex astro-wy4te6ga"><span class="sr-only astro-wy4te6ga">Twitter</span><svg aria-hidden="true" class="astro-wy4te6ga astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M24 4.4a10 10 0 0 1-2.83.78 5.05 5.05 0 0 0 2.17-2.79 9.7 9.7 0 0 1-3.13 1.23 4.89 4.89 0 0 0-5.94-1.03 5 5 0 0 0-2.17 2.38 5.15 5.15 0 0 0-.3 3.25c-1.95-.1-3.86-.63-5.61-1.53a14.04 14.04 0 0 1-4.52-3.74 5.2 5.2 0 0 0-.09 4.91c.39.74.94 1.35 1.61 1.82a4.77 4.77 0 0 1-2.23-.63v.06c0 1.16.4 2.29 1.12 3.18a4.9 4.9 0 0 0 2.84 1.74c-.73.22-1.5.26-2.24.12a4.89 4.89 0 0 0 4.59 3.49A9.78 9.78 0 0 1 0 19.73 13.65 13.65 0 0 0 7.55 22a13.63 13.63 0 0 0 9.96-4.16A14.26 14.26 0 0 0 21.6 7.65V7c.94-.72 1.75-1.6 2.4-2.6Z"/></svg></a> </div> <starlight-version-select class="astro-qctxnyr5"> <label class="astro-qctxnyr5"> <span class="sr-only astro-qctxnyr5">Select version</span> <svg aria-hidden="true" class="icon label-icon astro-qctxnyr5 astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M11.328 0.198L11.328 0.198L12.924 0.198Q13.260 0.240 13.848 0.303Q14.436 0.366 14.772 0.450L14.772 0.450Q17.124 1.038 19.098 2.424L19.098 2.424Q20.694 3.642 21.576 5.028L21.576 5.028Q23.298 7.296 23.676 10.278L23.676 10.278Q23.676 10.404 23.739 10.698Q23.802 10.992 23.802 11.202L23.802 11.202L23.802 12.924Q23.760 13.176 23.697 13.659Q23.634 14.142 23.550 14.352L23.550 14.352Q22.920 16.914 21.597 18.804Q20.274 20.694 18.048 22.122L18.048 22.122Q16.788 22.794 15.822 23.130L15.822 23.130Q14.604 23.592 13.428 23.676L13.428 23.676Q13.302 23.676 13.050 23.739Q12.798 23.802 12.672 23.802L12.672 23.802L10.950 23.802Q10.698 23.760 10.215 23.697Q9.732 23.634 9.522 23.550L9.522 23.550Q6.960 22.920 5.070 21.597Q3.180 20.274 1.752 18.048L1.752 18.048Q1.080 16.788 0.744 15.822L0.744 15.822Q0.282 14.604 0.198 13.428L0.198 13.428Q0.282 13.344 0.240 13.071Q0.198 12.798 0.198 12.672L0.198 12.672L0.198 11.076Q0.240 10.740 0.303 10.152Q0.366 9.564 0.450 9.228L0.450 9.228Q1.038 6.876 2.424 4.902L2.424 4.902Q3.642 3.138 5.952 1.752L5.952 1.752Q8.052 0.492 10.278 0.324L10.278 0.324Q10.488 0.324 10.824 0.261Q11.160 0.198 11.328 0.198ZM2.172 12.252L2.172 12.252Q2.214 14.898 3.579 17.124Q4.944 19.350 7.212 20.673Q9.480 21.996 12.168 21.975Q14.856 21.954 17.145 20.589Q19.434 19.224 20.736 16.872Q22.038 14.520 21.996 11.748L21.996 11.748Q21.912 9.144 20.526 6.918Q19.140 4.692 16.872 3.432L16.872 3.432Q14.478 2.088 11.748 2.172L11.748 2.172Q9.144 2.214 6.918 3.558Q4.692 4.902 3.432 7.170L3.432 7.170Q2.088 9.522 2.172 12.252ZM12.546 11.958L12.546 12Q12.672 11.874 12.987 11.685Q13.302 11.496 13.428 11.328L13.428 11.328Q15.822 9.774 16.872 8.976L16.872 8.976L16.998 8.892Q17.124 8.808 17.124 8.724L17.124 8.724Q17.292 8.514 17.565 8.577Q17.838 8.640 18.027 8.829Q18.216 9.018 18.174 9.291Q18.132 9.564 17.922 9.774L17.922 9.774L15.780 11.244Q14.352 12.210 13.722 12.798L13.722 12.798L12.252 13.848Q11.958 14.016 11.643 13.890Q11.328 13.764 11.328 13.428L11.328 13.428L11.328 4.902Q11.328 4.272 11.874 4.272L11.874 4.272Q12.084 4.146 12.315 4.314Q12.546 4.482 12.546 4.776L12.546 4.776L12.546 12L12.546 11.958Z"/></svg> <select value="current" autocomplete="off" class="astro-qctxnyr5"> <option value="/ru/" class="astro-qctxnyr5">3.0</option> <option selected value="/ru/2.0/" class="astro-qctxnyr5"> 2.0 </option> </select> <svg aria-hidden="true" class="icon caret-icon astro-qctxnyr5 astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label> </starlight-version-select>  <script type="module">customElements.define("starlight-version-select",class extends HTMLElement{constructor(){super();const e=this.querySelector("select");e&&(e?.addEventListener("change",t=>{t.currentTarget instanceof HTMLSelectElement&&(globalThis.location.pathname=t.currentTarget.value)}),window.addEventListener("pageshow",t=>{if(!t.persisted)return;const n=e.querySelector("option[selected]")?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}});</script> <starlight-theme-select>  <label style="--sl-select-width: 6.25em" class="astro-4yphtoen"> <span class="sr-only astro-4yphtoen">Выберите тему</span> <svg aria-hidden="true" class="icon label-icon astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg> <select autocomplete="off" class="astro-4yphtoen"> <option value="dark" class="astro-4yphtoen">Тёмная</option><option value="light" class="astro-4yphtoen">Светлая</option><option value="auto" selected class="astro-4yphtoen">Авто</option> </select> <svg aria-hidden="true" class="icon caret astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label>  </starlight-theme-select>  <script>
+	StarlightThemeProvider.updatePickers();
+</script> <script type="module">const r="starlight-theme",o=e=>e==="auto"||e==="dark"||e==="light"?e:"auto",c=()=>o(typeof localStorage<"u"&&localStorage.getItem(r));function n(e){typeof localStorage<"u"&&localStorage.setItem(r,e==="light"||e==="dark"?e:"")}const l=()=>matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";function t(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e==="auto"?l():e,n(e)}matchMedia("(prefers-color-scheme: light)").addEventListener("change",()=>{c()==="auto"&&t("auto")});class s extends HTMLElement{constructor(){super(),t(c()),this.querySelector("select")?.addEventListener("change",a=>{a.currentTarget instanceof HTMLSelectElement&&t(o(a.currentTarget.value))})}}customElements.define("starlight-theme-select",s);</script> <starlight-lang-select><label style="--sl-select-width: 7em" class="astro-4yphtoen"> <span class="sr-only astro-4yphtoen">Выберите язык</span> <svg aria-hidden="true" class="icon label-icon astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg> <select autocomplete="off" class="astro-4yphtoen"> <option value="/en/2.0/" class="astro-4yphtoen">English</option><option value="/ru/2.0/" selected class="astro-4yphtoen">Русский</option> </select> <svg aria-hidden="true" class="icon caret astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label> </starlight-lang-select><script type="module">class s extends HTMLElement{constructor(){super();const e=this.querySelector("select");e&&(e.addEventListener("change",t=>{t.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=t.currentTarget.value)}),window.addEventListener("pageshow",t=>{if(!t.persisted)return;const n=e.querySelector("option[selected]")?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}}customElements.define("starlight-lang-select",s);</script> </div> </div> </header>  <div class="main-frame astro-vrdttmbt">  <script type="module">const a=document.getElementById("starlight__sidebar"),n=a?.querySelector("sl-sidebar-state-persist"),o="sl-sidebar-state",i=()=>{let t=[];const e=n?.dataset.hash||"";try{const s=sessionStorage.getItem(o),r=JSON.parse(s||"{}");Array.isArray(r.open)&&r.hash===e&&(t=r.open)}catch{}return{hash:e,open:t,scroll:a?.scrollTop||0}},c=t=>{try{sessionStorage.setItem(o,JSON.stringify(t))}catch{}},d=()=>c(i()),l=(t,e)=>{const s=i();s.open[e]=t,c(s)};n?.addEventListener("click",t=>{if(!(t.target instanceof Element))return;const e=t.target.closest("summary")?.closest("details");if(!e)return;const s=e.querySelector("sl-sidebar-restore"),r=parseInt(s?.dataset.index||"");isNaN(r)||l(!e.open,r)});addEventListener("visibilitychange",()=>{document.visibilityState==="hidden"&&d()});addEventListener("pageHide",d);</script> <div class="lg:sl-flex astro-67yu43on">  <div class="main-pane astro-67yu43on">  <main data-pagefind-body class="astro-bguv2lll" lang="ru" dir="ltr">  <div class="astro-nwwx7ihz">
+This content is for the 2.0 version. Switch to the
+<a href="/ru/" class="astro-nwwx7ihz">latest version</a>
+for up-to-date documentation.
+</div>  <div class="content-panel astro-7nkwcw3z"> <div class="sl-container astro-7nkwcw3z"> <div class="hero astro-jbfsktt5"> <img src="/_astro/logo.C6WJX5mK_AKtWJ.webp" loading="eager" decoding="async" alt fetchpriority="auto" width="400" height="400" class="astro-jbfsktt5">   <div class="sl-flex stack astro-jbfsktt5"> <div class="sl-flex copy astro-jbfsktt5"> <h1 id="_top" data-page-title class="astro-jbfsktt5"><b>Добро пожаловать в<br>Meowrch Wiki</b></h1> <div class="tagline astro-jbfsktt5"><b>Красивые дотфайлы для Arch hyprland и bspwm</b></div> </div> <div class="sl-flex actions astro-jbfsktt5"> <a class="sl-link-button not-content primary astro-jbfsktt5 astro-xwgiixxa" href="/ru/2.0/introduction/overview/">  Wiki <svg aria-hidden="true" class="astro-xwgiixxa astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M21.17 2.06A13.1 13.1 0 0 0 19 1.87a12.94 12.94 0 0 0-7 2.05 12.94 12.94 0 0 0-7-2 13.1 13.1 0 0 0-2.17.19 1 1 0 0 0-.83 1v12a1 1 0 0 0 1.17 1 10.9 10.9 0 0 1 8.25 1.91l.12.07h.11a.91.91 0 0 0 .7 0h.11l.12-.07A10.899 10.899 0 0 1 20.83 16 1 1 0 0 0 22 15V3a1 1 0 0 0-.83-.94ZM11 15.35a12.87 12.87 0 0 0-6-1.48H4v-10c.333-.02.667-.02 1 0a10.86 10.86 0 0 1 6 1.8v9.68Zm9-1.44h-1a12.87 12.87 0 0 0-6 1.48V5.67a10.86 10.86 0 0 1 6-1.8c.333-.02.667-.02 1 0v10.04Zm1.17 4.15a13.098 13.098 0 0 0-2.17-.19 12.94 12.94 0 0 0-7 2.05 12.94 12.94 0 0 0-7-2.05c-.727.003-1.453.066-2.17.19A1 1 0 0 0 2 19.21a1 1 0 0 0 1.17.79 10.9 10.9 0 0 1 8.25 1.91 1 1 0 0 0 1.16 0A10.9 10.9 0 0 1 20.83 20a1 1 0 0 0 1.17-.79 1 1 0 0 0-.83-1.15Z"/></svg> </a> <a class="sl-link-button not-content secondary astro-jbfsktt5 astro-xwgiixxa" href="https://t.me/meowrch/9">  Новости <svg aria-hidden="true" class="astro-xwgiixxa astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 1 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35 2.83 2.83-1.42 1.42-2.83-2.83 1.42-1.42ZM8 13.17l5.93-5.93 2.83 2.83L10.83 16H8v-2.83Z"/></svg> </a>  </div> </div> </div>  <div class="sl-markdown-content"> <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("aurora-portal");e&&document.body.appendChild(e)});</script><!-- Задаем уникальный ID, чтобы скрипт мог легко найти элемент --><div id="aurora-portal" class="aurora-background-wrapper astro-7aomxrbf"> <div class="aurora-background-inner astro-7aomxrbf"> <div class="aurora-effect show-radial astro-7aomxrbf"></div> </div> </div>  
+<div style="margin-bottom: 3rem;"><h1 style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 3rem; color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;"><svg aria-hidden="true" class=" astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 11a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0v-4a1 1 0 0 0-1-1Zm.38-3.92a1 1 0 0 0-.76 0 1 1 0 0 0-.33.21 1.15 1.15 0 0 0-.21.33 1 1 0 0 0 .21 1.09c.097.088.209.16.33.21A1 1 0 0 0 13 8a1.05 1.05 0 0 0-.29-.71 1 1 0 0 0-.33-.21ZM12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 18a8 8 0 1 1 0-16.001A8 8 0 0 1 12 20Z"/></svg><p>Что это такое?</p></h1><p style="color: var(--ctp-subtext1); font-size: 1.125rem; line-height: 1.7; max-width: 800px; margin: 0 auto 2rem auto;"><p>Meowrch — это сборка на базе Arch, нацеленная на максимальную производительность, эргономику и красоту.
+Система полностью сконфигурирована для повседневного комфортного использования и предоставляет широкие возможности кастомизации через собственный магазин тем.</p></p></div>
+<div style="margin-top: 4rem; margin-bottom: 3rem;"><h1 style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 3rem; color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;"><svg aria-hidden="true" class=" astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M22 9.67a1 1 0 0 0-.86-.67l-5.69-.83L12.9 3a1 1 0 0 0-1.8 0L8.55 8.16 2.86 9a1 1 0 0 0-.81.68 1 1 0 0 0 .25 1l4.13 4-1 5.68a1 1 0 0 0 1.45 1.07L12 18.76l5.1 2.68c.14.08.3.12.46.12a1 1 0 0 0 .99-1.19l-1-5.68 4.13-4A1 1 0 0 0 22 9.67Zm-6.15 4a1 1 0 0 0-.29.89l.72 4.19-3.76-2a1 1 0 0 0-.94 0l-3.76 2 .72-4.19a1 1 0 0 0-.29-.89l-3-3 4.21-.61a1 1 0 0 0 .76-.55L12 5.7l1.88 3.82a1 1 0 0 0 .76.55l4.21.61-3 2.99Z"/></svg><p>Особенности</p></h1></div>
+<div class="card-grid stagger astro-zntqmydn"><div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon settings astro-lxmfzltz"><iconify-icon icon="icon-park-outline:config" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">Полная конфигурация</span> </h4> <div class="body astro-lxmfzltz"> Система полностью настроена для ежедневного комфортного использования </div> </article> </div> </div> <div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon package astro-lxmfzltz"><iconify-icon icon="fluent:dual-screen-status-bar-24-filled" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">Два окружения</span> </h4> <div class="body astro-lxmfzltz"> BSPWM (X11) или Hyprland (Wayland) — стабильность или современность. </div> </article> </div> </div> <div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon custom astro-lxmfzltz"><iconify-icon icon="solar:pallete-2-bold" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">Кастомизация</span> </h4> <div class="body astro-lxmfzltz"> Широкие возможности кастомизации и собственное хранилище кастомных тем </div> </article> </div> </div> <div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon design astro-lxmfzltz"><iconify-icon icon="streamline-ultimate:laptop-smiley-1" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">Эргономика</span> </h4> <div class="body astro-lxmfzltz"> Горячие клавиши продуманы до мелочей — работайте быстрее. </div> </article> </div> </div> <div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon robot astro-lxmfzltz"><iconify-icon icon="material-symbols:download" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">Автоустановка</span> </h4> <div class="body astro-lxmfzltz"> Автоматическая установка и настройка системы </div> </article> </div> </div> <div class="feature-card astro-lxmfzltz"> <div class="feature-card-inner tilt-element astro-lxmfzltz" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-lxmfzltz"> <h4 class="title astro-lxmfzltz"> <div class="icon design astro-lxmfzltz"><iconify-icon icon="healthicons:contact-support" width="1.4rem" height="1.4rem" class="astro-lxmfzltz"></iconify-icon> <script>
+  if (typeof window !== 'undefined' && !customElements.get('iconify-icon')) {
+    const s = document.createElement('script');
+    s.src = 'https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script></div> <span class="astro-lxmfzltz">Быстрая поддержка</span> </h4> <div class="body astro-lxmfzltz"> Предоставление непрерывной и надежной поддержки для успешной работы проекта </div> </article> </div> </div> </div> 
+<div style="margin-top: 4rem; margin-bottom: 3rem;"><h1 style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 3rem; color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;"><svg aria-hidden="true" class=" astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><p>Визуальный тур</p></h1></div>
+<div class="card-grid astro-zntqmydn"><div class="showcase-card astro-cb7d7j45"> <article class="card astro-cb7d7j45"> <div class="image-container astro-cb7d7j45" onclick="openModal(this)"> <img src="/_astro/1.Dj71YDxI.png" class="showcase-image astro-cb7d7j45" data-full-src="/_astro/1.Dj71YDxI.png"> </div> </article> </div> <!-- Modal для полноразмерного просмотра --> <div id="image-modal" class="image-modal astro-cb7d7j45" onclick="closeModal()"> <span class="modal-close astro-cb7d7j45">&times;</span> <img class="modal-image astro-cb7d7j45" id="modal-img"> <div class="modal-caption astro-cb7d7j45" id="modal-caption"></div> </div> <div class="showcase-card astro-cb7d7j45"> <article class="card astro-cb7d7j45"> <div class="image-container astro-cb7d7j45" onclick="openModal(this)"> <img src="/_astro/2.C0CgVCZS.png" class="showcase-image astro-cb7d7j45" data-full-src="/_astro/2.C0CgVCZS.png"> </div> </article> </div> <!-- Modal для полноразмерного просмотра --> <div id="image-modal" class="image-modal astro-cb7d7j45" onclick="closeModal()"> <span class="modal-close astro-cb7d7j45">&times;</span> <img class="modal-image astro-cb7d7j45" id="modal-img"> <div class="modal-caption astro-cb7d7j45" id="modal-caption"></div> </div> <div class="showcase-card astro-cb7d7j45"> <article class="card astro-cb7d7j45"> <div class="image-container astro-cb7d7j45" onclick="openModal(this)"> <img src="/_astro/3.Ch9DY0nM.png" class="showcase-image astro-cb7d7j45" data-full-src="/_astro/3.Ch9DY0nM.png"> </div> </article> </div> <!-- Modal для полноразмерного просмотра --> <div id="image-modal" class="image-modal astro-cb7d7j45" onclick="closeModal()"> <span class="modal-close astro-cb7d7j45">&times;</span> <img class="modal-image astro-cb7d7j45" id="modal-img"> <div class="modal-caption astro-cb7d7j45" id="modal-caption"></div> </div> <div class="showcase-card astro-cb7d7j45"> <article class="card astro-cb7d7j45"> <div class="image-container astro-cb7d7j45" onclick="openModal(this)"> <img src="/_astro/4.CuYCGPE2.png" class="showcase-image astro-cb7d7j45" data-full-src="/_astro/4.CuYCGPE2.png"> </div> </article> </div> <!-- Modal для полноразмерного просмотра --> <div id="image-modal" class="image-modal astro-cb7d7j45" onclick="closeModal()"> <span class="modal-close astro-cb7d7j45">&times;</span> <img class="modal-image astro-cb7d7j45" id="modal-img"> <div class="modal-caption astro-cb7d7j45" id="modal-caption"></div> </div> <div class="showcase-card astro-cb7d7j45"> <article class="card astro-cb7d7j45"> <div class="image-container astro-cb7d7j45" onclick="openModal(this)"> <img src="/_astro/5.DfHxyd0T.png" class="showcase-image astro-cb7d7j45" data-full-src="/_astro/5.DfHxyd0T.png"> </div> </article> </div> <!-- Modal для полноразмерного просмотра --> <div id="image-modal" class="image-modal astro-cb7d7j45" onclick="closeModal()"> <span class="modal-close astro-cb7d7j45">&times;</span> <img class="modal-image astro-cb7d7j45" id="modal-img"> <div class="modal-caption astro-cb7d7j45" id="modal-caption"></div> </div> <div class="showcase-card astro-cb7d7j45"> <article class="card astro-cb7d7j45"> <div class="image-container astro-cb7d7j45" onclick="openModal(this)"> <img src="/_astro/6.t3Uv-u2l.png" class="showcase-image astro-cb7d7j45" data-full-src="/_astro/6.t3Uv-u2l.png"> </div> </article> </div> <!-- Modal для полноразмерного просмотра --> <div id="image-modal" class="image-modal astro-cb7d7j45" onclick="closeModal()"> <span class="modal-close astro-cb7d7j45">&times;</span> <img class="modal-image astro-cb7d7j45" id="modal-img"> <div class="modal-caption astro-cb7d7j45" id="modal-caption"></div> </div> <div class="showcase-card astro-cb7d7j45"> <article class="card astro-cb7d7j45"> <div class="image-container astro-cb7d7j45" onclick="openModal(this)"> <img src="/_astro/7.CFu_lq35.png" class="showcase-image astro-cb7d7j45" data-full-src="/_astro/7.CFu_lq35.png"> </div> </article> </div> <!-- Modal для полноразмерного просмотра --> <div id="image-modal" class="image-modal astro-cb7d7j45" onclick="closeModal()"> <span class="modal-close astro-cb7d7j45">&times;</span> <img class="modal-image astro-cb7d7j45" id="modal-img"> <div class="modal-caption astro-cb7d7j45" id="modal-caption"></div> </div> </div> 
+<div style="margin-top: 4rem; margin-bottom: 3rem;"><h1 style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 3rem; color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;"><svg aria-hidden="true" class=" astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M20.16 5A6.29 6.29 0 0 0 12 4.36a6.27 6.27 0 0 0-8.16 9.48l6.21 6.22a2.78 2.78 0 0 0 3.9 0l6.21-6.22a6.27 6.27 0 0 0 0-8.84m-1.41 7.46-6.21 6.21a.76.76 0 0 1-1.08 0l-6.21-6.24a4.29 4.29 0 0 1 0-6 4.27 4.27 0 0 1 6 0 1 1 0 0 0 1.42 0 4.27 4.27 0 0 1 6 0 4.29 4.29 0 0 1 .08 6Z"/></svg><p>Благодарности</p></h1><p style="color: var(--ctp-subtext1); font-size: 1.125rem; line-height: 1.7; max-width: 800px; margin: 0 auto 2rem auto; text-align: center;"><p>Мы выражаем огромную благодарность всем участникам, которые помогли в разработке проекта!</p></p></div>
+<div class="card-grid astro-zntqmydn"><div class="contributor-card astro-56nme5iy" data-username="K1rsN7"> <div class="contributor-card-inner tilt-element astro-56nme5iy" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-56nme5iy"> <!-- Верхний блок: аватарка слева, имя/username справа --> <div class="user-block astro-56nme5iy"> <div class="avatar astro-56nme5iy"> <img src="https://github.com/K1rsN7.png?size=128" alt="K1rsN7 avatar" loading="lazy" class="astro-56nme5iy"> </div> <div class="user-info astro-56nme5iy"> <div class="name-line astro-56nme5iy"> <a href="https://github.com/K1rsN7" target="_blank" rel="noopener noreferrer" class="name astro-56nme5iy"> K1rsN7 </a> <span class="username astro-56nme5iy">@K1rsN7</span> </div> <div class="status astro-56nme5iy">I use @meowrch</div> </div> </div> <!-- Нижний блок: цитата с благодарностью --> <div class="quote-block astro-56nme5iy"> <div class="quote-icon astro-56nme5iy"><?xml version="1.0" encoding="utf-8"?>
+
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <path fill="none" d="M0 0h24v24H0z"/>
+        <path d="M19.417 6.679C20.447 7.773 21 9 21 10.989c0 3.5-2.457 6.637-6.03 8.188l-.893-1.378c3.335-1.804 3.987-4.145 4.247-5.621-.537.278-1.24.375-1.929.311-1.804-.167-3.226-1.648-3.226-3.489a3.5 3.5 0 0 1 3.5-3.5c1.073 0 2.099.49 2.748 1.179zm-10 0C10.447 7.773 11 9 11 10.989c0 3.5-2.457 6.637-6.03 8.188l-.893-1.378c3.335-1.804 3.987-4.145 4.247-5.621-.537.278-1.24.375-1.929.311C4.591 12.322 3.17 10.841 3.17 9a3.5 3.5 0 0 1 3.5-3.5c1.073 0 2.099.49 2.748 1.179z"/>
+    </g>
+</svg></div> Активно участвует в развитии проекта с самого начала, помогает с разработкой и решением проблем. </div> </article> </div> </div> <script>
+(() => {
+  const CACHE_TTL = 24 * 60 * 60 * 1000; // 24h
+  function getCacheKey(u) { return `gh_user_${u}`; }
+  function readCache(u) {
+    try {
+      const raw = localStorage.getItem(getCacheKey(u));
+      if (!raw) return null;
+      const { data, ts } = JSON.parse(raw);
+      if (!ts || (Date.now() - ts) > CACHE_TTL) return null;
+      return data;
+    } catch { return null; }
+  }
+  function writeCache(u, data) {
+    try { localStorage.setItem(getCacheKey(u), JSON.stringify({ data, ts: Date.now() })); } catch {}
+  }
+  function enhance(card) {
+    const username = card?.dataset?.username;
+    if (!username) return;
+
+    const cached = readCache(username);
+    if (cached) {
+      const nameEl = card.querySelector('.name');
+      const statusEl = card.querySelector('.status');
+      const avatarImg = card.querySelector('.avatar img');
+      if (nameEl && cached?.name) nameEl.textContent = cached.name;
+      if (statusEl && cached?.bio) statusEl.textContent = cached.bio;
+      if (avatarImg && cached?.avatar_url) avatarImg.src = cached.avatar_url;
+      return;
+    }
+
+    fetch(`https://api.github.com/users/${username}`)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (!data) return;
+        writeCache(username, data);
+        const nameEl = card.querySelector('.name');
+        const statusEl = card.querySelector('.status');
+        const avatarImg = card.querySelector('.avatar img');
+        if (nameEl && data?.name) nameEl.textContent = data.name;
+        if (statusEl && data?.bio) statusEl.textContent = data.bio;
+        if (avatarImg && data?.avatar_url) avatarImg.src = data.avatar_url;
+      })
+      .catch(() => {});
+  }
+  function initAll() {
+    document.querySelectorAll('.contributor-card').forEach(enhance);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll, { once: true });
+  } else {
+    initAll();
+  }
+  document.addEventListener('astro:page-load', initAll);
+})();
+</script> <div class="contributor-card astro-56nme5iy" data-username="haru2503"> <div class="contributor-card-inner tilt-element astro-56nme5iy" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-56nme5iy"> <!-- Верхний блок: аватарка слева, имя/username справа --> <div class="user-block astro-56nme5iy"> <div class="avatar astro-56nme5iy"> <img src="https://github.com/haru2503.png?size=128" alt="haru2503 avatar" loading="lazy" class="astro-56nme5iy"> </div> <div class="user-info astro-56nme5iy"> <div class="name-line astro-56nme5iy"> <a href="https://github.com/haru2503" target="_blank" rel="noopener noreferrer" class="name astro-56nme5iy"> haru2503 </a> <span class="username astro-56nme5iy">@haru2503</span> </div> <div class="status astro-56nme5iy">I use @meowrch</div> </div> </div> <!-- Нижний блок: цитата с благодарностью --> <div class="quote-block astro-56nme5iy"> <div class="quote-icon astro-56nme5iy"><?xml version="1.0" encoding="utf-8"?>
+
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <path fill="none" d="M0 0h24v24H0z"/>
+        <path d="M19.417 6.679C20.447 7.773 21 9 21 10.989c0 3.5-2.457 6.637-6.03 8.188l-.893-1.378c3.335-1.804 3.987-4.145 4.247-5.621-.537.278-1.24.375-1.929.311-1.804-.167-3.226-1.648-3.226-3.489a3.5 3.5 0 0 1 3.5-3.5c1.073 0 2.099.49 2.748 1.179zm-10 0C10.447 7.773 11 9 11 10.989c0 3.5-2.457 6.637-6.03 8.188l-.893-1.378c3.335-1.804 3.987-4.145 4.247-5.621-.537.278-1.24.375-1.929.311C4.591 12.322 3.17 10.841 3.17 9a3.5 3.5 0 0 1 3.5-3.5c1.073 0 2.099.49 2.748 1.179z"/>
+    </g>
+</svg></div> Всегда готов прийти на помощь другим пользователям, решает проблемы сообщества. </div> </article> </div> </div> <script>
+(() => {
+  const CACHE_TTL = 24 * 60 * 60 * 1000; // 24h
+  function getCacheKey(u) { return `gh_user_${u}`; }
+  function readCache(u) {
+    try {
+      const raw = localStorage.getItem(getCacheKey(u));
+      if (!raw) return null;
+      const { data, ts } = JSON.parse(raw);
+      if (!ts || (Date.now() - ts) > CACHE_TTL) return null;
+      return data;
+    } catch { return null; }
+  }
+  function writeCache(u, data) {
+    try { localStorage.setItem(getCacheKey(u), JSON.stringify({ data, ts: Date.now() })); } catch {}
+  }
+  function enhance(card) {
+    const username = card?.dataset?.username;
+    if (!username) return;
+
+    const cached = readCache(username);
+    if (cached) {
+      const nameEl = card.querySelector('.name');
+      const statusEl = card.querySelector('.status');
+      const avatarImg = card.querySelector('.avatar img');
+      if (nameEl && cached?.name) nameEl.textContent = cached.name;
+      if (statusEl && cached?.bio) statusEl.textContent = cached.bio;
+      if (avatarImg && cached?.avatar_url) avatarImg.src = cached.avatar_url;
+      return;
+    }
+
+    fetch(`https://api.github.com/users/${username}`)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (!data) return;
+        writeCache(username, data);
+        const nameEl = card.querySelector('.name');
+        const statusEl = card.querySelector('.status');
+        const avatarImg = card.querySelector('.avatar img');
+        if (nameEl && data?.name) nameEl.textContent = data.name;
+        if (statusEl && data?.bio) statusEl.textContent = data.bio;
+        if (avatarImg && data?.avatar_url) avatarImg.src = data.avatar_url;
+      })
+      .catch(() => {});
+  }
+  function initAll() {
+    document.querySelectorAll('.contributor-card').forEach(enhance);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll, { once: true });
+  } else {
+    initAll();
+  }
+  document.addEventListener('astro:page-load', initAll);
+})();
+</script> <div class="contributor-card astro-56nme5iy" data-username="Redm00us"> <div class="contributor-card-inner tilt-element astro-56nme5iy" data-tilt data-tilt-max="6" data-tilt-speed="2000" data-tilt-glare data-tilt-max-glare="0.4"> <article class="card astro-56nme5iy"> <!-- Верхний блок: аватарка слева, имя/username справа --> <div class="user-block astro-56nme5iy"> <div class="avatar astro-56nme5iy"> <img src="https://github.com/Redm00us.png?size=128" alt="Redm00us avatar" loading="lazy" class="astro-56nme5iy"> </div> <div class="user-info astro-56nme5iy"> <div class="name-line astro-56nme5iy"> <a href="https://github.com/Redm00us" target="_blank" rel="noopener noreferrer" class="name astro-56nme5iy"> Redm00us </a> <span class="username astro-56nme5iy">@Redm00us</span> </div> <div class="status astro-56nme5iy">I use @meowrch</div> </div> </div> <!-- Нижний блок: цитата с благодарностью --> <div class="quote-block astro-56nme5iy"> <div class="quote-icon astro-56nme5iy"><?xml version="1.0" encoding="utf-8"?>
+
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <path fill="none" d="M0 0h24v24H0z"/>
+        <path d="M19.417 6.679C20.447 7.773 21 9 21 10.989c0 3.5-2.457 6.637-6.03 8.188l-.893-1.378c3.335-1.804 3.987-4.145 4.247-5.621-.537.278-1.24.375-1.929.311-1.804-.167-3.226-1.648-3.226-3.489a3.5 3.5 0 0 1 3.5-3.5c1.073 0 2.099.49 2.748 1.179zm-10 0C10.447 7.773 11 9 11 10.989c0 3.5-2.457 6.637-6.03 8.188l-.893-1.378c3.335-1.804 3.987-4.145 4.247-5.621-.537.278-1.24.375-1.929.311C4.591 12.322 3.17 10.841 3.17 9a3.5 3.5 0 0 1 3.5-3.5c1.073 0 2.099.49 2.748 1.179z"/>
+    </g>
+</svg></div> Расширяет границы проекта, создавая версию для NixOS и адаптируя под новые платформы. </div> </article> </div> </div> <script>
+(() => {
+  const CACHE_TTL = 24 * 60 * 60 * 1000; // 24h
+  function getCacheKey(u) { return `gh_user_${u}`; }
+  function readCache(u) {
+    try {
+      const raw = localStorage.getItem(getCacheKey(u));
+      if (!raw) return null;
+      const { data, ts } = JSON.parse(raw);
+      if (!ts || (Date.now() - ts) > CACHE_TTL) return null;
+      return data;
+    } catch { return null; }
+  }
+  function writeCache(u, data) {
+    try { localStorage.setItem(getCacheKey(u), JSON.stringify({ data, ts: Date.now() })); } catch {}
+  }
+  function enhance(card) {
+    const username = card?.dataset?.username;
+    if (!username) return;
+
+    const cached = readCache(username);
+    if (cached) {
+      const nameEl = card.querySelector('.name');
+      const statusEl = card.querySelector('.status');
+      const avatarImg = card.querySelector('.avatar img');
+      if (nameEl && cached?.name) nameEl.textContent = cached.name;
+      if (statusEl && cached?.bio) statusEl.textContent = cached.bio;
+      if (avatarImg && cached?.avatar_url) avatarImg.src = cached.avatar_url;
+      return;
+    }
+
+    fetch(`https://api.github.com/users/${username}`)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (!data) return;
+        writeCache(username, data);
+        const nameEl = card.querySelector('.name');
+        const statusEl = card.querySelector('.status');
+        const avatarImg = card.querySelector('.avatar img');
+        if (nameEl && data?.name) nameEl.textContent = data.name;
+        if (statusEl && data?.bio) statusEl.textContent = data.bio;
+        if (avatarImg && data?.avatar_url) avatarImg.src = data.avatar_url;
+      })
+      .catch(() => {});
+  }
+  function initAll() {
+    document.querySelectorAll('.contributor-card').forEach(enhance);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll, { once: true });
+  } else {
+    initAll();
+  }
+  document.addEventListener('astro:page-load', initAll);
+})();
+</script> </div>  </div> <footer class="sl-flex astro-3yyafb3n"> <div class="meta sl-flex astro-3yyafb3n">   </div> <div class="pagination-links print:hidden astro-u2l5gyhi" dir="ltr">   </div>   </footer>  </div> </div>  </main> </div> </div>  </div> </div>  </body></html>
