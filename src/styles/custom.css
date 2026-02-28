@@ -108,10 +108,6 @@ site-search kbd {
   background-color: var(--sl-color-gray-5) !important;
 }
 
-.page {
-  overflow: hidden;
-  max-width: 100%;
-}
 
 /* Glassmorphism для баннера версий */
 /* Перехватываем баннер из starlight-versions */
@@ -312,11 +308,6 @@ main > div:first-child a:hover {
   --blue-400: #60a5fa;
 }
 
-/* Поднимаем основной контент над авророй */
-main {
-  position: relative;
-  z-index: 1;
-}
 
 /* Hero базовый контейнер */
 .hero {
@@ -765,3 +756,77 @@ html {
 /* ================================================== */
 /* END TABLE STYLES */
 /* ================================================== */
+
+/* ================================================== */
+/* FIX FOR AURORA BACKGROUND SCROLLING AND Z-INDEX */
+/* ================================================== */
+
+/* 
+  По умолчанию Starlight заливает страницу базовым цветом.
+  Мы делаем ВСЕ обертки прозрачными, чтобы наш фон,
+  который мы скриптом закинули в body, был виден.
+*/
+body {
+  /* Задаем базовый цвет прямо на body, он будет под сиянием */
+  background-color: var(--ctp-base) !important;
+}
+
+/* Делаем прозрачными слои фреймворка */
+.page, 
+main, 
+.sl-container {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* 
+  Так как сияние лежит в body и имеет z-index: 0,
+  мы должны гарантировать, что весь полезный контент будет ВЫШЕ (z-index: 10).
+*/
+main {
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+/* ================================================== */
+/* STICKY HEADER & GLASSMORPHISM */
+/* ================================================== */
+
+/* 
+  В Starlight чтобы закрепить шапку, нужно закрепить не только header, 
+  но и обертку, в которой он находится, используя position: sticky.
+  Это самый безопасный способ, который не ломает Grid-разметку фреймворка.
+*/
+.page {
+  /* Разрешаем элементам внутри .page прилипать */
+  overflow: visible !important; 
+}
+
+/* Настраиваем сам хедер */
+header.header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+  width: 100% !important;
+  
+  /* Эффекты Glassmorphism */
+  background: rgba(30, 30, 46, 0.75) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(203, 166, 247, 0.15) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+  
+  /* Плавный переход, если потребуется анимация при скролле */
+  transition: all 0.3s ease;
+}
+
+/* Светлая тема для navbar */
+:root[data-theme="light"] header.header {
+  background: rgba(239, 241, 245, 0.8) !important;
+  border-bottom: 1px solid rgba(136, 57, 239, 0.15) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+.main-frame {
+  padding-top: 0;
+}

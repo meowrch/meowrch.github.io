@@ -3,7 +3,8 @@
 const { showRadialGradient = true } = Astro.props;
 ---
 
-<div class="aurora-background-wrapper">
+<!-- Задаем уникальный ID, чтобы скрипт мог легко найти элемент -->
+<div id="aurora-portal" class="aurora-background-wrapper">
   <div class="aurora-background-inner">
     <div class:list={["aurora-effect", { "show-radial": showRadialGradient }]}></div>
   </div>
@@ -11,74 +12,68 @@ const { showRadialGradient = true } = Astro.props;
 
 <style>
   .aurora-background-wrapper {
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 0;
-    bottom: auto;
-    overflow: visible;
-    z-index: -1;
+    /* Обязательно fixed */
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden;
     pointer-events: none;
+    /* Устанавливаем базовый z-index */
+    z-index: 0 !important;
   }
 
   .aurora-background-inner {
     position: absolute;
-    top: 0;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    width: 150vw;
-    height: 120vh;
-    overflow: hidden;
+    transform: translate(-50%, -50%);
+    width: 150vw; 
+    height: 150vh;
   }
 
   .aurora-effect {
     position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    height: 100%;
+    inset: 0;
     
     --white-gradient: repeating-linear-gradient(100deg, var(--white) 0%, var(--white) 6%, var(--transparent) 9%, var(--transparent) 11%, var(--white) 14%);
     --dark-gradient: repeating-linear-gradient(100deg, var(--black) 0%, var(--black) 6%, var(--transparent) 9%, var(--transparent) 11%, var(--black) 14%);
     --aurora: repeating-linear-gradient(100deg, var(--blue-500) 8%, var(--indigo-300) 12%, var(--blue-300) 16%, var(--violet-200) 20%, var(--blue-400) 24%);
     
     background-image: var(--dark-gradient), var(--aurora);
-
     background-size: 200%, 140%;
     background-position: 50% 50%, 50% 50%;
     
     filter: blur(10px);
     opacity: 0.25;
-    will-change: transform;
     pointer-events: none;
   }
 
-  /* Радиальная маска */
   .aurora-effect.show-radial {
-    /* Уменьшим область видимости маски, чтобы эффект занимал меньшую часть экрана */
     mask-image: radial-gradient(ellipse at 100% 0%, black 10%, transparent 48%);
     -webkit-mask-image: radial-gradient(ellipse at 100% 0%, black 10%, transparent 48%);
   }
 
-  /* Второй слой с mix-blend-difference */
   .aurora-effect::after {
     content: '';
     position: absolute;
-    inset: 0;
+    inset: -50%; 
     
     background-image: var(--dark-gradient), var(--aurora);
-    background-size: 160%, 120%;
-    background-attachment: scroll;
+    background-size: 80%, 60%;
+    background-position: center;
     
     mix-blend-mode: difference;
-    animation: aurora 20s ease-in-out infinite;
-
+    
+    will-change: transform;
+    animation: aurora-gpu 20s ease-in-out infinite;
     opacity: 0.6;
   }
 
-  /* Светлая тема */
-:root[data-theme="light"] .aurora-effect {
+  :root[data-theme="light"] .aurora-effect {
     background-image: var(--white-gradient), var(--aurora);
     filter: blur(10px) invert(1);
     opacity: 0.3;
@@ -88,29 +83,28 @@ const { showRadialGradient = true } = Astro.props;
     background-image: var(--white-gradient), var(--aurora);
   }
 
-  /* Темная тема - инверсия отключена */
   :root:not([data-theme="light"]) .aurora-effect {
     filter: blur(10px) invert(0);
   }
 
-  @keyframes aurora {
+  @keyframes aurora-gpu {
     0%, 100% {
-      background-position: 50% 50%, 50% 50%;
+      transform: translate3d(0, 0, 0);
     }
     50% {
-      background-position: 100% 100%, 100% 100%;
+      transform: translate3d(-10%, -10%, 0);
     }
   }
 </style>
 
 <script>
-  // Переносим аврору в начало основного скролл-контейнера, чтобы sticky работал как у header
-  (() => {
-    const wrapper = document.querySelector('.aurora-background-wrapper');
-    const main = document.querySelector('main');
-    if (!wrapper || !main) return;
-    if (wrapper.parentElement !== main) {
-      main.prepend(wrapper);
+  // Этот скрипт выполнится на клиенте
+  document.addEventListener('DOMContentLoaded', () => {
+    const aurora = document.getElementById('aurora-portal');
+    if (aurora) {
+      // 1. Вырываем элемент из дерева Starlight и вставляем прямо в body
+      // Это чинит position: fixed при скроллинге
+      document.body.appendChild(aurora);
     }
-  })();
+  });
 </script>
