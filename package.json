@@ -8,7 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "npm run build && gh-pages -d dist -r https://github.com/meowrch/meowrch.github.io.git"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.35.1",
