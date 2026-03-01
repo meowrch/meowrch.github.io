@@ -830,3 +830,61 @@ header.header {
 .main-frame {
   padding-top: 0;
 }
+
+/* ================================================== */
+/* NATIVE DIALOG MODAL STYLES */
+/* ================================================== */
+#native-image-modal {
+  margin: auto;
+  padding: 0;
+  border: none;
+  background: transparent;
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow: visible;
+  outline: none;
+}
+
+/* Фон модалки (размытие поверх сайта) */
+#native-image-modal::backdrop {
+  background-color: rgba(17, 17, 27, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+:root[data-theme="light"] #native-image-modal::backdrop {
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+#native-image-modal .modal-image {
+  display: block;
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 12px;
+  margin: 0 auto;
+}
+
+#native-image-modal .modal-caption {
+  text-align: center;
+  color: var(--ctp-subtext1);
+  padding-top: 15px;
+  font-size: 1.1rem;
+}
+
+#native-image-modal .modal-close {
+  position: fixed;
+  top: 20px;
+  right: 30px;
+  color: var(--ctp-text);
+  font-size: 40px;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+}
+
+#native-image-modal .modal-close:hover {
+  color: var(--ctp-mauve);
+}

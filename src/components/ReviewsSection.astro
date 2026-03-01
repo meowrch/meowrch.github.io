@@ -600,6 +600,25 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
       document.body.style.overflow = 'hidden';
     });
 
+    // === ПРАВИЛЬНЫЙ ПОРТАЛ МОДАЛОК ===
+    // 1. Создаем обертку с классом reviews-section, чтобы сохранились все CSS-стили
+    let portal = document.getElementById('reviews-portal');
+    if (!portal) {
+      portal = document.createElement('div');
+      portal.id = 'reviews-portal';
+      portal.className = 'reviews-section'; // Критически важно для стилей!
+      portal.style.margin = '0';
+      portal.style.padding = '0';
+      // Поднимаем выше шапки (у шапки z-index 1000)
+      portal.style.position = 'relative'; 
+      portal.style.zIndex = '9999';
+      document.body.appendChild(portal);
+    }
+    // 2. Переносим модалки в новый портал
+    if (modal && modal.parentElement !== portal) portal.appendChild(modal);
+    if (viewModal && viewModal.parentElement !== portal) portal.appendChild(viewModal);
+    // =================================
+
     // Load reviews
     (async () => {
       try {
