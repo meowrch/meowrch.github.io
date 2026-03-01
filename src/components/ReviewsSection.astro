@@ -5,6 +5,9 @@ const {
   owner = 'meowrch',
   repo = 'meowrch',
   category = 'Reviews',
+  categorySlug = '',
+  discussionsBase = '',
+  discussionsNewBase = '',
   heading = '',
   headingId = '',
   locale = 'auto',
@@ -26,7 +29,7 @@ const serverTexts = {
 };
 const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
 ---
-<section class="reviews-section" data-owner={owner} data-repo={repo} data-category={category} data-locale={resolvedLocale} data-heading={fallbackHeading}>
+<section class="reviews-section" data-owner={owner} data-repo={repo} data-category={category} data-category-slug={categorySlug} data-discussions-base={discussionsBase} data-discussions-new={discussionsNewBase} data-locale={resolvedLocale} data-heading={fallbackHeading}>
   <div class="section-header">
     
     <h2 class="section-title" {...(headingId ? {id: headingId} : {})}>
@@ -390,6 +393,10 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
     const owner = root.dataset.owner || 'meowrch';
     const repo = root.dataset.repo || 'meowrch';
     const category = root.dataset.category || 'Reviews';
+    const categorySlug = root.dataset.categorySlug || '';
+    const discussionsBase = root.dataset.discussionsBase || `https://github.com/${owner}/${repo}/discussions`;
+    const discussionsNew = root.dataset.discussionsNew || `https://github.com/${owner}/${repo}/discussions/new`;
+
     const dsLocale = (root.dataset.locale || '').toLowerCase();
     let L = 'en';
     if (dsLocale === 'ru' || dsLocale.startsWith('ru')) {
@@ -411,7 +418,7 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
     btnSubmit.textContent = i18n.submit;
     if (whyTitleEl) whyTitleEl.textContent = i18n.whyGitHubTitle;
     if (whyTextEl) whyTextEl.textContent = i18n.whyGitHubText;
-    if (whyLinkEl) { whyLinkEl.textContent = i18n.whyGitHubLearn; whyLinkEl.href = `https://github.com/${owner}/${repo}/discussions`; }
+    if (whyLinkEl) { whyLinkEl.textContent = i18n.whyGitHubLearn; whyLinkEl.href = discussionsBase; }
 
 
     // --- Paging state
@@ -501,8 +508,9 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
         }
       }
 
-      const url = new URL(`https://github.com/${owner}/${repo}/discussions/new`);
-      if (category) url.searchParams.set('category', category);
+      const url = new URL(discussionsNew);
+      const cat = (categorySlug || String(category || '').toLowerCase()).trim();
+      if (cat) url.searchParams.set('category', cat);
       const stars = '⭐'.repeat(draftRating);
       const bodyLines = [stars, '', draftText.trim()];
       url.searchParams.set('title', L === 'ru' ? `Отзыв (${draftRating}/5)` : `Review (${draftRating}/5)`);
@@ -834,4 +842,3 @@ const fallbackHeading = heading || serverTexts[resolvedLocale].heading;
 .reviews-section .hint { text-align: center; opacity: .8; font-size: .9rem; }
 
 </style>
-
