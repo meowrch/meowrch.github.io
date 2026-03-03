@@ -38,7 +38,7 @@ export default defineConfig({
 				},
 				{
 					label: 'Installation & Removal',
-					collapsed: true,
+					collapsed: false,
 					translations: { ru: 'Установка & Удаление' },
 					autogenerate: { directory: 'installation' }
 				},
@@ -47,19 +47,32 @@ export default defineConfig({
 					translations: { ru: 'База про meowrch' },
 					items: [
 						{
-							label: 'XDG',
-							translations: { ru: 'XDG' },
+							label: 'XDG & Environment',
+							translations: { ru: 'XDG & Environment' },
 							link: '/meowrch-base/xdg/'
 						},
 						{
-							label: 'Customization',
+							label: 'Ecosystem',
 							collapsed: true,
+							translations: { ru: 'Экосистема' },
+							items: [
+								{
+									label: 'Pawlette',
+									collapsed: true,
+									translations: { ru: 'Pawlette' },
+									autogenerate: { directory: 'meowrch-base/ecosystem/pawlette' }
+								}
+							]
+						},
+						{
+							label: 'Customization',
+							collapsed: false,
 							translations: { ru: 'Кастомизация' },
 							autogenerate: { directory: 'meowrch-base/customization' }
 						},
 						{
 							label: 'Hotkeys',
-							collapsed: true,
+							collapsed: false,
 							translations: { ru: 'Горячие клавиши' },
 							autogenerate: { directory: 'meowrch-base/hotkeys' }
 						}
@@ -80,6 +93,7 @@ export default defineConfig({
 				{
 					label: 'Troubleshooting',
 					translations: { ru: 'Решение проблем' },
+					collapsed: true,
 					items: [
 						{
 							label: 'Dualboot',

@@ -1,0 +1,50 @@
+---
+title: Темы
+description: Базовые действия с темами в Meowrch
+sidebar:
+  order: 2
+---
+
+Темы в Meowrch управляются через **Pawlette** — менеджер тем, который устанавливает и применяет конфиги, обои, иконки и прочие ресурсы.
+Если нужна подробная информация — см. [документацию Pawlette](/ru/meowrch-base/ecosystem/pawlette/pawlette/).
+
+## Как применить тему
+
+1. Посмотреть доступные темы в магазине:
+```
+pawlette get-store-themes
+```
+
+2. Установить тему:
+```
+pawlette install-theme <name>
+```
+
+3. Применить тему:
+```
+pawlette apply <name>
+```
+
+## Обновление тем
+
+Обновить одну тему:
+```
+pawlette update-theme <name>
+```
+
+Обновить все темы:
+```
+pawlette update-all-themes
+```
+
+## Полезно знать
+
+- Список установленных тем:
+```
+pawlette get-themes
+```
+
+- Активная тема:
+```
+pawlette current-theme
+```

@@ -1,0 +1,50 @@
+---
+title: Themes
+description: Basic theme operations in Meowrch
+sidebar:
+  order: 2
+---
+
+Themes in Meowrch are managed via **Pawlette** — a theme manager that installs and applies configs, wallpapers, icons, and other resources.
+For advanced usage, see the [Pawlette documentation](/en/meowrch-base/ecosystem/pawlette/pawlette/).
+
+## How to apply a theme
+
+1. List themes available in the store:
+```
+pawlette get-store-themes
+```
+
+2. Install a theme:
+```
+pawlette install-theme <name>
+```
+
+3. Apply a theme:
+```
+pawlette apply <name>
+```
+
+## Update themes
+
+Update one theme:
+```
+pawlette update-theme <name>
+```
+
+Update all themes:
+```
+pawlette update-all-themes
+```
+
+## Useful commands
+
+- List installed themes:
+```
+pawlette get-themes
+```
+
+- Current theme:
+```
+pawlette current-theme
+```
