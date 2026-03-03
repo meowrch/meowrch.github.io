@@ -21,7 +21,8 @@ Everything you need to install the system:
 
 #### Meowrch Basics
 Learn more about meowrch's default settings. Learn how to customize the system:
-- [Basic Customization](/en/meowrch-base/customization/customization/)
+- [Wallpapers](/en/meowrch-base/customization/wallpapers/)
+- [XDG](/en/meowrch-base/xdg/)
 - [Default Hotkeys](/en/meowrch-base/hotkeys/meowrch-hotkeys/)
 
 #### [Ports and Alternative Builds](/en/introduction/community-forks/)
@@ -48,7 +49,7 @@ Improve performance:
 
 1. **[Install the system](/en/installation/complete-guide/)** — complete guide from download to first boot
 2. **[Learn the hotkeys](/en/meowrch-base/hotkeys/meowrch-hotkeys/)** — the foundation of efficient work
-3. **[Customize the appearance](/en/meowrch-base/customization/customization/)** — make the system yours
+3. **[Customize the appearance](/en/meowrch-base/customization/wallpapers/)** — make the system yours
 
 ---
 

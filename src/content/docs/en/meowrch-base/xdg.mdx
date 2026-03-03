@@ -1,0 +1,78 @@
+---
+title: XDG
+description: How Meowrch uses the XDG standard and keeps the home directory clean
+---
+
+Meowrch actively supports the **XDG** standard so configs, cache, and app data don’t clutter `~`.
+We keep things where they belong: `~/.config`, `~/.local/share`, `~/.cache`, and so on.
+
+## Where core variables are defined
+
+Core environment variables are stored in:
+
+```
+~/.config/environment.d/60-meowrch.conf
+```
+
+That’s where the key XDG paths and environment settings are defined for shells and apps.
+
+## Example of 60-meowrch.conf
+
+```ini
+LANG=en_US.UTF-8
+EDITOR=micro
+VISUAL=micro
+MICRO_TRUECOLOR=1
+BROWSER=/usr/bin/firefox
+TERMINAL=/usr/bin/kitty
+TERMINAL_CMD=kitty -e
+TERM=xterm-kitty
+XCURSOR_SIZE=20
+HYPRCURSOR_SIZE=20
+PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:$HOME/.local/bin:$PATH"
+
+_JAVA_AWT_WM_NONREPARENTING=1
+_JAVA_OPTIONS=-Dsun.java2d.opengl=true
+
+XDG_DATA_HOME=$HOME/.local/share
+XDG_CONFIG_HOME=$HOME/.config
+XDG_STATE_HOME=$HOME/.local/state
+XDG_CACHE_HOME=$HOME/.cache
+XDG_BIN_HOME=$HOME/.local/bin
+
+ZDOTDIR=$XDG_CONFIG_HOME/zsh
+GTK2_RC_FILES=$XDG_CONFIG_HOME/gtk-2.0/gtkrc
+XCURSOR_PATH=/usr/share/icons:$XDG_DATA_HOME/icons
+CARGO_HOME=$XDG_DATA_HOME/cargo
+CUDA_CACHE_PATH=$XDG_CACHE_HOME/nv
+GNUPGHOME=$XDG_DATA_HOME/gnupg
+REDISCLI_HISTFILE=$XDG_DATA_HOME/redis/rediscli_history
+RUSTUP_HOME=$XDG_DATA_HOME/rustup
+NODE_REPL_HISTORY=$XDG_DATA_HOME/node_repl_history
+PYENV_ROOT=$XDG_DATA_HOME/pyenv
+WAKATIME_HOME=$XDG_CONFIG_HOME/wakatime
+
+QT_QPA_PLATFORM=wayland;xcb
+QT_QPA_PLATFORMTHEME=qt6ct
+QT_AUTO_SCREEN_SCALE_FACTOR=1
+QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+GDK_SCALE=1
+ELECTRON_OZONE_PLATFORM_HINT=auto
+```
+
+## Why this matters
+
+- **Clean home directory** — less clutter in `~`.
+- **Predictable structure** — easier backups and syncing.
+- **Compatibility** — most modern Linux tools understand XDG.
+
+## Where configs are moved
+
+We move configs for many tools into XDG paths. For example:
+- `zsh` → `~/.config/zsh`
+- `gtk2` → `~/.config/gtk-2.0/gtkrc`
+- `cargo` → `~/.local/share/cargo`
+- `gnupg` → `~/.local/share/gnupg`
+
+If you want to override variables, add your own file in `~/.config/environment.d/`  
+with a higher number (e.g., `90-custom.conf`).

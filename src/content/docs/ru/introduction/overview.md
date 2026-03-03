@@ -21,7 +21,8 @@ Meowrch — это готовая к использованию сборка Arc
 
 #### База про meowrch
 Узнайте больше о настройках meowrch по умолчанию. Научитесь настраивать систему под себя:
-- [Базовая кастомизация](/ru/meowrch-base/customization/customization/)
+- [Обои](/ru/meowrch-base/customization/wallpapers/)
+- [XDG](/ru/meowrch-base/xdg/)
 - [Стандартные сочетания клавиш](/ru/meowrch-base/hotkeys/meowrch-hotkeys/)
 
 #### [Порты и альтернативные сборки](/ru/introduction/community-forks/)
@@ -48,7 +49,7 @@ Meowrch — это готовая к использованию сборка Arc
 
 1. **[Установите систему](/ru/installation/complete-guide/)** — полное руководство от загрузки до первого запуска
 2. **[Изучите горячие клавиши](/ru/meowrch-base/hotkeys/meowrch-hotkeys/)** — основа эффективной работы
-3. **[Настройте внешний вид](/ru/meowrch-base/customization/customization/)** — сделайте систему своей
+3. **[Настройте внешний вид](/ru/meowrch-base/customization/wallpapers/)** — сделайте систему своей
 
 ---
 

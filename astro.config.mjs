@@ -47,6 +47,11 @@ export default defineConfig({
 					translations: { ru: 'База про meowrch' },
 					items: [
 						{
+							label: 'XDG',
+							translations: { ru: 'XDG' },
+							link: '/meowrch-base/xdg/'
+						},
+						{
 							label: 'Customization',
 							collapsed: true,
 							translations: { ru: 'Кастомизация' },

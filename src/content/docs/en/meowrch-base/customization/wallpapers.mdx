@@ -1,0 +1,56 @@
+---
+title: Wallpapers
+description: Wallpaper management in Meowrch
+sidebar:
+  order: 1
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Meowrch provides a quick and simple way to manage wallpapers whether you use X11 or Wayland.
+
+## Quick wallpaper switch
+
+The primary method is the **Rofi selector**:
+
+```
+~/.local/bin/rofi-menus/wallpaper-selector.sh
+```
+
+<Aside type="note" title="The easiest way">
+Use the `Super + W` hotkey
+</Aside>
+
+The `set-wallpaper.sh` command is a helper tool (use it when you want to apply a wallpaper by path):
+
+```
+~/.local/bin/set-wallpaper.sh </path/to/wallpaper.jpg>
+```
+
+It automatically chooses the right backend:
+- `feh` for **X11**
+- `swww` for **Wayland**
+
+### Re-apply the current wallpaper
+
+The system stores a symlink to the active wallpaper,  
+so you can re-apply it with the `--current` flag:
+
+```
+~/.local/bin/set-wallpaper.sh --current
+```
+
+The current wallpaper link is located at:
+
+```
+~/.local/share/wallpapers/.current.wall
+```
+
+### Add your own wallpapers
+
+If you want to use your own wallpapers independently from themes,  
+just copy images into:
+
+```
+~/.local/share/wallpapers/
+```
