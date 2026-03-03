@@ -1,13 +1,15 @@
 ---
 title: "Welcome to meowrch Wiki 👋"
 description: "Start here — learn what meowrch is and how to use the documentation"
+sidebar:
+  order: 1
 ---
 
 Meowrch is a ready-to-use Arch Linux build with a beautiful interface, thoughtful settings, and everything you need for comfortable work out of the box.
 
 ## 🗺️ How to Use This Wiki
 
-The documentation is divided into four main sections:
+The documentation is divided into several main sections:
 
 #### [Installation](/en/installation/complete-guide/)
 Everything you need to install the system:
@@ -21,6 +23,9 @@ Everything you need to install the system:
 Learn more about meowrch's default settings. Learn how to customize the system:
 - [Basic Customization](/en/meowrch-base/customization/customization/)
 - [Default Hotkeys](/en/meowrch-base/hotkeys/meowrch-hotkeys/)
+
+#### [Ports and Alternative Builds](/en/introduction/community-forks/)
+Short overview of unofficial ports and builds for other platforms and distros.
 
 #### [Usage](/en/usage/)
 Here you'll find all the basics of using a Linux system:
