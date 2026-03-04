@@ -1,0 +1,259 @@
+---
+title: Mewline
+description: Complete guide to installing, configuring, and using the Mewline status bar for Meowrch
+sidebar:
+  order: 1
+---
+
+import { Steps, Aside, Tabs, TabItem, Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+**Mewline** is an elegant, extensible status bar for the [Meowrch](https://github.com/meowrch/meowrch) distribution, written in **Python** using the [Fabric](https://github.com/Fabric-Development/fabric) framework. It combines a minimalist design with powerful functionality, supporting both **Hyprland** and **bspwm** window managers.
+
+![Mewline overview](https://raw.githubusercontent.com/meowrch/mewline/main/assets/preview.png)
+
+## 🌟 Key Features
+
+<CardGrid>
+  <Card title="Multi-monitor Support" icon="laptop">
+    Automatically deploys the panel across all detected displays (currently implemented for Hyprland).
+  </Card>
+  <Card title="Dynamic Island" icon="puzzle">
+    An interactive popup area with launcher, bluetooth, network, wallpapers, clipboard, and more.
+  </Card>
+  <Card title="Privacy Dots" icon="approve-check-circle">
+    Visual indicators that light up in real time when apps access your microphone, camera, geolocation, or screen recording.
+  </Card>
+  <Card title="Modular Architecture" icon="setting">
+    Every component is configurable via a JSON config file — enable, disable, and tweak each module independently.
+  </Card>
+</CardGrid>
+
+- **Hyprland and bspwm support** — full integration with modern tiling window managers
+- **Theme support** — integrates tightly with the [Pawlette](/en/meowrch-base/ecosystem/pawlette/pawlette/) theme system
+- **Animated transitions and effects** — smooth, polished UI interactions
+- **Low resource usage** — lightweight Python process with minimal footprint
+- **Keyboard control** — control Dynamic Island panels via configurable keybindings
+
+---
+
+## ⚡ Installation
+
+<Tabs>
+  <TabItem label="AUR (recommended)">
+    <Steps>
+
+    1. **Install Mewline from AUR**
+
+       ```bash
+       yay -S mewline
+       ```
+
+    2. **Generate the default configuration**
+
+       ```bash
+       mewline --generate-default-config
+       ```
+
+    3. **Generate Hyprland keybindings** *(optional, Hyprland only)*
+
+       ```bash
+       mewline --create-keybindings
+       ```
+
+    4. **Edit the configuration file**
+
+       ```bash
+       micro ~/.config/mewline/config.json
+       ```
+
+    5. **Run Mewline**
+
+       ```bash
+       mewline
+       ```
+
+    </Steps>
+  </TabItem>
+  <TabItem label="From source (developers)">
+    <Steps>
+
+    1. **Install system dependencies**
+
+       ```bash
+       # Core packages
+       sudo pacman -S dart-sass tesseract tesseract-data-eng tesseract-data-rus slurp grim cliphist
+
+       # AUR packages
+       yay -S gnome-bluetooth-3.0 gray-git fabric-cli-git
+       ```
+
+    2. **Clone the repository**
+
+       ```bash
+       git clone https://github.com/meowrch/mewline && cd mewline
+       ```
+
+    3. **Install the `uv` package manager**
+
+       ```bash
+       pip install uv
+       # or via pacman:
+       sudo pacman -S uv
+       ```
+
+    4. **Install Python dependencies**
+
+       ```bash
+       uv sync
+       ```
+
+    5. **Generate the default configuration**
+
+       ```bash
+       uv run generate_default_config
+       ```
+
+    6. **Generate Hyprland keybindings** *(optional)*
+
+       ```bash
+       uv run create_keybindings
+       ```
+
+    7. **Edit the configuration file**
+
+       ```bash
+       micro ~/.config/mewline/config.json
+       ```
+
+    8. **Run Mewline**
+
+       ```bash
+       uv run mewline
+       ```
+
+    </Steps>
+  </TabItem>
+</Tabs>
+
+<Aside type="tip" title="Autostart">
+To start Mewline automatically with Hyprland, add the following line to your `~/.config/hypr/hyprland.conf`:
+```
+exec-once = mewline
+```
+</Aside>
+
+---
+
+## 🔄 Updating
+
+<Tabs>
+  <TabItem label="AUR package">
+    ```bash
+    yay -Syu mewline
+    ```
+    After updating, restart Mewline:
+    ```bash
+    pkill -f mewline && mewline &
+    ```
+  </TabItem>
+  <TabItem label="From source">
+    ```bash
+    cd mewline
+    git pull origin main
+    uv sync
+    ```
+    Then restart Mewline:
+    ```bash
+    pkill -f mewline && uv run mewline &
+    ```
+  </TabItem>
+</Tabs>
+
+<Aside type="note" title="Config after update">
+Mewline uses a resilient configuration system. If a new update adds fields that are missing from your existing config, they will be automatically filled with defaults — your settings will not be lost.
+</Aside>
+
+---
+
+## 🎨 Widgets & Modules
+
+Mewline is split into three groups of components: the **Status Bar**, the **Dynamic Island**, and **Other** utilities.
+
+### ℹ️ Status Bar
+
+These widgets appear directly on the status bar:
+
+| Module | Description |
+|---|---|
+| `tray` | System tray for background applications |
+| `workspaces` | Workspace switcher and indicator |
+| `datetime` | Date and time display |
+| `combined_controls` | Combined control group: sound, brightness, and Privacy Dots |
+| `language` | Current keyboard layout indicator |
+| `battery` | Battery charge level and status |
+| `power` | Button that opens the `power_menu` in Dynamic Island |
+| `ocr` | Capture a screenshot region and extract text via Tesseract OCR |
+
+![Status bar preview](https://raw.githubusercontent.com/meowrch/mewline/main/assets/preview7.png)
+
+### 🏝 Dynamic Island
+
+The Dynamic Island is the interactive popup layer. Each panel can be opened via a keybinding:
+
+| Module | Description | Keybinding |
+|---|---|---|
+| `compact` | Shows the active window title and currently playing music | — |
+| `notifications` | Live system notifications | — |
+| `power_menu` | Power management menu (lock, suspend, logout, reboot, shutdown) | `Super+Alt+P` |
+| `date_notification` | Calendar and notification history | `Super+Alt+D` |
+| `bluetooth` | Bluetooth device manager | `Super+Alt+B` |
+| `app_launcher` | Application launcher | `Super+Alt+A` |
+| `wallpapers` | Wallpaper picker (uses `swww`) | `Super+Alt+W` |
+| `emoji` | Emoji picker | `Super+Alt+.` |
+| `clipboard` | Clipboard history manager (uses `cliphist`) | `Super+Alt+V` |
+| `network` | Wi-Fi and Ethernet manager | `Super+Alt+N` |
+| `workspaces` | Open windows and workspaces overview | `Super+Alt+Tab` |
+
+<Aside type="tip" title="Keybindings">
+If you haven't generated Hyprland keybindings yet, run:
+```bash
+mewline --create-keybindings
+```
+This will automatically add all Dynamic Island keybindings to your Hyprland config.
+</Aside>
+
+![App launcher](https://raw.githubusercontent.com/meowrch/mewline/main/assets/preview1.png)
+
+![Bluetooth manager](https://raw.githubusercontent.com/meowrch/mewline/main/assets/preview2.png)
+
+![Network manager](https://raw.githubusercontent.com/meowrch/mewline/main/assets/preview3.png)
+
+![Wallpaper picker](https://raw.githubusercontent.com/meowrch/mewline/main/assets/preview4.png)
+
+![Emoji picker](https://raw.githubusercontent.com/meowrch/mewline/main/assets/preview5.png)
+
+![Calendar & notifications](https://raw.githubusercontent.com/meowrch/mewline/main/assets/preview6.png)
+
+### ❓ Other
+
+| Module | Description |
+|---|---|
+| `osd` | On-screen display overlay for volume and brightness change events |
+
+---
+
+## ⚙️ Configuration
+
+The configuration file lives at `~/.config/mewline/config.json`. You can generate the default config at any time:
+
+```bash
+mewline --generate-default-config
+```
+
+For a full reference of every option, module parameter, and a complete example `config.json`, see the dedicated configuration page:
+
+<LinkCard
+  title="Configuration Reference"
+  description="All config.json options, module parameters, and a full example configuration."
+  href="/en/meowrch-base/ecosystem/mewline/configuration/"
+/>

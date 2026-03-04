@@ -61,6 +61,12 @@ export default defineConfig({
 									collapsed: true,
 									translations: { ru: 'Pawlette' },
 									autogenerate: { directory: 'meowrch-base/ecosystem/pawlette' }
+								},
+								{
+									label: 'Mewline',
+									collapsed: true,
+									translations: { ru: 'Mewline' },
+									autogenerate: { directory: 'meowrch-base/ecosystem/mewline' }
 								}
 							]
 						},

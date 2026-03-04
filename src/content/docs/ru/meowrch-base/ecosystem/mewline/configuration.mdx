@@ -1,0 +1,240 @@
+---
+title: Конфигурация
+description: Полный справочник по config.json Mewline — все опции, модули и примеры
+sidebar:
+  order: 2
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Файл конфигурации Mewline находится по пути:
+
+```
+~/.config/mewline/config.json
+```
+
+Если файл не существует, автоматически используется конфигурация по умолчанию. Вы можете сгенерировать её в любой момент:
+
+```bash
+mewline --generate-default-config
+```
+
+<Aside type="note" title="Гибкая система конфигурации">
+Mewline автоматически подставляет значения по умолчанию для отсутствующих или некорректных полей конфига во время работы. Вы можете указывать только те параметры, которые хотите изменить — нет необходимости описывать весь файл целиком.
+</Aside>
+
+---
+
+## `theme`
+
+| Ключ | Тип | Описание |
+|---|---|---|
+| `name` | `str` | Имя активной темы (интеграция с Pawlette) |
+
+---
+
+## `options`
+
+| Ключ | Тип | Описание |
+|---|---|---|
+| `screen_corners` | `bool` | Включить оверлей закруглённых углов экрана |
+| `intercept_notifications` | `bool` | Перехватывать и отображать системные уведомления через Mewline |
+| `osd_enabled` | `bool` | Включить OSD‑оверлей (индикатор громкости/яркости и т.п.) |
+
+---
+
+## `modules`
+
+### `osd`
+
+| Ключ | Тип | Описание |
+|---|---|---|
+| `timeout` | `int` | Время в миллисекундах до авто‑скрытия OSD |
+| `anchor` | `str` | Позиция OSD на экране (например, `bottom-center`) |
+
+### `workspaces`
+
+| Ключ | Тип | Описание |
+|---|---|---|
+| `count` | `int` | Общее количество рабочих пространств |
+| `hide_unoccupied` | `bool` | Скрывать рабочие пространства без открытых окон |
+| `ignored` | `list[int]` | Список ID рабочих пространств, исключённых из панели |
+| `reverse_scroll` | `bool` | Инвертировать направление прокрутки колёсика мыши при переключении рабочих пространств |
+| `empty_scroll` | `bool` | Разрешить прокрутку по пустым рабочим пространствам |
+| `navigate_empty` | `bool` | Разрешить переход по клавиатуре на пустые рабочие пространства |
+| `icon_map` | `dict[str, str]` | Сопоставление ID рабочих пространств с кастомными иконками или подписями |
+
+### `system_tray`
+
+| Ключ | Тип | Описание |
+|---|---|---|
+| `icon_size` | `int` | Размер иконок в трее (в пикселях) |
+| `ignore` | `list[str]` | Список названий приложений, которые нужно скрыть из трея |
+
+### `power`
+
+| Ключ | Тип | Описание |
+|---|---|---|
+| `icon` | `str` | Иконка кнопки питания |
+| `icon_size` | `str` | Размер иконки |
+| `tooltip` | `bool` | Показывать подсказку при наведении |
+
+### `datetime`
+
+| Ключ | Тип | Описание |
+|---|---|---|
+| `format` | `str` | Формат даты/времени — используется синтаксис `strftime` из Python (например, `%H:%M  %d %b`) |
+
+### `battery`
+
+| Ключ | Тип | Описание |
+|---|---|---|
+| `show_label` | `bool` | Показывать текстовую подпись рядом с иконкой батареи |
+| `tooltip` | `bool` | Показывать подсказку с процентом заряда при наведении |
+
+### `ocr`
+
+| Ключ | Тип | Описание |
+|---|---|---|
+| `icon` | `str` | Иконка кнопки OCR |
+| `icon_size` | `str` | Размер иконки |
+| `tooltip` | `bool` | Показывать подсказку при наведении |
+| `default_lang` | `str` | Язык(и) по умолчанию для Tesseract OCR (например, `eng`, `eng+rus`) |
+
+---
+
+## `dynamic_island`
+
+### `power_menu`
+
+| Ключ | Тип | Описание |
+|---|---|---|
+| `lock_icon` | `str` | Иконка действия блокировки |
+| `lock_icon_size` | `str` | Размер иконки блокировки |
+| `suspend_icon` | `str` | Иконка перевода в режим сна |
+| `suspend_icon_size` | `str` | Размер иконки сна |
+| `logout_icon` | `str` | Иконка выхода из сессии |
+| `logout_icon_size` | `str` | Размер иконки выхода |
+| `reboot_icon` | `str` | Иконка перезагрузки |
+| `reboot_icon_size` | `str` | Размер иконки перезагрузки |
+| `shutdown_icon` | `str` | Иконка выключения |
+| `shutdown_icon_size` | `str` | Размер иконки выключения |
+
+### `compact`
+
+Управляет компактным видом Dynamic Island, который показывает активное окно и текущий трек.
+
+#### `window_titles`
+
+| Ключ | Тип | Описание |
+|---|---|---|
+| `enable_icon` | `bool` | Показывать иконку приложения рядом с заголовком окна |
+| `truncation` | `bool` | Обрезать слишком длинные заголовки окон |
+| `truncation_size` | `int` | Максимальная длина заголовка до обрезки (в символах) |
+| `title_map` | `list[tuple[str, str, str]]` | Пользовательские правила замены заголовков |
+
+#### `music`
+
+| Ключ | Тип | Описание |
+|---|---|---|
+| `enabled` | `bool` | Включить отображение музыкального/медиа‑плеера |
+| `truncation` | `bool` | Обрезать слишком длинные названия треков |
+| `truncation_size` | `int` | Максимальная длина названия трека |
+| `default_album_logo` | `str` | URL или путь к картинке обложки по умолчанию |
+
+### `wallpapers`
+
+| Ключ | Тип | Описание |
+|---|---|---|
+| `wallpapers_dirs` | `list[str]` | Список директорий, в которых искать обои |
+| `method` | `str` | Метод установки обоев — сейчас поддерживается `swww` |
+| `save_current_wall` | `bool` | Сохранять текущие обои между перезапусками |
+| `current_wall_path` | `str` | Путь к файлу, в котором хранится путь к текущим обоям |
+
+---
+
+## Полный пример `config.json`
+
+```json
+{
+  "theme": {
+    "name": "catppuccin-mocha"
+  },
+  "options": {
+    "screen_corners": true,
+    "intercept_notifications": true,
+    "osd_enabled": true
+  },
+  "modules": {
+    "osd": {
+      "timeout": 2000,
+      "anchor": "bottom-center"
+    },
+    "workspaces": {
+      "count": 10,
+      "hide_unoccupied": true,
+      "ignored": [],
+      "reverse_scroll": false,
+      "empty_scroll": false,
+      "navigate_empty": false,
+      "icon_map": {}
+    },
+    "system_tray": {
+      "icon_size": 16,
+      "ignore": []
+    },
+    "power": {
+      "icon": "󰐦",
+      "icon_size": "16px",
+      "tooltip": true
+    },
+    "datetime": {
+      "format": "%H:%M  %d %b"
+    },
+    "battery": {
+      "show_label": false,
+      "tooltip": true
+    },
+    "ocr": {
+      "icon": "󰴉",
+      "icon_size": "16px",
+      "tooltip": true,
+      "default_lang": "eng+rus"
+    },
+    "dynamic_island": {
+      "power_menu": {
+        "lock_icon": "󰌾",
+        "lock_icon_size": "22px",
+        "suspend_icon": "󰤄",
+        "suspend_icon_size": "22px",
+        "logout_icon": "󰍃",
+        "logout_icon_size": "22px",
+        "reboot_icon": "󰑓",
+        "reboot_icon_size": "22px",
+        "shutdown_icon": "󰐥",
+        "shutdown_icon_size": "22px"
+      },
+      "compact": {
+        "window_titles": {
+          "enable_icon": true,
+          "truncation": true,
+          "truncation_size": 40,
+          "title_map": []
+        },
+        "music": {
+          "enabled": true,
+          "truncation": true,
+          "truncation_size": 35,
+          "default_album_logo": ""
+        }
+      },
+      "wallpapers": {
+        "wallpapers_dirs": ["~/Pictures/Wallpapers"],
+        "method": "swww",
+        "save_current_wall": true,
+        "current_wall_path": "~/.config/mewline/current_wallpaper"
+      }
+    }
+  }
+}
+```

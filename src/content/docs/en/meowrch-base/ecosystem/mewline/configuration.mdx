@@ -1,0 +1,240 @@
+---
+title: Configuration
+description: Full reference for the Mewline config.json — all options, modules, and examples
+sidebar:
+  order: 2
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+The configuration file is located at:
+
+```
+~/.config/mewline/config.json
+```
+
+If the file does not exist, the default configuration is used automatically. You can generate it at any time:
+
+```bash
+mewline --generate-default-config
+```
+
+<Aside type="note" title="Resilient config system">
+Mewline automatically fills in missing or invalid config fields with default values at runtime. You can safely add only the fields you want to customize — no need to specify the entire file.
+</Aside>
+
+---
+
+## `theme`
+
+| Key | Type | Description |
+|---|---|---|
+| `name` | `str` | Name of the active theme (integrates with Pawlette) |
+
+---
+
+## `options`
+
+| Key | Type | Description |
+|---|---|---|
+| `screen_corners` | `bool` | Enable rounded screen corners overlay |
+| `intercept_notifications` | `bool` | Intercept and display system notifications through Mewline |
+| `osd_enabled` | `bool` | Enable the On-Screen Display (OSD) overlay |
+
+---
+
+## `modules`
+
+### `osd`
+
+| Key | Type | Description |
+|---|---|---|
+| `timeout` | `int` | Milliseconds before the OSD hides automatically |
+| `anchor` | `str` | Screen position of the OSD (e.g. `bottom-center`) |
+
+### `workspaces`
+
+| Key | Type | Description |
+|---|---|---|
+| `count` | `int` | Total number of workspaces |
+| `hide_unoccupied` | `bool` | Hide workspaces that have no open windows |
+| `ignored` | `list[int]` | List of workspace IDs to exclude from the bar |
+| `reverse_scroll` | `bool` | Invert mouse scroll direction for workspace switching |
+| `empty_scroll` | `bool` | Allow scrolling through empty workspaces |
+| `navigate_empty` | `bool` | Allow keyboard navigation to empty workspaces |
+| `icon_map` | `dict[str, str]` | Map workspace IDs to custom icons or labels |
+
+### `system_tray`
+
+| Key | Type | Description |
+|---|---|---|
+| `icon_size` | `int` | Size of tray icons in pixels |
+| `ignore` | `list[str]` | List of application names to exclude from the tray |
+
+### `power`
+
+| Key | Type | Description |
+|---|---|---|
+| `icon` | `str` | Icon for the power button |
+| `icon_size` | `str` | Icon size |
+| `tooltip` | `bool` | Show tooltip on hover |
+
+### `datetime`
+
+| Key | Type | Description |
+|---|---|---|
+| `format` | `str` | Date/time format string — uses Python `strftime` syntax (e.g. `%H:%M  %d %b`) |
+
+### `battery`
+
+| Key | Type | Description |
+|---|---|---|
+| `show_label` | `bool` | Display a text label alongside the battery icon |
+| `tooltip` | `bool` | Show tooltip with percentage on hover |
+
+### `ocr`
+
+| Key | Type | Description |
+|---|---|---|
+| `icon` | `str` | Icon for the OCR button |
+| `icon_size` | `str` | Icon size |
+| `tooltip` | `bool` | Show tooltip on hover |
+| `default_lang` | `str` | Default language(s) for Tesseract OCR (e.g. `eng`, `eng+rus`) |
+
+---
+
+## `dynamic_island`
+
+### `power_menu`
+
+| Key | Type | Description |
+|---|---|---|
+| `lock_icon` | `str` | Icon for the lock action |
+| `lock_icon_size` | `str` | Icon size |
+| `suspend_icon` | `str` | Icon for the suspend action |
+| `suspend_icon_size` | `str` | Icon size |
+| `logout_icon` | `str` | Icon for the logout action |
+| `logout_icon_size` | `str` | Icon size |
+| `reboot_icon` | `str` | Icon for the reboot action |
+| `reboot_icon_size` | `str` | Icon size |
+| `shutdown_icon` | `str` | Icon for the shutdown action |
+| `shutdown_icon_size` | `str` | Icon size |
+
+### `compact`
+
+Controls the compact Dynamic Island view showing the active window and currently playing music.
+
+#### `window_titles`
+
+| Key | Type | Description |
+|---|---|---|
+| `enable_icon` | `bool` | Show the application icon next to the window title |
+| `truncation` | `bool` | Truncate long window titles |
+| `truncation_size` | `int` | Maximum number of characters before truncation |
+| `title_map` | `list[tuple[str, str, str]]` | Custom title replacement rules |
+
+#### `music`
+
+| Key | Type | Description |
+|---|---|---|
+| `enabled` | `bool` | Enable the music/media player display |
+| `truncation` | `bool` | Truncate long track titles |
+| `truncation_size` | `int` | Maximum track title length |
+| `default_album_logo` | `str` | URL or path to the fallback album cover image |
+
+### `wallpapers`
+
+| Key | Type | Description |
+|---|---|---|
+| `wallpapers_dirs` | `list[str]` | List of directories to search for wallpapers |
+| `method` | `str` | Wallpaper setter method — currently supported: `swww` |
+| `save_current_wall` | `bool` | Persist the currently set wallpaper across restarts |
+| `current_wall_path` | `str` | Path to the file that stores the current wallpaper path |
+
+---
+
+## Full `config.json` Example
+
+```json
+{
+  "theme": {
+    "name": "catppuccin-mocha"
+  },
+  "options": {
+    "screen_corners": true,
+    "intercept_notifications": true,
+    "osd_enabled": true
+  },
+  "modules": {
+    "osd": {
+      "timeout": 2000,
+      "anchor": "bottom-center"
+    },
+    "workspaces": {
+      "count": 10,
+      "hide_unoccupied": true,
+      "ignored": [],
+      "reverse_scroll": false,
+      "empty_scroll": false,
+      "navigate_empty": false,
+      "icon_map": {}
+    },
+    "system_tray": {
+      "icon_size": 16,
+      "ignore": []
+    },
+    "power": {
+      "icon": "󰐦",
+      "icon_size": "16px",
+      "tooltip": true
+    },
+    "datetime": {
+      "format": "%H:%M  %d %b"
+    },
+    "battery": {
+      "show_label": false,
+      "tooltip": true
+    },
+    "ocr": {
+      "icon": "󰴉",
+      "icon_size": "16px",
+      "tooltip": true,
+      "default_lang": "eng+rus"
+    },
+    "dynamic_island": {
+      "power_menu": {
+        "lock_icon": "󰌾",
+        "lock_icon_size": "22px",
+        "suspend_icon": "󰤄",
+        "suspend_icon_size": "22px",
+        "logout_icon": "󰍃",
+        "logout_icon_size": "22px",
+        "reboot_icon": "󰑓",
+        "reboot_icon_size": "22px",
+        "shutdown_icon": "󰐥",
+        "shutdown_icon_size": "22px"
+      },
+      "compact": {
+        "window_titles": {
+          "enable_icon": true,
+          "truncation": true,
+          "truncation_size": 40,
+          "title_map": []
+        },
+        "music": {
+          "enabled": true,
+          "truncation": true,
+          "truncation_size": 35,
+          "default_album_logo": ""
+        }
+      },
+      "wallpapers": {
+        "wallpapers_dirs": ["~/Pictures/Wallpapers"],
+        "method": "swww",
+        "save_current_wall": true,
+        "current_wall_path": "~/.config/mewline/current_wallpaper"
+      }
+    }
+  }
+}
+```

@@ -1,0 +1,259 @@
+---
+title: Что такое Mewline?
+description: Полное руководство по установке, настройке и использованию статус-бара Mewline для Meowrch
+sidebar:
+  order: 1
+---
+
+import { Steps, Aside, Tabs, TabItem, Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+**Mewline** — это элегантная и расширяемая панель статуса для дистрибутива [Meowrch](https://github.com/meowrch/meowrch), написанная на **Python** с использованием фреймворка [Fabric](https://github.com/Fabric-Development/fabric). Она сочетает минималистичный дизайн с мощной функциональностью и поддерживает менеджеры окон **Hyprland** и **bspwm**.
+
+![Mewline overview](https://raw.githubusercontent.com/meowrch/mewline/main/assets/preview.png)
+
+## 🌟 Основные возможности
+
+<CardGrid>
+  <Card title="Поддержка нескольких мониторов" icon="laptop">
+    Автоматически разворачивает панель на всех обнаруженных мониторах (на данный момент реализовано для Hyprland).
+  </Card>
+  <Card title="Dynamic Island" icon="puzzle">
+    Интерактивная область с лаунчером, Bluetooth, сетью, обоями, буфером обмена и многим другим.
+  </Card>
+  <Card title="Privacy Dots" icon="approve-check-circle">
+    Индикаторы приватности, которые загораются в реальном времени при доступе приложений к микрофону, камере, геолокации или захвату экрана.
+  </Card>
+  <Card title="Модульная архитектура" icon="setting">
+    Каждый компонент настраивается через JSON-файл конфигурации — вы можете независимо включать, отключать и тонко настраивать отдельные модули.
+  </Card>
+</CardGrid>
+
+- **Поддержка Hyprland и bspwm** — полная интеграция с современными тайлинговыми WM
+- **Поддержка тем** — тесная интеграция с системой тем [Pawlette](/ru/meowrch-base/ecosystem/pawlette/pawlette/)
+- **Анимированные переходы и эффекты** — плавные и аккуратные UI-анимации
+- **Низкое потребление ресурсов** — лёгкий Python-процесс с минимальной нагрузкой
+- **Управление с клавиатуры** — управление панелями Dynamic Island через настраиваемые хоткеи
+
+---
+
+## ⚡ Установка
+
+<Tabs>
+  <TabItem label="AUR (рекомендуется)">
+    <Steps>
+
+    1. **Установите Mewline из AUR**
+
+       ```bash
+       yay -S mewline
+       ```
+
+    2. **Сгенерируйте конфигурацию по умолчанию**
+
+       ```bash
+       mewline --generate-default-config
+       ```
+
+    3. **Сгенерируйте хоткеи для Hyprland** *(опционально, только для Hyprland)*
+
+       ```bash
+       mewline --create-keybindings
+       ```
+
+    4. **Отредактируйте файл конфигурации**
+
+       ```bash
+       micro ~/.config/mewline/config.json
+       ```
+
+    5. **Запустите Mewline**
+
+       ```bash
+       mewline
+       ```
+
+    </Steps>
+  </TabItem>
+  <TabItem label="Из исходников (для разработчиков)">
+    <Steps>
+
+    1. **Установите системные зависимости**
+
+       ```bash
+       # Основные пакеты
+       sudo pacman -S dart-sass tesseract tesseract-data-eng tesseract-data-rus slurp grim cliphist
+
+       # Пакеты из AUR
+       yay -S gnome-bluetooth-3.0 gray-git fabric-cli-git
+       ```
+
+    2. **Клонируйте репозиторий**
+
+       ```bash
+       git clone https://github.com/meowrch/mewline && cd mewline
+       ```
+
+    3. **Установите менеджер пакетов `uv`**
+
+       ```bash
+       pip install uv
+       # или через pacman:
+       sudo pacman -S uv
+       ```
+
+    4. **Установите Python-зависимости**
+
+       ```bash
+       uv sync
+       ```
+
+    5. **Сгенерируйте конфигурацию по умолчанию**
+
+       ```bash
+       uv run generate_default_config
+       ```
+
+    6. **Сгенерируйте хоткеи для Hyprland** *(опционально)*
+
+       ```bash
+       uv run create_keybindings
+       ```
+
+    7. **Отредактируйте файл конфигурации**
+
+       ```bash
+       micro ~/.config/mewline/config.json
+       ```
+
+    8. **Запустите Mewline**
+
+       ```bash
+       uv run mewline
+       ```
+
+    </Steps>
+  </TabItem>
+</Tabs>
+
+<Aside type="tip" title="Автозапуск">
+Чтобы запускать Mewline автоматически вместе с Hyprland, добавьте в `~/.config/hypr/hyprland.conf` строку:
+```
+exec-once = mewline
+```
+</Aside>
+
+---
+
+## 🔄 Обновление
+
+<Tabs>
+  <TabItem label="Пакет из AUR">
+    ```bash
+    yay -Syu mewline
+    ```
+    После обновления перезапустите Mewline:
+    ```bash
+    pkill -f mewline && mewline &
+    ```
+  </TabItem>
+  <TabItem label="Сборка из исходников">
+    ```bash
+    cd mewline
+    git pull origin main
+    uv sync
+    ```
+    Затем перезапустите Mewline:
+    ```bash
+    pkill -f mewline && uv run mewline &
+    ```
+  </TabItem>
+</Tabs>
+
+<Aside type="note" title="Конфигурация после обновления">
+Mewline использует устойчивую систему конфигурации. Если после обновления в конфиг добавляются новые поля, которых нет в вашем `config.json`, они будут автоматически заполнены значениями по умолчанию — ваши текущие настройки не пропадут.
+</Aside>
+
+---
+
+## 🎨 Виджеты и модули
+
+Mewline разделён на три группы компонентов: **Status Bar**, **Dynamic Island** и **дополнительные утилиты**.
+
+### ℹ️ Status Bar
+
+Эти виджеты располагаются прямо на панели статуса:
+
+| Модуль | Описание |
+|---|---|
+| `tray` | Системный трей для фоновых приложений |
+| `workspaces` | Переключатель и индикатор рабочих пространств |
+| `datetime` | Отображение даты и времени |
+| `combined_controls` | Группа управления звуком, яркостью и Privacy Dots |
+| `language` | Индикатор текущей раскладки клавиатуры |
+| `battery` | Уровень заряда и статус батареи |
+| `power` | Кнопка, открывающая `power_menu` в Dynamic Island |
+| `ocr` | Захват области экрана и распознавание текста через Tesseract OCR |
+
+![Status bar preview](https://raw.githubusercontent.com/meowrch/mewline/main/assets/preview7.png)
+
+### 🏝 Dynamic Island
+
+Dynamic Island — это интерактивный всплывающий слой. Каждый модуль может быть открыт через отдельный хоткей:
+
+| Модуль | Описание | Комбинация клавиш |
+|---|---|---|
+| `compact` | Показывает заголовок активного окна и текущий трек | — |
+| `notifications` | Живые системные уведомления | — |
+| `power_menu` | Меню управления питанием (блокировка, сон, выход, перезагрузка, выключение) | `Super+Alt+P` |
+| `date_notification` | Календарь и история уведомлений | `Super+Alt+D` |
+| `bluetooth` | Менеджер Bluetooth-устройств | `Super+Alt+B` |
+| `app_launcher` | Лаунчер приложений | `Super+Alt+A` |
+| `wallpapers` | Выбор обоев (использует `swww`) | `Super+Alt+W` |
+| `emoji` | Пикер эмодзи | `Super+Alt+.` |
+| `clipboard` | Менеджер истории буфера обмена (использует `cliphist`) | `Super+Alt+V` |
+| `network` | Менеджер Wi‑Fi и Ethernet | `Super+Alt+N` |
+| `workspaces` | Обзор открытых окон и рабочих пространств | `Super+Alt+Tab` |
+
+<Aside type="tip" title="Быстрая генерация хоткеев">
+Если вы ещё не генерировали хоткеи для Hyprland, выполните:
+```bash
+mewline --create-keybindings
+```
+Эта команда автоматически добавит все хоткеи Dynamic Island в ваш конфиг Hyprland.
+</Aside>
+
+![App launcher](https://raw.githubusercontent.com/meowrch/mewline/main/assets/preview1.png)
+
+![Bluetooth manager](https://raw.githubusercontent.com/meowrch/mewline/main/assets/preview2.png)
+
+![Network manager](https://raw.githubusercontent.com/meowrch/mewline/main/assets/preview3.png)
+
+![Wallpaper picker](https://raw.githubusercontent.com/meowrch/mewline/main/assets/preview4.png)
+
+![Emoji picker](https://raw.githubusercontent.com/meowrch/mewline/main/assets/preview5.png)
+
+![Calendar & notifications](https://raw.githubusercontent.com/meowrch/mewline/main/assets/preview6.png)
+
+### ❓ Другие модули
+
+| Модуль | Описание |
+|---|---|
+| `osd` | OSD‑оверлей для отображения изменений громкости и яркости |
+
+---
+
+## ⚙️ Конфигурация
+
+Файл конфигурации находится по пути `~/.config/mewline/config.json`. В любой момент вы можете сгенерировать конфиг по умолчанию:
+
+```bash
+mewline --generate-default-config
+```
+
+Полное описание всех опций, параметров модулей и пример полного `config.json` смотрите на отдельной странице:
+
+<LinkCard
+  title="Справочник по конфигурации"
+  description="Все опции config.json, параметры модулей и полный пример конфигурации."
+  href="/ru/meowrch-base/ecosystem/mewline/configuration/"
+/>
