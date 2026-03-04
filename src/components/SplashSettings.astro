@@ -1,0 +1,373 @@
+---
+export interface Props {
+  locale: 'en' | 'ru';
+  version?: '3.0' | '2.0';
+}
+
+const { locale, version = '3.0' } = Astro.props;
+const isEn = locale === 'en';
+const isV2 = version === '2.0';
+
+const themeLabel    = isEn ? 'Theme'    : '\u0422\u0435\u043c\u0430';
+const langLabel     = isEn ? 'Language' : '\u042f\u0437\u044b\u043a';
+const autoLabel     = isEn ? 'Auto'     : '\u0410\u0432\u0442\u043e';
+const lightLabel    = isEn ? 'Light'    : '\u0421\u0432\u0435\u0442\u043b\u0430\u044f';
+const darkLabel     = isEn ? 'Dark'     : '\u0422\u0451\u043c\u043d\u0430\u044f';
+const toTopLabel    = isEn ? 'To top'   : '\u041d\u0430\u0432\u0435\u0440\u0445';
+const settingsLabel = isEn ? 'Settings' : '\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438';
+
+const otherLocale = locale === 'en' ? 'ru' : 'en';
+
+// Locale switch should keep the currently selected version.
+const currentPath = isV2 ? `/${locale}/2.0/` : `/${locale}/`;
+const otherPath   = isV2 ? `/${otherLocale}/2.0/` : `/${otherLocale}/`;
+
+// Version switch should keep the currently selected locale.
+const v3Path = `/${locale}/`;
+const v2Path = `/${locale}/2.0/`;
+
+const versionLabel = isEn ? 'Version' : 'Версия';
+const currentLang = locale === 'en' ? 'English' : '\u0420\u0443\u0441\u0441\u043a\u0438\u0439';
+const otherLang   = locale === 'en' ? '\u0420\u0443\u0441\u0441\u043a\u0438\u0439' : 'English';
+---
+
+<div class="splash-fabs" data-splash-fabs>
+
+  <!-- Settings panel (absolute, floats above both buttons) -->
+  <div class="fabs-panel" data-fabs-panel hidden>
+    <div class="fabs-panel__head">
+      <svg viewBox="0 0 24 24" fill="currentColor" class="fabs-panel__head-icon" aria-hidden="true">
+        <path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.92c.04-.3.07-.62.07-.94 0-.32-.03-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.62l-1.92-3.32c-.12-.22-.37-.3-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.48.12.62l2.03 1.58c-.05.3-.09.63-.09.93s.04.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.62l1.92 3.32c.12.22.37.3.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.21.07-.48-.12-.62l-2.01-1.58z"/>
+      </svg>
+      <span>{settingsLabel}</span>
+    </div>
+
+    <div class="fabs-panel__row">
+      <label class="fabs-panel__label">
+        <span class="fabs-panel__label-text">{themeLabel}</span>
+        <select class="fabs-panel__select" data-fabs-theme>
+          <option value="auto">{autoLabel}</option>
+          <option value="light">{lightLabel}</option>
+          <option value="dark">{darkLabel}</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="fabs-panel__row">
+      <label class="fabs-panel__label">
+        <span class="fabs-panel__label-text">{langLabel}</span>
+        <select class="fabs-panel__select" data-fabs-lang>
+          <option value={currentPath} selected>{currentLang}</option>
+          <option value={otherPath}>{otherLang}</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="fabs-panel__row">
+      <label class="fabs-panel__label">
+        <span class="fabs-panel__label-text">{versionLabel}</span>
+        <select class="fabs-panel__select" data-fabs-version>
+          <option value={v3Path} selected={!isV2}>3.0</option>
+          <option value={v2Path} selected={isV2}>2.0</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <!-- Settings FAB (column-reverse: 1st in DOM = visual bottom) -->
+  <button
+    class="fab fab--settings"
+    type="button"
+    aria-haspopup="true"
+    aria-expanded="false"
+    aria-label={settingsLabel}
+    data-fabs-toggle
+  >
+    <svg class="fab__gear" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.92c.04-.3.07-.62.07-.94 0-.32-.03-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.62l-1.92-3.32c-.12-.22-.37-.3-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.48.12.62l2.03 1.58c-.05.3-.09.63-.09.93s.04.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.62l1.92 3.32c.12.22.37.3.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.21.07-.48-.12-.62l-2.01-1.58z"/>
+    </svg>
+  </button>
+
+  <!-- Scroll-to-top FAB (column-reverse: 2nd in DOM = visual above settings) -->
+  <button
+    class="fab fab--top"
+    type="button"
+    aria-label={toTopLabel}
+    data-scroll-top
+    hidden
+  >
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+    </svg>
+  </button>
+
+</div>
+
+<style>
+/* FAB group: fixed bottom-right, mobile only.
+   column-reverse: 1st DOM item = visual bottom, 2nd = above it */
+.splash-fabs {
+  position: fixed;
+  right: 1rem;
+  bottom: 1.25rem;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .splash-fabs { display: none; }
+}
+
+/* Base FAB */
+.fab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(203, 166, 247, 0.22);
+  background: rgba(24, 24, 37, 0.92);
+  color: var(--ctp-text);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.18s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fab[hidden] { display: none; }
+
+.fab:active { transform: scale(0.91) !important; }
+
+/* Settings FAB — larger, mauve accent */
+.fab--settings {
+  width:  3.25rem;
+  height: 3.25rem;
+  color: var(--ctp-mauve);
+  box-shadow: 0 4px 22px rgba(0,0,0,.5), 0 0 0 1px rgba(203,166,247,.18);
+  backdrop-filter: blur(16px);
+}
+.fab--settings:hover {
+  background: rgba(49, 50, 68, 0.97);
+  transform: scale(1.07);
+  box-shadow: 0 8px 30px rgba(0,0,0,.55), 0 0 0 1px rgba(203,166,247,.34);
+}
+
+/* Gear rotates 120deg when panel is open */
+.fab__gear {
+  width: 1.4rem;
+  height: 1.4rem;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.fab--settings[aria-expanded="true"] .fab__gear {
+  transform: rotate(120deg);
+}
+
+/* Scroll-to-top FAB — smaller, neutral */
+.fab--top {
+  width:  2.5rem;
+  height: 2.5rem;
+  border-color: rgba(88, 91, 112, 0.4);
+  box-shadow: 0 4px 16px rgba(0,0,0,.4);
+  backdrop-filter: blur(16px);
+}
+.fab--top:hover {
+  background: rgba(49, 50, 68, 0.97);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(0,0,0,.5);
+}
+.fab--top svg { width: 1.15rem; height: 1.15rem; }
+
+/* Light theme */
+:root[data-theme='light'] .fab {
+  background: rgba(239, 241, 245, 0.93);
+  border-color: rgba(136, 57, 239, 0.2);
+}
+:root[data-theme='light'] .fab--settings {
+  color: var(--ctp-mauve);
+  box-shadow: 0 4px 22px rgba(0,0,0,.11), 0 0 0 1px rgba(136,57,239,.18);
+}
+:root[data-theme='light'] .fab--top {
+  border-color: rgba(136, 57, 239, 0.18);
+}
+
+/* Settings panel — absolute, floats above the FAB group.
+   `bottom: calc(100% + gap)` positions it above the group's
+   total flex height (scroll-top button included when visible). */
+.fabs-panel {
+  position: absolute;
+  bottom: calc(100% + 0.875rem);
+  right: 0;
+  min-width: 15.5rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(203, 166, 247, 0.18);
+  background: rgba(17, 17, 27, 0.97);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  box-shadow: 0 28px 70px rgba(0,0,0,.7), 0 8px 24px rgba(0,0,0,.45), 0 0 0 1px rgba(203,166,247,.06);
+  overflow: hidden;
+}
+
+.fabs-panel:not([hidden]) {
+  animation: panelAppear 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes panelAppear {
+  from { opacity: 0; transform: translateY(12px) scale(0.93); transform-origin: bottom right; }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+:root[data-theme='light'] .fabs-panel {
+  background: rgba(239, 241, 245, 0.97);
+  border-color: rgba(136, 57, 239, 0.14);
+  box-shadow: 0 28px 70px rgba(0,0,0,.11), 0 0 0 1px rgba(136,57,239,.07);
+}
+
+/* Panel header */
+.fabs-panel__head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.125rem 0.75rem;
+  border-bottom: 1px solid rgba(88, 91, 112, 0.28);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ctp-mauve);
+}
+:root[data-theme='light'] .fabs-panel__head {
+  border-bottom-color: rgba(136, 57, 239, 0.14);
+}
+.fabs-panel__head-icon { width: 0.85rem; height: 0.85rem; flex-shrink: 0; }
+
+/* Panel rows */
+.fabs-panel__row { padding: 0.8rem 1.125rem; }
+.fabs-panel__row + .fabs-panel__row { border-top: 1px solid rgba(88,91,112,.2); }
+:root[data-theme='light'] .fabs-panel__row + .fabs-panel__row { border-top-color: rgba(136,57,239,.1); }
+
+.fabs-panel__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.fabs-panel__label-text {
+  font-size: 0.925rem;
+  font-weight: 500;
+  color: var(--ctp-subtext1);
+  white-space: nowrap;
+}
+
+/* Selects */
+.fabs-panel__select {
+  flex: 0 0 auto;
+  min-width: 8rem;
+  border-radius: 0.625rem;
+  border: 1px solid rgba(88,91,112,.5);
+  background: rgba(49,50,68,.85);
+  color: var(--ctp-text);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.fabs-panel__select:focus {
+  outline: 2px solid var(--ctp-mauve);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+:root[data-theme='light'] .fabs-panel__select {
+  background: rgba(204,208,218,.75);
+  border-color: rgba(172,176,190,.7);
+  color: var(--ctp-text);
+}
+</style>
+
+<script is:inline>
+  (() => {
+    if (typeof document === 'undefined') return;
+
+    const group = document.querySelector('[data-splash-fabs]');
+    if (!group) return;
+
+    // Portal: move to <body> to escape backdrop-filter / transform containing blocks.
+    // Chrome treats backdrop-filter on an ancestor as a new containing block for
+    // position:fixed descendants, so the button would land at page-bottom otherwise.
+    function portal() { document.body.appendChild(group); }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', portal);
+    } else {
+      portal();
+    }
+
+    const toggle       = group.querySelector('[data-fabs-toggle]');
+    const panel        = group.querySelector('[data-fabs-panel]');
+    const themeSelect   = group.querySelector('[data-fabs-theme]');
+    const langSelect    = group.querySelector('[data-fabs-lang]');
+    const versionSelect = group.querySelector('[data-fabs-version]');
+    const scrollTopBtn  = group.querySelector('[data-scroll-top]');
+
+    if (!toggle || !panel || !themeSelect || !langSelect) return;
+
+    // Theme
+    function syncThemeSelect() {
+      try {
+        const stored = localStorage.getItem('starlight-theme');
+        themeSelect.value = (stored === 'light' || stored === 'dark') ? stored : 'auto';
+      } catch (_) { themeSelect.value = 'auto'; }
+    }
+    function applyTheme(value) {
+      try {
+        if (value === 'light' || value === 'dark') {
+          localStorage.setItem('starlight-theme', value);
+          document.documentElement.dataset.theme = value;
+        } else {
+          localStorage.removeItem('starlight-theme');
+          document.documentElement.dataset.theme =
+            window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+      } catch (_) {}
+    }
+    syncThemeSelect();
+    themeSelect.addEventListener('change', () => applyTheme(themeSelect.value));
+
+    // Language
+    langSelect.addEventListener('change', () => {
+      if (langSelect.value) window.location.pathname = langSelect.value;
+    });
+
+    // Version
+    if (versionSelect) {
+      versionSelect.addEventListener('change', () => {
+        if (versionSelect.value) window.location.pathname = versionSelect.value;
+      });
+    }
+
+    // Panel toggle
+    toggle.addEventListener('click', () => {
+      const isOpen = !panel.hasAttribute('hidden');
+      panel.toggleAttribute('hidden', isOpen);
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!(e.target instanceof Element)) return;
+      if (!group.contains(e.target) && !panel.hasAttribute('hidden')) {
+        panel.setAttribute('hidden', '');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Scroll-to-top
+    if (scrollTopBtn) {
+      function updateScrollTop() {
+        scrollTopBtn.toggleAttribute('hidden', window.scrollY <= 300);
+      }
+      updateScrollTop(); // run on init so it's hidden when already at top
+      window.addEventListener('scroll', updateScrollTop, { passive: true });
+      scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+  })();
+</script>

@@ -1,0 +1,7 @@
+---
+// Starlight Footer override: preserves default footer, adds WikiFabs for mobile wiki pages.
+import Default from '@astrojs/starlight/components/Footer.astro';
+import WikiFabs from './WikiFabs.astro';
+---
+<Default {...Astro.props}><slot /></Default>
+<WikiFabs />

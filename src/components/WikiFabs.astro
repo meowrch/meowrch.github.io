@@ -1,0 +1,235 @@
+---
+// WikiFabs — mobile-only FABs for wiki (non-splash) pages.
+// Rendered via Footer override on every page; hides itself on splash pages via JS.
+---
+
+<div class="wiki-fabs" data-wiki-fabs>
+
+  <!-- Sidebar toggle FAB (column-reverse: 1st in DOM = visual bottom) -->
+  <button
+    class="wfab wfab--menu"
+    type="button"
+    aria-label="Menu"
+    aria-expanded="false"
+    data-wiki-menu
+  >
+    <!-- hamburger -->
+    <svg class="wfab__open" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/>
+    </svg>
+    <!-- X (shown when sidebar is open) -->
+    <svg class="wfab__close" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/>
+    </svg>
+  </button>
+
+  <!-- Scroll-to-top FAB (column-reverse: 2nd in DOM = visual above menu) -->
+  <button
+    class="wfab wfab--top"
+    type="button"
+    aria-label="Scroll to top"
+    data-wiki-scroll-top
+    hidden
+  >
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+    </svg>
+  </button>
+
+</div>
+
+<style>
+/* ══════════════════════════════════════════
+   WIKI FAB GROUP  (fixed, bottom-right, mobile only)
+   Hidden on splash pages and on desktop.
+   column-reverse: menu at bottom, scroll-top above.
+═════════════════════════════════════════ */
+.wiki-fabs {
+  position: fixed;
+  right: 1rem;
+  bottom: 1.25rem;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .wiki-fabs { display: none; }
+}
+
+/* ══════════════════════════════════════════
+   FAB BASE
+═════════════════════════════════════════ */
+.wfab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(203, 166, 247, 0.22);
+  background: rgba(24, 24, 37, 0.92);
+  color: var(--ctp-text);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.18s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.wfab[hidden] { display: none; }
+
+.wfab:active { transform: scale(0.91) !important; }
+
+/* ── Menu FAB (larger, mauve) ── */
+.wfab--menu {
+  width:  3.25rem;
+  height: 3.25rem;
+  color: var(--ctp-mauve);
+  box-shadow: 0 4px 22px rgba(0,0,0,.5), 0 0 0 1px rgba(203,166,247,.18);
+  backdrop-filter: blur(16px);
+}
+.wfab--menu:hover {
+  background: rgba(49, 50, 68, 0.97);
+  transform: scale(1.07);
+  box-shadow: 0 8px 30px rgba(0,0,0,.55), 0 0 0 1px rgba(203,166,247,.34);
+}
+.wfab--menu svg { width: 1.3rem; height: 1.3rem; }
+
+/* Toggle open/close icons */
+.wfab__close { display: none; }
+.wfab--menu[aria-expanded="true"] .wfab__open  { display: none; }
+.wfab--menu[aria-expanded="true"] .wfab__close { display: block; }
+
+/* ── Scroll-to-top FAB (smaller, neutral) ── */
+.wfab--top {
+  width:  2.5rem;
+  height: 2.5rem;
+  border-color: rgba(88, 91, 112, 0.4);
+  box-shadow: 0 4px 16px rgba(0,0,0,.4);
+  backdrop-filter: blur(16px);
+}
+.wfab--top:hover {
+  background: rgba(49, 50, 68, 0.97);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(0,0,0,.5);
+}
+.wfab--top svg { width: 1.15rem; height: 1.15rem; }
+
+/* ── Light theme ── */
+:root[data-theme='light'] .wfab {
+  background: rgba(239, 241, 245, 0.93);
+  border-color: rgba(136, 57, 239, 0.2);
+}
+:root[data-theme='light'] .wfab--menu {
+  color: var(--ctp-mauve);
+  box-shadow: 0 4px 22px rgba(0,0,0,.11), 0 0 0 1px rgba(136,57,239,.18);
+}
+:root[data-theme='light'] .wfab--top {
+  border-color: rgba(136, 57, 239, 0.18);
+}
+</style>
+
+<script is:inline>
+  (() => {
+    if (typeof document === 'undefined') return;
+
+    const group = document.querySelector('[data-wiki-fabs]');
+    if (!group) return;
+
+    function init() {
+      // Portal to <body> to escape any backdrop-filter containing blocks
+      document.body.appendChild(group);
+
+      // Hide entirely on splash pages (html[data-has-hero])
+      if (document.documentElement.hasAttribute('data-has-hero')) {
+        group.style.display = 'none';
+        return;
+      }
+
+      const menuBtn      = group.querySelector('[data-wiki-menu]');
+      const scrollTopBtn = group.querySelector('[data-wiki-scroll-top]');
+
+      // ── Sidebar toggle ──
+      // Starlight stores the expanded state on the <starlight-menu-button> element.
+      if (menuBtn) {
+        const getSlMenu = () => document.querySelector('starlight-menu-button');
+        const getSlMenuButton = () =>
+          document.querySelector('starlight-menu-button button') ||
+          document.querySelector('button[aria-controls="starlight__sidebar"]');
+
+        let observedMenu = null;
+        let observer = null;
+
+        function syncExpanded() {
+          const slMenu = getSlMenu();
+          menuBtn.setAttribute(
+            'aria-expanded',
+            slMenu?.getAttribute('aria-expanded') === 'true' ? 'true' : 'false'
+          );
+        }
+
+        function ensureObserved() {
+          const slMenu = getSlMenu();
+          if (!slMenu || slMenu === observedMenu) return;
+
+          observedMenu = slMenu;
+          if (observer) observer.disconnect();
+
+          observer = new MutationObserver(syncExpanded);
+          observer.observe(slMenu, { attributes: true, attributeFilter: ['aria-expanded'] });
+
+          syncExpanded();
+        }
+
+        ensureObserved();
+
+        menuBtn.addEventListener('click', () => {
+          const slBtn = getSlMenuButton();
+          if (!slBtn) return;
+
+          slBtn.click();
+          requestAnimationFrame(syncExpanded);
+        });
+
+        // Re-bind on client-side navigations (Astro view transitions)
+        document.addEventListener('astro:page-load', ensureObserved);
+        document.addEventListener('astro:after-swap', ensureObserved);
+      }
+
+      // ── Scroll-to-top ──
+      if (scrollTopBtn) {
+        // Avoid double-binding if this script is evaluated more than once.
+        if (scrollTopBtn.dataset.bound === 'true') return;
+        scrollTopBtn.dataset.bound = 'true';
+
+        const getScrollY = () =>
+          (typeof window !== 'undefined' && typeof window.scrollY === 'number' ? window.scrollY : 0) ||
+          document.documentElement.scrollTop ||
+          document.body.scrollTop ||
+          0;
+
+        function updateScrollTop() {
+          scrollTopBtn.toggleAttribute('hidden', getScrollY() <= 300);
+        }
+
+        // Run immediately + after layout/scroll restoration.
+        updateScrollTop();
+        requestAnimationFrame(updateScrollTop);
+
+        window.addEventListener('scroll', updateScrollTop, { passive: true });
+        window.addEventListener('resize', updateScrollTop, { passive: true });
+        document.addEventListener('astro:page-load', updateScrollTop);
+        document.addEventListener('astro:after-swap', updateScrollTop);
+
+        scrollTopBtn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>

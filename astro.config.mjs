@@ -303,6 +303,9 @@ export default defineConfig({
 					`
 				}
 			],
+			components: {
+				Footer: './src/components/CustomFooter.astro',
+			},
 			social: [
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/meowrch/meowrch' },
 				{ icon: 'telegram', label: 'Telegram', href: 'https://t.me/meowrch' },

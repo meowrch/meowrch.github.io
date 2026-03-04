@@ -786,6 +786,7 @@ main,
 main {
   position: relative !important;
   z-index: 10 !important;
+  padding: 0;
 }
 
 /* ================================================== */
@@ -806,7 +807,6 @@ main {
 header.header {
   position: sticky !important;
   top: 0 !important;
-  z-index: 1000 !important;
   width: 100% !important;
   
   /* Эффекты Glassmorphism */
@@ -825,6 +825,19 @@ header.header {
   background: rgba(239, 241, 245, 0.8) !important;
   border-bottom: 1px solid rgba(136, 57, 239, 0.15) !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+/*
+  На сплэш-страницах (/en, /ru) Starlight не рендерит левый sidebar.
+  Мы больше не трогаем right-group на мобильных, чтобы не ломать вёрстку,
+  и вместо этого даём отдельную плавающую кнопку SplashSettings.
+  Для десктопа можно слегка подправить выравнивание, если нужно.
+*/
+@media (min-width: 768px) {
+  :root[data-has-hero] .right-group {
+    align-items: center;
+    gap: 0.75rem;
+  }
 }
 
 .main-frame {
