@@ -7,7 +7,7 @@ import starlightVersions from 'starlight-versions';
 export const siteMeta = {
 	site: 'https://meowrch.github.io',
 	title: 'Meowrch Wiki',
-	description: 'Beautiful dots for Arch hyprland and bspwm',
+	description: 'Arch Linux rice & dotfiles for Hyprland and BSPWM',
 };
 
 const jsonLd = {

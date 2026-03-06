@@ -2,7 +2,7 @@
 # Auto-generated. Do not edit manually.
 site: https://meowrch.github.io
 title: Meowrch Wiki
-description: Beautiful dots for Arch hyprland and bspwm
+description: Arch Linux rice & dotfiles for Hyprland and BSPWM
 languages: en, ru
 sitemap: https://meowrch.github.io/sitemap-index.xml
 

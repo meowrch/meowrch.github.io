@@ -5,7 +5,9 @@ sidebar:
   order: 1
 ---
 
-Meowrch is a ready-to-use Arch Linux build with a beautiful interface, thoughtful settings, and everything you need for comfortable work out of the box.
+Meowrch is a ready-to-use Arch Linux build with a beautiful interface, thoughtful defaults, and everything you need for comfortable work out of the box — with workflows for **Hyprland (Wayland)** and **BSPWM (X11)**.
+
+This wiki covers installation, hotkeys, customization, troubleshooting, and performance.
 
 ## 🗺️ How to Use This Wiki
 
@@ -22,6 +24,7 @@ Everything you need to install the system:
 #### Meowrch Basics
 Learn more about meowrch's default settings. Learn how to customize the system:
 - [Wallpapers](/en/meowrch-base/customization/wallpapers/)
+- [Themes](/en/meowrch-base/customization/themes/)
 - [XDG](/en/meowrch-base/xdg/)
 - [Default Hotkeys](/en/meowrch-base/hotkeys/meowrch-hotkeys/)
 
@@ -49,7 +52,7 @@ Improve performance:
 
 1. **[Install the system](/en/installation/complete-guide/)** — complete guide from download to first boot
 2. **[Learn the hotkeys](/en/meowrch-base/hotkeys/meowrch-hotkeys/)** — the foundation of efficient work
-3. **[Customize the appearance](/en/meowrch-base/customization/wallpapers/)** — make the system yours
+3. **Customize the appearance** — [themes](/en/meowrch-base/customization/themes/) and [wallpapers](/en/meowrch-base/customization/wallpapers/)
 
 ---
 

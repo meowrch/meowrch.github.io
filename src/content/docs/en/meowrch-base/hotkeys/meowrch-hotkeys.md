@@ -1,9 +1,11 @@
 ---
-title: Pre-set hotkeys Meowrch
-description: Complete guide to hotkeys in Meowrch
+title: Meowrch Hotkeys (Hyprland + BSPWM)
+description: Keyboard shortcuts and keybindings cheat sheet for Meowrch
 sidebar:
   order: 3
 ---
+
+Use this page as a **keyboard shortcuts / hotkeys cheat sheet** for Meowrch on **Hyprland** and **BSPWM**.
 
 ## System Shortcuts
 <table align="center">

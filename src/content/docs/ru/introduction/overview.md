@@ -5,7 +5,9 @@ sidebar:
   order: 1
 ---
 
-Meowrch — это готовая к использованию сборка Arch Linux с красивым интерфейсом, продуманными настройками и всем необходимым для комфортной работы из коробки.
+Meowrch — это готовая к использованию сборка Arch Linux с красивым интерфейсом, продуманными настройками и всем необходимым для комфортной работы из коробки — с окружениями **Hyprland (Wayland)** и **BSPWM (X11)**.
+
+В этой wiki собраны установка, горячие клавиши, кастомизация, решение проблем и оптимизация.
 
 ## 🗺️ Как пользоваться этой Wiki
 
@@ -22,6 +24,7 @@ Meowrch — это готовая к использованию сборка Arc
 #### База про meowrch
 Узнайте больше о настройках meowrch по умолчанию. Научитесь настраивать систему под себя:
 - [Обои](/ru/meowrch-base/customization/wallpapers/)
+- [Темы](/ru/meowrch-base/customization/themes/)
 - [XDG](/ru/meowrch-base/xdg/)
 - [Стандартные сочетания клавиш](/ru/meowrch-base/hotkeys/meowrch-hotkeys/)
 
@@ -49,7 +52,7 @@ Meowrch — это готовая к использованию сборка Arc
 
 1. **[Установите систему](/ru/installation/complete-guide/)** — полное руководство от загрузки до первого запуска
 2. **[Изучите горячие клавиши](/ru/meowrch-base/hotkeys/meowrch-hotkeys/)** — основа эффективной работы
-3. **[Настройте внешний вид](/ru/meowrch-base/customization/wallpapers/)** — сделайте систему своей
+3. **Настройте внешний вид** — [темы](/ru/meowrch-base/customization/themes/) и [обои](/ru/meowrch-base/customization/wallpapers/)
 
 ---
 

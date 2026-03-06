@@ -1,9 +1,11 @@
 ---
-title: Предустановленные горячие клавиши Meowrch
-description: List of standard hotkeys in Meowrch
+title: Горячие клавиши Meowrch (Hyprland + BSPWM)
+description: Шпаргалка по сочетаниям клавиш и хоткеям Meowrch для Hyprland и BSPWM
 sidebar:
-    order: 3
+  order: 3
 ---
+
+Эта страница — **шпаргалка по горячим клавишам Meowrch** для **Hyprland** и **BSPWM**.
 
 ## Системные сочетания клавиш
 <table align="center">
