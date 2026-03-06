@@ -1,0 +1,68 @@
+# Meowrch Wiki (LLMs)
+# Auto-generated. Do not edit manually.
+site: https://meowrch.github.io
+title: Meowrch Wiki
+description: Beautiful dots for Arch hyprland and bspwm
+languages: en, ru
+sitemap: https://meowrch.github.io/sitemap-index.xml
+
+## Preferred entry points
+/en/
+/ru/
+
+## Topics
+Arch Linux, Hyprland, BSPWM, dotfiles, ricing, customization, optimization, troubleshooting, installation, hotkeys
+
+## Key pages (EN)
+/en/
+/en/installation/builder/
+/en/installation/complete-guide/
+/en/installation/uninstall/
+/en/introduction/community-forks/
+/en/introduction/overview/
+/en/meowrch-base/customization/themes/
+/en/meowrch-base/customization/wallpapers/
+/en/meowrch-base/ecosystem/mewline/configuration/
+/en/meowrch-base/ecosystem/mewline/mewline/
+/en/meowrch-base/ecosystem/pawlette/create-theme/
+/en/meowrch-base/ecosystem/pawlette/pawlette/
+/en/meowrch-base/hotkeys/meowrch-hotkeys/
+/en/meowrch-base/hotkeys/philosophy/
+/en/meowrch-base/hotkeys/productivity/
+/en/meowrch-base/hotkeys/syntax/
+/en/meowrch-base/xdg/
+/en/optimization/performance-advantages/
+/en/troubleshooting/dualboot/bluetooth-pairing/
+/en/troubleshooting/dualboot/windows-hibernation/
+/en/troubleshooting/dualboot/windows-time-sync/
+/en/usage/gaming/base/
+/en/usage/gaming/launchers/lutris/
+/en/usage/gaming/launchers/portproton/
+/en/usage/gaming/optimization/
+
+## Key pages (RU)
+/ru/
+/ru/installation/builder/
+/ru/installation/complete-guide/
+/ru/installation/uninstall/
+/ru/introduction/community-forks/
+/ru/introduction/overview/
+/ru/meowrch-base/customization/themes/
+/ru/meowrch-base/customization/wallpapers/
+/ru/meowrch-base/ecosystem/mewline/configuration/
+/ru/meowrch-base/ecosystem/mewline/mewline/
+/ru/meowrch-base/ecosystem/pawlette/create-theme/
+/ru/meowrch-base/ecosystem/pawlette/pawlette/
+/ru/meowrch-base/hotkeys/meowrch-hotkeys/
+/ru/meowrch-base/hotkeys/philosophy/
+/ru/meowrch-base/hotkeys/productivity/
+/ru/meowrch-base/hotkeys/syntax/
+/ru/meowrch-base/xdg/
+/ru/optimization/performance-advantages/
+/ru/troubleshooting/dualboot/bluetooth-pairing/
+/ru/troubleshooting/dualboot/windows-hibernation/
+/ru/troubleshooting/dualboot/windows-time-sync/
+/ru/usage/gaming/base/
+/ru/usage/gaming/launchers/lutris/
+/ru/usage/gaming/launchers/portproton/
+/ru/usage/gaming/optimization/

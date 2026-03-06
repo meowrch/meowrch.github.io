@@ -1,6 +1,11 @@
 ---
 title: Hotkeys
 description: ...
+head:
+  - tag: meta
+    attrs:
+      name: robots
+      content: noindex,follow
 slug: en/2.0/usage/hotkeys
 ---
 

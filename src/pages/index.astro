@@ -9,7 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meowrch Wiki</title>
     <meta name="description" content="Beautiful dots for Arch hyprland and bspwm">
-    <meta http-equiv="refresh" content="1;url=/en/">
+    <link rel="canonical" href="https://meowrch.github.io/">
+    <link rel="alternate" hreflang="en" href="https://meowrch.github.io/en/">
+    <link rel="alternate" hreflang="ru" href="https://meowrch.github.io/ru/">
+    <link rel="alternate" hreflang="x-default" href="https://meowrch.github.io/en/">
 
     <!-- Open Graph -->
     <meta property="og:title" content="Meowrch Wiki">
@@ -28,6 +31,34 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <meta name="theme-color" content="#1e1e2e" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" content="#eff1f5" media="(prefers-color-scheme: light)">
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://meowrch.github.io/#organization",
+            "name": "Meowrch",
+            "url": "https://meowrch.github.io/",
+            "sameAs": [
+              "https://github.com/meowrch/meowrch",
+              "https://t.me/meowrch",
+              "https://x.com/me0wrch"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://meowrch.github.io/#website",
+            "url": "https://meowrch.github.io/",
+            "name": "Meowrch Wiki",
+            "description": "Beautiful dots for Arch hyprland and bspwm",
+            "inLanguage": ["en", "ru"],
+            "publisher": { "@id": "https://meowrch.github.io/#organization" }
+          }
+        ]
+      }
+    </script>
     
     <style>
         body {
@@ -163,6 +194,13 @@
             // Функция редиректа
             function redirect() {
                 const preferredLang = getPreferredLanguage();
+
+                // Не редиректим ботов, чтобы оставить индексируемый контент на /
+                const userAgent = navigator.userAgent || '';
+                const isBot = /bot|crawler|spider|crawling|google|bing|yandex|baidu|duckduckgo|slurp|archive|facebookexternalhit|twitterbot/i.test(userAgent);
+                if (isBot) {
+                    return;
+                }
                 
                 // Сохраняем выбранный язык
                 localStorage.setItem('meowrch-language', preferredLang);

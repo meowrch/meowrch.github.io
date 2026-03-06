@@ -1,12 +1,44 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 import starlight from '@astrojs/starlight';
 import catppuccin from "@catppuccin/starlight";
 import starlightVersions from 'starlight-versions';
+export const siteMeta = {
+	site: 'https://meowrch.github.io',
+	title: 'Meowrch Wiki',
+	description: 'Beautiful dots for Arch hyprland and bspwm',
+};
+
+const jsonLd = {
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Organization",
+			"@id": `${siteMeta.site}/#organization`,
+			"name": "Meowrch",
+			"url": `${siteMeta.site}/`,
+			"sameAs": [
+				"https://github.com/meowrch/meowrch",
+				"https://t.me/meowrch",
+				"https://x.com/me0wrch"
+			]
+		},
+		{
+			"@type": "WebSite",
+			"@id": `${siteMeta.site}/#website`,
+			"url": `${siteMeta.site}/`,
+			"name": siteMeta.title,
+			"description": siteMeta.description,
+			"inLanguage": ["en", "ru"],
+			"publisher": { "@id": `${siteMeta.site}/#organization` }
+		}
+	]
+};
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://meowrch.github.io',
+	site: siteMeta.site,
 	base: '/',
 	trailingSlash: 'always',
 	build: {
@@ -14,7 +46,8 @@ export default defineConfig({
 	},
 	integrations: [
 		starlight({
-			title: 'Meowrch Wiki',
+			title: siteMeta.title,
+			description: siteMeta.description,
 			logo: {
 				src: './src/assets/logo.png',
 				replacesTitle: true,
@@ -119,7 +152,7 @@ export default defineConfig({
 					tag: 'meta',
 					attrs: {
 						property: 'og:image',
-						content: 'https://meowrch.github.io/og-cover.png'
+						content: `${siteMeta.site}/og-cover.png`
 					}
 				},
 				{
@@ -301,6 +334,11 @@ export default defineConfig({
 							});
 						});
 					`
+				},
+				{
+					tag: 'script',
+					attrs: { type: 'application/ld+json' },
+					content: JSON.stringify(jsonLd)
 				}
 			],
 			components: {
@@ -324,5 +362,6 @@ export default defineConfig({
 				})
 			]
 		}),
+		sitemap(),
 	],
 });

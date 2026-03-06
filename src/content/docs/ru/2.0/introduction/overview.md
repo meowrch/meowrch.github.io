@@ -1,6 +1,11 @@
 ---
 title: "Обзор meowrch"
 description: "Что такое meowrch и для кого этот дистрибутив"
+head:
+  - tag: meta
+    attrs:
+      name: robots
+      content: noindex,follow
 slug: ru/2.0/introduction/overview
 ---
 

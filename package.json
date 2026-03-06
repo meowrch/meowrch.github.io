@@ -3,6 +3,10 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "generate:llms": "node scripts/generate-llms.mjs",
+    "predev": "npm run generate:llms",
+    "prestart": "npm run generate:llms",
+    "prebuild": "npm run generate:llms",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
@@ -11,6 +15,7 @@
     "deploy": "npm run build && gh-pages -d dist -r https://github.com/meowrch/meowrch.github.io.git"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.4.1",
     "@astrojs/starlight": "^0.35.1",
     "@catppuccin/starlight": "^1.0.1",
     "@iconify-json/ph": "^1.1.0",

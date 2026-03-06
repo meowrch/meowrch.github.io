@@ -1,6 +1,11 @@
 ---
 title: Meowrch Overview
 description: What is meowrch and who is this distribution for
+head:
+  - tag: meta
+    attrs:
+      name: robots
+      content: noindex,follow
 slug: en/2.0/introduction/overview
 ---
 
