@@ -1,0 +1,121 @@
+---
+const { locale = 'ru' } = Astro.props;
+const isRu = locale === 'ru';
+const defaultItems = [
+  {
+    label: 'Telegram',
+    href: 'https://t.me/meowrch',
+    bgColor: '#229ed9',
+    iconColor: '#ffffff',
+    iconPath:
+      'M21.94 4.62a1.5 1.5 0 0 0-2.08-1.7L2.8 9.24a1.5 1.5 0 0 0 .08 2.85l3.71 1.22 1.45 4.56a1.5 1.5 0 0 0 2.59.55l2.3-2.66 3.92 2.9a1.5 1.5 0 0 0 2.36-.87l2.73-13.17ZM9.07 12.82l9.8-6.01-8.38 7.87-.34 1.99-1.08-3.39Z',
+  },
+  {
+    label: 'X',
+    href: 'https://x.com/me0wrch',
+    bgColor: '#000000',
+    iconColor: '#ffffff',
+    iconPath:
+      'M18.9 2H22l-6.77 7.74L23.2 22h-6.26l-4.9-7.06L5.86 22H2.75l7.24-8.28L.8 2h6.42l4.43 6.37L18.9 2Zm-1.1 18h1.74L6.26 3.9H4.39L17.8 20Z',
+  },
+  {
+    label: 'GitHub',
+    href: 'https://github.com/meowrch',
+    bgColor: '#000000',
+    iconColor: '#ffffff',
+    iconPath:
+      'M12 .5C5.65.5.5 5.66.5 12.02c0 5.09 3.3 9.4 7.88 10.92.58.1.79-.25.79-.56 0-.27-.01-1.17-.02-2.13-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.3 1.2-3.1-.12-.3-.52-1.5.11-3.12 0 0 .98-.32 3.2 1.19a10.95 10.95 0 0 1 5.82 0c2.22-1.51 3.2-1.19 3.2-1.19.63 1.62.23 2.82.11 3.12.75.8 1.2 1.84 1.2 3.1 0 4.43-2.7 5.4-5.28 5.69.42.36.79 1.05.79 2.12 0 1.53-.01 2.77-.01 3.15 0 .31.21.67.8.56A11.53 11.53 0 0 0 23.5 12C23.5 5.66 18.35.5 12 .5Z',
+  },
+];
+const items = Array.isArray(Astro.props.items) && Astro.props.items.length > 0 ? Astro.props.items : defaultItems;
+---
+<div class="hero-social-links" aria-label={isRu ? 'Социальные сети' : 'Social links'} data-hero-social-links>
+  {items.map((item) => (
+    <a
+      class="hero-social-link"
+      href={item.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={item.label}
+      title={item.label}
+      style={`--social-bg: ${item.bgColor || '#000000'}; --social-icon: ${item.iconColor || '#ffffff'};`}
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d={item.iconPath} />
+      </svg>
+    </a>
+  ))}
+</div>
+
+<script is:inline>
+  (() => {
+    if (typeof document === 'undefined') return;
+    const mount = () => {
+      const socials = document.querySelector('[data-hero-social-links]');
+      const actions = document.querySelector('.hero .actions');
+      if (!socials || !actions) return;
+      if (socials.parentElement !== actions.parentElement || socials.previousElementSibling !== actions) {
+        actions.insertAdjacentElement('afterend', socials);
+      }
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', mount, { once: true });
+    } else {
+      mount();
+    }
+    document.addEventListener('astro:page-load', mount);
+  })();
+</script>
+
+<style>
+  .hero-social-links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    margin-top: 0.45rem;
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 50rem) {
+    .hero-social-links {
+      justify-content: center;
+    }
+  }
+
+  .hero-social-link {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--social-icon, #ffffff) !important;
+    background: var(--social-bg, #000000);
+    border: 1px solid var(--social-bg, #000000);
+    transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .hero-social-link:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.06);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  .hero-social-link:focus-visible {
+    outline: 2px solid var(--ctp-mauve);
+    outline-offset: 2px;
+  }
+
+  .hero-social-link svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--social-icon, #ffffff) !important;
+    color: var(--social-icon, #ffffff) !important;
+  }
+
+  .hero-social-link svg path {
+    fill: var(--social-icon, #ffffff) !important;
+  }
+</style>

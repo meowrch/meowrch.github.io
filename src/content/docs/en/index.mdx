@@ -12,9 +12,9 @@ hero:
       link: /en/introduction/overview/
       icon: open-book
       variant: primary
-    - text: Community
-      link: https://t.me/meowrch
-      icon: telegram
+    - text: Reviews
+      link: '#reviews'
+      icon: star
       variant: secondary
 ---
 
@@ -29,6 +29,7 @@ import TerminalBlock from '../../../components/TerminalBlock.astro';
 import ReviewsSection from '../../../components/ReviewsSection.astro';
 import DonateBlock from '../../../components/DonateBlock.astro';
 import SplashSettings from '../../../components/SplashSettings.astro';
+import HeroSocialLinks from '../../../components/HeroSocialLinks.astro';
 
 import screenshot1 from '../../../assets/screenshots/1.png';
 import screenshot2 from '../../../assets/screenshots/2.png';
@@ -41,6 +42,7 @@ import videoPreview from '../../../assets/screenshots/video-preview-youtube.png'
 <AuroraBackground />
 
 <SplashSettings locale="en" />
+<HeroSocialLinks locale="en" />
 
 <div style="margin-top: 4rem; margin-bottom: 3rem;">
   <h1 id="why-another-rice" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
@@ -52,37 +54,33 @@ import videoPreview from '../../../assets/screenshots/video-preview-youtube.png'
 :::note[The Problem with Ready-Made Rice Configs]
 **Most ready-made rice setups for Arch solve only one problem:**
 
-- Either **beauty**, but the system eats RAM.
+- Either **beauty**, but the system eats up a lot of RAM.
 - Or **performance**, but the UI looks ugly.
 - Or **functionality**, but the code turns into "spaghetti" that you can't fix yourself.
 :::
 
-Meowrch is an **Arch Linux rice** built around curated **dotfiles** for **Hyprland (Wayland)** and **BSPWM (X11)** — focused on a clean setup, fast workflows, and sane defaults.
-
-Start here: **[Install Meowrch](/en/installation/complete-guide/)** • **[Hotkeys](/en/meowrch-base/hotkeys/meowrch-hotkeys/)** • **[Themes](/en/meowrch-base/customization/themes/)** • **[Wallpapers](/en/meowrch-base/customization/wallpapers/)** • **[Performance](/en/optimization/performance-advantages/)**
-
 <div style="margin-top: 4rem; margin-bottom: 2rem;">
-  <h2 id="meowrch-is-different-approach" style="font-family: 'Roboto', sans-serif; font-weight: 900; color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem;">
-    <Icon name="forward-slash" style="color: var(--ctp-mauve);" />
+  <h1 id="meowrch-is-different-approach" style="font-family: 'Roboto', sans-serif; font-weight: 900; color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem;">
+    <Icon name="star" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
     <p style="margin: 0;">Meowrch is a different approach</p>
-  </h2>
+  </h1>
 </div>
 
 We don't sacrifice one for the other. Instead, we create a system where each component is chosen based on the principle of **"maximum results with minimum resources"**.
 
 **But most importantly** — we don't limit ourselves to beautiful configs.
 
-<CardGrid>
-  <PremiumCard title="Nemo Tags" icon="mdi:tag-multiple" iconColor="mauve">
-    <p><strong>For 10+ years the community requested a tagging system for Nemo.</strong></p>
-    <p>Developers ignored it. We made it.</p>
-    <p style="margin-top: 0.75rem; color: var(--ctp-green);">Now file organization like in macOS Finder is available to everyone.</p>
-  </PremiumCard>
-  
+<CardGrid>  
   <PremiumCard title="BlueVein" icon="mdi:bluetooth" iconColor="blue">
     <p><strong>Dual-boot Windows/Linux = Bluetooth hell.</strong></p>
     <p>Switched OS? Reconnect your mouse, keyboard, headphones. <strong>Every. Single. Time.</strong></p>
     <p style="margin-top: 0.75rem; color: var(--ctp-green);">We solved this agonizing problem.</p>
+  </PremiumCard>
+
+  <PremiumCard title="Nemo Tags" icon="mdi:tag-multiple" iconColor="mauve">
+    <p><strong>For 10+ years the community requested a tagging system for Nemo.</strong></p>
+    <p>Developers ignored it. We made it.</p>
+    <p style="margin-top: 0.75rem; color: var(--ctp-green);">Now file organization like in macOS Finder is available to everyone.</p>
   </PremiumCard>
 </CardGrid>
 
@@ -91,13 +89,6 @@ We don't sacrifice one for the other. Instead, we create a system where each com
 
 We develop an ecosystem **for the entire Linux community**, not just "making it pretty for ourselves".
 :::
-
-<div style="margin-top: 4rem; margin-bottom: 3rem;">
-  <h1 id="why-meowrch" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
-    <Icon name="star" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
-    Why Meowrch?
-  </h1>
-</div>
 
 <CardGrid stagger>
   <FeatureCard
@@ -137,6 +128,10 @@ We develop an ecosystem **for the entire Linux community**, not just "making it 
     body="BSPWM (X11) or Hyprland (Wayland) — stability or modernity."
   />
 </CardGrid>
+
+:::note[Too much information? Not sure where to start?]
+Start here: **[Install Meowrch](/en/installation/complete-guide/)** • **[Hotkeys](/en/meowrch-base/hotkeys/meowrch-hotkeys/)** • **[Themes](/en/meowrch-base/customization/themes/)** • **[Wallpapers](/en/meowrch-base/customization/wallpapers/)** • **[Performance](/en/optimization/performance-advantages/)**
+:::
 
 <div style="margin-top: 4rem; margin-bottom: 3rem;">
   <h1 id="visual-presentation" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
@@ -311,7 +306,7 @@ We develop an ecosystem **for the entire Linux community**, not just "making it 
 
 Instead of configuring Rofi + Waybar + Dunst + wlogout + network-manager-applet + clipboard manager — **one installation command**.
 
-**[📖 Full Mewline documentation](https://github.com/meowrch/mewline)** • **[🐛 Report an issue](https://github.com/meowrch/mewline/issues)**
+**[📖 Full Mewline documentation](/en/meowrch-base/ecosystem/mewline/mewline/)** • **[🐛 Report an issue](https://github.com/meowrch/mewline/issues)**
 :::
 
 <div style="margin-top: 4rem; margin-bottom: 3rem;">
@@ -409,27 +404,9 @@ reboot
   </PremiumCard>
 </CardGrid>
 
-<div style="margin-top: 4rem; margin-bottom: 3rem;">
-  <h1 id="support" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem); color: var(--ctp-text); display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; margin-bottom: 2rem;">
-    <Icon name="heart" style="color: var(--ctp-mauve); width: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem); height: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);" />
-    Community & Support
-  </h1>
-</div>
-
-<CardGrid>
-  <PremiumCard title="Official Wiki" icon="fontisto:wikipedia" iconColor="default">
-    <a href="/en/">Guides, FAQ, troubleshooting</a>
-  </PremiumCard>
-  <PremiumCard title="Telegram" icon="ic:baseline-telegram" iconColor="blue">
-    <a href="https://t.me/meowrch">News, updates and quick support</a>
-  </PremiumCard>
-  <PremiumCard title="GitHub Issues" icon="mdi:github" iconColor="maroon">
-    <a href="https://github.com/meowrch/meowrch/issues">Report a bug or suggest a feature</a>
-  </PremiumCard>
-  <PremiumCard title="Twitter (X)" icon="line-md:twitter-x" iconColor="lavender">
-    <a href="https://x.com/me0wrch">News</a>
-  </PremiumCard>
-</CardGrid>
+:::note[Not enough?]
+All keyboard shortcuts can be found on [this wiki page](/en/meowrch-base/hotkeys/meowrch-hotkeys/)
+:::
 
 <ReviewsSection 
   owner="meowrch"
