@@ -1,0 +1,428 @@
+<script is:inline>
+  (() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
+    const LOGO_URL = 'https://raw.githubusercontent.com/meowrch/Branding/main/logo/logo.svg';
+    const STICKERS_API_URL = 'https://api.github.com/repos/meowrch/Branding/contents/stickers';
+    const STICKERS_RAW_BASE = 'https://raw.githubusercontent.com/meowrch/Branding/main/stickers/';
+    const STICKER_DURATION_MS = 3000;
+    const ALPHA_THRESHOLD = 16;
+    const MIN_CANVAS_PAD_PX = 12;
+
+    const FALLBACK_STICKER_URLS = [
+      'nixie.png',
+      'riolu.png',
+      'vaporeon.png',
+      'cinnamoroll.png',
+      'kitty.png',
+      'neko-arc.webp',
+      'meowrch.webp',
+    ].map((name) => `${STICKERS_RAW_BASE}${name}`);
+
+    const GLOBAL_STATE_KEY = '__meowrchHeroStickerState';
+    const state = window[GLOBAL_STATE_KEY] || {
+      rafId: 0,
+      resizeObserver: null,
+      contourCache: new Map(),
+    };
+    window[GLOBAL_STATE_KEY] = state;
+
+    const getHeroLogo = () => document.getElementById('meowrch-hero-logo');
+    const getProgressCanvas = () => document.getElementById('meowrch-hero-progress');
+
+    const clearRuntime = () => {
+      if (state.rafId) {
+        cancelAnimationFrame(state.rafId);
+        state.rafId = 0;
+      }
+      if (state.resizeObserver) {
+        state.resizeObserver.disconnect();
+        state.resizeObserver = null;
+      }
+    };
+
+    const pointKey = (x, y) => `${x},${y}`;
+    const edgeKey = (a, b) => (a < b ? `${a}|${b}` : `${b}|${a}`);
+
+    const buildContourFromImage = (img) => {
+      const width = Math.max(2, img.naturalWidth || img.width || 0);
+      const height = Math.max(2, img.naturalHeight || img.height || 0);
+      if (!width || !height) return [];
+
+      const offscreen = document.createElement('canvas');
+      offscreen.width = width;
+      offscreen.height = height;
+      const ctx = offscreen.getContext('2d', { willReadFrequently: true });
+      if (!ctx) return [];
+
+      ctx.clearRect(0, 0, width, height);
+      ctx.drawImage(img, 0, 0, width, height);
+      const data = ctx.getImageData(0, 0, width, height).data;
+
+      let hasVisiblePixels = false;
+      for (let i = 3; i < data.length; i += 4) {
+        if (data[i] > ALPHA_THRESHOLD) {
+          hasVisiblePixels = true;
+          break;
+        }
+      }
+      if (!hasVisiblePixels) return [];
+
+      const isFilled = (x, y) => data[(y * width + x) * 4 + 3] > ALPHA_THRESHOLD;
+      const edgePoint = (edge, x, y) => {
+        if (edge === 0) return { x: x + 0.5, y: y };
+        if (edge === 1) return { x: x + 1, y: y + 0.5 };
+        if (edge === 2) return { x: x + 0.5, y: y + 1 };
+        return { x: x, y: y + 0.5 };
+      };
+
+      const segmentTable = {
+        0: [],
+        1: [[3, 2]],
+        2: [[2, 1]],
+        3: [[3, 1]],
+        4: [[0, 1]],
+        5: [[0, 3], [2, 1]],
+        6: [[0, 2]],
+        7: [[0, 3]],
+        8: [[3, 0]],
+        9: [[0, 2]],
+        10: [[3, 2], [0, 1]],
+        11: [[1, 0]],
+        12: [[1, 3]],
+        13: [[1, 2]],
+        14: [[2, 3]],
+        15: [],
+      };
+
+      const adjacency = new Map();
+      const points = new Map();
+      const segments = [];
+      const addNeighbor = (from, to) => {
+        if (!adjacency.has(from)) adjacency.set(from, new Set());
+        adjacency.get(from).add(to);
+      };
+
+      for (let y = 0; y < height - 1; y++) {
+        for (let x = 0; x < width - 1; x++) {
+          const tl = isFilled(x, y) ? 1 : 0;
+          const tr = isFilled(x + 1, y) ? 1 : 0;
+          const br = isFilled(x + 1, y + 1) ? 1 : 0;
+          const bl = isFilled(x, y + 1) ? 1 : 0;
+          const idx = (tl << 3) | (tr << 2) | (br << 1) | bl;
+          const cellSegments = segmentTable[idx];
+          if (!cellSegments || cellSegments.length === 0) continue;
+
+          for (let i = 0; i < cellSegments.length; i++) {
+            const pair = cellSegments[i];
+            const p1 = edgePoint(pair[0], x, y);
+            const p2 = edgePoint(pair[1], x, y);
+            const k1 = pointKey(p1.x, p1.y);
+            const k2 = pointKey(p2.x, p2.y);
+            points.set(k1, p1);
+            points.set(k2, p2);
+            addNeighbor(k1, k2);
+            addNeighbor(k2, k1);
+            segments.push([k1, k2]);
+          }
+        }
+      }
+
+      if (segments.length === 0) return [];
+
+      const visitedEdges = new Set();
+      const loops = [];
+
+      for (let i = 0; i < segments.length; i++) {
+        const a = segments[i][0];
+        const b = segments[i][1];
+        const startEdgeKey = edgeKey(a, b);
+        if (visitedEdges.has(startEdgeKey)) continue;
+
+        visitedEdges.add(startEdgeKey);
+        const pathKeys = [a, b];
+        let prev = a;
+        let current = b;
+
+        while (current !== a) {
+          const neighbors = adjacency.get(current);
+          if (!neighbors || neighbors.size === 0) break;
+
+          let next = '';
+          for (const candidate of neighbors) {
+            const eKey = edgeKey(current, candidate);
+            if (visitedEdges.has(eKey)) continue;
+            if (candidate === prev && neighbors.size > 1) continue;
+            next = candidate;
+            break;
+          }
+
+          if (!next) {
+            for (const candidate of neighbors) {
+              const eKey = edgeKey(current, candidate);
+              if (!visitedEdges.has(eKey)) {
+                next = candidate;
+                break;
+              }
+            }
+          }
+
+          if (!next) break;
+          visitedEdges.add(edgeKey(current, next));
+          pathKeys.push(next);
+          prev = current;
+          current = next;
+        }
+
+        if (pathKeys.length > 3 && current === a) {
+          const polyline = [];
+          for (let k = 0; k < pathKeys.length; k++) {
+            const pt = points.get(pathKeys[k]);
+            if (pt) polyline.push(pt);
+          }
+          if (polyline.length > 3) loops.push(polyline);
+        }
+      }
+
+      if (loops.length === 0) return [];
+
+      const perimeter = (loop) => {
+        let total = 0;
+        for (let i = 1; i < loop.length; i++) {
+          const dx = loop[i].x - loop[i - 1].x;
+          const dy = loop[i].y - loop[i - 1].y;
+          total += Math.hypot(dx, dy);
+        }
+        return total;
+      };
+
+      let longest = loops[0];
+      let longestLength = perimeter(longest);
+      for (let i = 1; i < loops.length; i++) {
+        const currentLength = perimeter(loops[i]);
+        if (currentLength > longestLength) {
+          longest = loops[i];
+          longestLength = currentLength;
+        }
+      }
+
+      const maxX = Math.max(1, width - 1);
+      const maxY = Math.max(1, height - 1);
+      return longest.map((p) => ({
+        x: p.x / maxX,
+        y: p.y / maxY,
+      }));
+    };
+
+    const loadImage = async (src) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.decoding = 'async';
+      img.referrerPolicy = 'no-referrer';
+      img.src = src;
+      await img.decode();
+      return img;
+    };
+
+    const getContour = async (src) => {
+      if (state.contourCache.has(src)) return state.contourCache.get(src);
+      try {
+        const img = await loadImage(src);
+        const contour = buildContourFromImage(img);
+        state.contourCache.set(src, contour);
+        return contour;
+      } catch {
+        state.contourCache.set(src, []);
+        return [];
+      }
+    };
+
+    const drawProgress = (ctx, canvas, contour, progress, padPx) => {
+      const cssW = canvas.clientWidth;
+      const cssH = canvas.clientHeight;
+      if (!cssW || !cssH) return;
+
+      ctx.clearRect(0, 0, cssW, cssH);
+      if (!Array.isArray(contour) || contour.length < 2) return;
+      const drawW = Math.max(1, cssW - padPx * 2);
+      const drawH = Math.max(1, cssH - padPx * 2);
+      const points = contour.map((p) => ({ x: p.x * drawW + padPx, y: p.y * drawH + padPx }));
+      if (points.length < 2) return;
+      const first = points[0];
+      const last = points[points.length - 1];
+      if (first.x !== last.x || first.y !== last.y) points.push({ x: first.x, y: first.y });
+
+      const segmentLengths = [];
+      let totalLength = 0;
+      for (let i = 1; i < points.length; i++) {
+        const segLen = Math.hypot(points[i].x - points[i - 1].x, points[i].y - points[i - 1].y);
+        segmentLengths.push(segLen);
+        totalLength += segLen;
+      }
+      if (!totalLength) return;
+
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+      ctx.lineWidth = Math.max(1.5, Math.min(drawW, drawH) * 0.028);
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      for (let i = 1; i < points.length; i++) ctx.lineTo(points[i].x, points[i].y);
+      ctx.stroke();
+
+      const target = totalLength * Math.max(0, Math.min(1, progress));
+      let remain = target;
+      ctx.strokeStyle = 'rgba(255,255,255,0.95)';
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      for (let i = 1; i < points.length; i++) {
+        const segLen = segmentLengths[i - 1];
+        const p0 = points[i - 1];
+        const p1 = points[i];
+        if (remain >= segLen) {
+          ctx.lineTo(p1.x, p1.y);
+          remain -= segLen;
+          continue;
+        }
+        if (remain > 0) {
+          const t = remain / segLen;
+          ctx.lineTo(p0.x + (p1.x - p0.x) * t, p0.y + (p1.y - p0.y) * t);
+        }
+        break;
+      }
+      ctx.stroke();
+    };
+
+    const loadStickerUrls = async () => {
+      try {
+        const response = await fetch(STICKERS_API_URL, {
+          headers: { Accept: 'application/vnd.github+json' },
+        });
+        if (!response.ok) return FALLBACK_STICKER_URLS;
+
+        const entries = await response.json();
+        if (!Array.isArray(entries)) return FALLBACK_STICKER_URLS;
+
+        const urls = entries
+          .filter((entry) => entry?.type === 'file' && /\.(png|jpe?g|webp|gif|svg)$/i.test(entry?.name || ''))
+          .map((entry) => entry.download_url || `${STICKERS_RAW_BASE}${entry.name}`);
+
+        return urls.length ? urls : FALLBACK_STICKER_URLS;
+      } catch {
+        return FALLBACK_STICKER_URLS;
+      }
+    };
+
+    const pickRandomSticker = (urls, current) => {
+      if (!Array.isArray(urls) || urls.length === 0) return '';
+      if (urls.length === 1) return urls[0];
+
+      let next = urls[Math.floor(Math.random() * urls.length)];
+      let tries = 8;
+      while (tries > 0 && current && next === current) {
+        next = urls[Math.floor(Math.random() * urls.length)];
+        tries--;
+      }
+      return next;
+    };
+
+    const mount = async () => {
+      clearRuntime();
+
+      const logo = getHeroLogo();
+      const progressCanvas = getProgressCanvas();
+      if (!logo || !progressCanvas) return;
+
+      const ctx = progressCanvas.getContext('2d');
+      if (!ctx) return;
+      let currentPadPx = MIN_CANVAS_PAD_PX;
+
+      const setCanvasSize = () => {
+        const rect = logo.getBoundingClientRect();
+        const logoW = Math.max(1, Math.round(rect.width));
+        const logoH = Math.max(1, Math.round(rect.height));
+        currentPadPx = Math.max(MIN_CANVAS_PAD_PX, Math.round(Math.min(logoW, logoH) * 0.06));
+        const cssW = logoW + currentPadPx * 2;
+        const cssH = logoH + currentPadPx * 2;
+        const dpr = Math.max(1, window.devicePixelRatio || 1);
+        progressCanvas.width = Math.round(cssW * dpr);
+        progressCanvas.height = Math.round(cssH * dpr);
+        progressCanvas.style.width = `${cssW}px`;
+        progressCanvas.style.height = `${cssH}px`;
+        progressCanvas.style.left = `${-currentPadPx}px`;
+        progressCanvas.style.top = `${-currentPadPx}px`;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      };
+
+      setCanvasSize();
+      state.resizeObserver = new ResizeObserver(setCanvasSize);
+      state.resizeObserver.observe(logo);
+      logo.addEventListener('load', setCanvasSize);
+
+      let currentContour = [];
+      let currentImageUrl = LOGO_URL;
+      let cycleStartTs = performance.now();
+      let stickerUrls = [];
+
+      const applyImage = async (url) => {
+        currentImageUrl = url;
+        logo.src = url;
+        currentContour = await getContour(url);
+      };
+
+      await applyImage(LOGO_URL);
+      stickerUrls = await loadStickerUrls();
+
+      const frame = async (ts) => {
+        if (!document.body.contains(logo)) {
+          clearRuntime();
+          return;
+        }
+
+        const elapsed = ts - cycleStartTs;
+        if (elapsed >= STICKER_DURATION_MS) {
+          cycleStartTs = ts;
+          const nextSticker = pickRandomSticker(stickerUrls, currentImageUrl);
+          if (nextSticker) applyImage(nextSticker);
+        }
+
+        const progress = (ts - cycleStartTs) / STICKER_DURATION_MS;
+        drawProgress(ctx, progressCanvas, currentContour, progress, currentPadPx);
+        state.rafId = requestAnimationFrame(frame);
+      };
+
+      state.rafId = requestAnimationFrame(frame);
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', mount, { once: true });
+    } else {
+      mount();
+    }
+    document.addEventListener('astro:page-load', mount);
+  })();
+</script>
+
+<style is:global>
+  .meowrch-hero-sticker-wrap {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
+    overflow: visible;
+  }
+
+  #meowrch-hero-logo {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  #meowrch-hero-progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+</style>

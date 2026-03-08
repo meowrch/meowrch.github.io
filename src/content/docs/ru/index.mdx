@@ -6,7 +6,7 @@ hero:
   title: <b>Добро пожаловать в<br>Meowrch Wiki</b>
   tagline: "<b>Красивые дотфайлы для Arch Linux: Hyprland и BSPWM</b>"
   image:
-    file: ../../../assets/logo.png
+    html: '<span class="meowrch-hero-sticker-wrap"><img id="meowrch-hero-logo" src="https://raw.githubusercontent.com/meowrch/Branding/main/logo/logo.svg" alt="Meowrch logo" loading="eager" decoding="async" width="400" height="400" /><canvas id="meowrch-hero-progress" width="400" height="400" aria-hidden="true"></canvas></span>'
   actions:
     - text: Wiki
       link: /ru/introduction/overview/
@@ -30,6 +30,7 @@ import ReviewsSection from '../../../components/ReviewsSection.astro';
 import DonateBlock from '../../../components/DonateBlock.astro';
 import SplashSettings from '../../../components/SplashSettings.astro';
 import HeroSocialLinks from '../../../components/HeroSocialLinks.astro';
+import HeroStickerRotator from '../../../components/HeroStickerRotator.astro';
 
 import screenshot1 from '../../../assets/screenshots/1.png';
 import screenshot2 from '../../../assets/screenshots/2.png';
@@ -42,6 +43,7 @@ import videoPreview from '../../../assets/screenshots/video-preview-youtube.png'
 <AuroraBackground />
 
 <SplashSettings locale="ru" />
+<HeroStickerRotator />
 <HeroSocialLinks locale="ru" />
 
 <div style="margin-top: 4rem; margin-bottom: 3rem;">

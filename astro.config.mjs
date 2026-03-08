@@ -48,10 +48,6 @@ export default defineConfig({
 		starlight({
 			title: siteMeta.title,
 			description: siteMeta.description,
-			logo: {
-				src: './src/assets/logo.png',
-				replacesTitle: true,
-			},
 			defaultLocale: 'en',
 			locales: {
 				en: {
@@ -343,6 +339,7 @@ export default defineConfig({
 			],
 			components: {
 				Footer: './src/components/CustomFooter.astro',
+				SiteTitle: './src/components/SiteTitle.astro',
 			},
 			social: [
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/meowrch/meowrch' },
