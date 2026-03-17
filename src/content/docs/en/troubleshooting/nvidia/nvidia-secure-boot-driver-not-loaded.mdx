@@ -1,0 +1,41 @@
+---
+title: "Driver not loading with Secure Boot (nvidia-smi error)"
+description: "How to fix a case where the NVIDIA module does not load with Secure Boot enabled: module signing, dmesg checks, and choosing the correct driver package."
+sidebar:
+  order: 6
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+After a kernel/driver update, `nvidia-smi` can stop working if Secure Boot is enabled and the NVIDIA module is not signed with a trusted key.
+
+## Symptoms
+
+- `nvidia-smi` returns an error
+- System falls back to basic graphics
+- `dmesg` shows `verification`/`lockdown` messages
+
+## What to check
+
+```bash
+nvidia-smi
+dmesg | grep -iE 'nvidia|secure|verification|lockdown'
+```
+
+## Why this happens
+
+With Secure Boot enabled, unsigned kernel modules may be blocked. This directly affects the NVIDIA module.
+
+## What to do
+
+1. First choose and install the correct driver package for your GPU and kernel: [How to choose an NVIDIA driver in Arch Linux](/en/troubleshooting/nvidia/driver-selection-arch-linux/)
+2. If you use Secure Boot, configure NVIDIA module signing and enroll the key in firmware
+3. Reboot and check `nvidia-smi`
+
+<Aside type="note" title="Short version">
+Secure Boot + unsigned NVIDIA module = the driver may fail to load completely.
+</Aside>
+
+## Source
+
+- NVIDIA README: [Signing the NVIDIA Kernel Module](https://download.nvidia.com/XFree86/Linux-x86_64/580.142/README/installdriver.html#modulesigning)

@@ -1,0 +1,42 @@
+---
+title: "Разрывы кадров (screen tearing) на X11 — как исправить"
+description: "Устранение screen tearing на X11 в Arch Linux: ForceCompositionPipeline и ForceFullCompositionPipeline, плюсы и минусы."
+sidebar:
+  order: 5
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Если на X11 вы видите разрывы изображения (tearing), это типичный сценарий для NVIDIA.
+
+## Что помогает чаще всего
+
+Включение **ForceCompositionPipeline**.
+
+Создайте или отредактируйте `/etc/X11/xorg.conf.d/20-nvidia.conf`:
+
+```txt
+Section "Screen"
+    Identifier "Screen0"
+    Option "ForceCompositionPipeline" "On"
+EndSection
+```
+
+Если этого недостаточно, попробуйте:
+
+```txt
+Option "ForceFullCompositionPipeline" "On"
+```
+
+## Проверка
+
+1. Перезагрузите X11-сессию (или ПК)
+2. Проверьте, исчезли ли разрывы при прокрутке/видео/играх
+
+<Aside type="caution" title="Минусы">
+`ForceFullCompositionPipeline` может добавить задержку ввода (input lag). Если важна отзывчивость, начните с обычного `ForceCompositionPipeline`.
+</Aside>
+
+## Источник
+
+- NVIDIA README: [X Config Options](https://download.nvidia.com/XFree86/Linux-x86_64/580.142/README/xconfigoptions.html)

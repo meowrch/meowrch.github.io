@@ -1,0 +1,75 @@
+---
+title: "Wayland not starting or black screen at login"
+description: "What to do when an NVIDIA Wayland session does not start in Arch Linux: nvidia_drm.modeset=1, fbdev=1, driver checks, and X11 fallback."
+sidebar:
+  order: 4
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+If your Wayland session does not start after entering your password, or you see a black screen, the issue is usually related to NVIDIA DRM KMS configuration.
+
+## Common causes
+
+- `nvidia_drm.modeset=1` is not enabled
+- In some setups, `nvidia_drm.fbdev=1` is not enabled
+- Old/unstable NVIDIA driver
+
+## What to check
+
+```bash
+sudo cat /sys/module/nvidia_drm/parameters/modeset
+sudo cat /sys/module/nvidia_drm/parameters/fbdev
+nvidia-smi
+```
+
+If `modeset` is not `Y`, add the parameter in GRUB and reboot.
+
+<Aside type="note" title="If the file is missing or the value is not `Y`">
+Files under `/sys/module/...` are created automatically by the kernel when a module is loaded, and are not edited manually. If a file is missing, `nvidia_drm` is usually not loaded. To get `Y`, set `nvidia_drm.modeset=1 nvidia_drm.fbdev=1` (via GRUB or modprobe), then reboot.
+</Aside>
+
+## How to enable parameters in GRUB
+
+In `/etc/default/grub`, add to `GRUB_CMDLINE_LINUX_DEFAULT`:
+
+```bash
+nvidia_drm.modeset=1 nvidia_drm.fbdev=1
+```
+
+Then run:
+
+```bash
+sudo update-grub
+sudo reboot
+```
+
+### Alternative via modprobe
+
+If you prefer setting parameters outside GRUB, create `/etc/modprobe.d/nvidia-kms.conf`:
+
+```bash
+options nvidia_drm modeset=1 fbdev=1
+```
+
+Then rebuild initramfs and reboot:
+
+```bash
+sudo mkinitcpio -P
+sudo reboot
+```
+
+<Aside type="note" title="Important">
+For Wayland on NVIDIA, `modeset=1` is an official requirement in NVIDIA documentation.
+</Aside>
+
+## If Wayland still does not start
+
+1. Log into an X11 session
+2. Check for NVIDIA driver updates
+3. Re-test Wayland after reboot
+
+## Source
+
+- NVIDIA README: [Direct Rendering Manager Kernel Modesetting](https://download.nvidia.com/XFree86/Linux-x86_64/580.142/README/kms.html)
+- NVIDIA README: [Wayland Known Issues](https://download.nvidia.com/XFree86/Linux-x86_64/580.142/README/wayland-issues.html)

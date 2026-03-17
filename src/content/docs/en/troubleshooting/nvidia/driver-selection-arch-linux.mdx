@@ -1,0 +1,71 @@
+---
+title: "How to choose an NVIDIA driver in Arch Linux"
+description: "NVIDIA driver selection by GPU generation and kernel type (linux, linux-lts, linux-zen, and others), including current open/legacy branches."
+sidebar:
+  order: 2
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+This page helps you choose the **correct NVIDIA driver package** for your GPU and kernel in Arch Linux.
+
+## Step 1: Identify your GPU model and active driver
+
+```bash
+lspci -k | grep -A 3 -E '(VGA|3D)'
+nvidia-smi
+```
+
+## Step 2: Choose a driver branch by GPU generation
+
+### Turing and newer (RTX 20xx / GTX 16xx / RTX 30xx / RTX 40xx and newer)
+
+For these cards in Arch Linux, **open kernel modules** are the current option:
+
+- `nvidia-open` — for the regular `linux` kernel
+- `nvidia-open-lts` — for `linux-lts`
+- `nvidia-open-dkms` — for non-standard kernels (`linux-zen`, `linux-hardened`, custom kernels)
+
+<Aside type="note" title="Why this setup">
+In official Arch Linux changes, `nvidia`, `nvidia-lts`, and `nvidia-dkms` were replaced by `nvidia-open`, `nvidia-open-lts`, and `nvidia-open-dkms`.
+</Aside>
+
+### Pascal and older (for example GTX 10xx and older generations)
+
+Starting from branch 590, the proprietary driver no longer supports Pascal and older GPUs. For these cards, use the legacy branch:
+
+- `nvidia-580xx-dkms` (AUR)
+
+For very old GPUs, even older legacy branches may be required (for example `470xx`/`390xx`) if the card is not supported by 580xx.
+
+## Step 3: Choose a package by kernel type
+
+- Standard `linux` kernel → usually `nvidia-open`
+- `linux-lts` → `nvidia-open-lts`
+- Non-standard kernel (`linux-zen`, `linux-hardened`, custom) → `nvidia-open-dkms` + your kernel headers package
+
+Example for `linux-zen`:
+
+```bash
+sudo pacman -S linux-zen-headers nvidia-open-dkms
+```
+
+## Important rules
+
+1. Do not install multiple conflicting driver families at the same time (`nvidia-open` and `nvidia-580xx-dkms`, etc.)
+2. Always reboot after switching driver branches
+3. If you use Steam/Proton and 32-bit games, check that `lib32-nvidia-utils` is installed
+
+## Where to find exact compatibility info for your GPU
+
+- Support matrix in NVIDIA documentation
+- Current package policy in Arch Linux
+
+## Sources
+
+- Arch Linux News: [NVIDIA 580 and 400 series driver packages](https://archlinux.org/news/nvidia-580-and-400-series-driver-packages/)
+- Arch package: [nvidia-open](https://archlinux.org/packages/extra/x86_64/nvidia-open/)
+- Arch package: [nvidia-open-lts](https://archlinux.org/packages/extra/x86_64/nvidia-open-lts/)
+- Arch package: [nvidia-open-dkms](https://archlinux.org/packages/extra/x86_64/nvidia-open-dkms/)
+- NVIDIA docs: [Supported products for open kernel modules](https://us.download.nvidia.com/XFree86/Linux-x86_64/570.172.08/README/kernel_open.html)
+- AUR: [nvidia-580xx-dkms](https://aur.archlinux.org/packages/nvidia-580xx-dkms)

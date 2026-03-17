@@ -1,0 +1,77 @@
+---
+title: "Черный экран после suspend/resume (sleep/hibernate)"
+description: "Решение black screen после сна или гибернации в Arch Linux: modeset/fbdev, nvidia-suspend services и PreserveVideoMemoryAllocations."
+sidebar:
+  order: 3
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Если после сна (`suspend`) или гибернации (`hibernate`) экран остаётся чёрным — это один из самых частых багов NVIDIA на Linux, особенно на старых картах.
+
+## Симптомы
+
+- После пробуждения экран чёрный, но система не зависла полностью
+- Курсор не двигается или есть только подсветка
+- Помогает только жёсткая перезагрузка
+
+## Пошаговое решение (Arch Linux)
+
+### 1) Включите KMS-параметры NVIDIA в GRUB
+
+Откройте `/etc/default/grub` и добавьте в `GRUB_CMDLINE_LINUX_DEFAULT`:
+
+```bash
+nvidia_drm.modeset=1 nvidia_drm.fbdev=1
+```
+
+Обновите GRUB:
+
+```bash
+sudo update-grub
+```
+
+### 2) Включите сервисы NVIDIA для сна/пробуждения
+
+```bash
+sudo systemctl enable nvidia-suspend.service
+sudo systemctl enable nvidia-hibernate.service
+sudo systemctl enable nvidia-resume.service
+```
+
+### 3) Включите сохранение видеопамяти
+
+Добавьте в `/etc/modprobe.d/nvidia.conf`:
+
+```bash
+options nvidia NVreg_PreserveVideoMemoryAllocations=1
+```
+
+Если NVIDIA-модули у вас загружаются рано (через initramfs), обновите initramfs:
+
+```bash
+sudo mkinitcpio -P
+```
+
+### 4) Перезагрузите систему
+
+После перезагрузки проверьте:
+
+```bash
+systemctl status nvidia-suspend.service nvidia-resume.service nvidia-hibernate.service --no-pager
+```
+
+<Aside type="tip" title="Почему это работает">
+NVIDIA официально описывает схему с `nvidia-suspend`/`nvidia-resume` и `NVreg_PreserveVideoMemoryAllocations=1` как способ улучшить переходы сна/пробуждения и сохранение видеопамяти.
+</Aside>
+
+## Если проблема остаётся
+
+- Временно проверьте X11-сеанс вместо Wayland
+- Убедитесь, что загружен именно модуль `nvidia`, а не `nouveau`
+- Обновите драйвер NVIDIA до актуальной ветки
+
+## Источник
+
+- NVIDIA README: [Configuring Power Management Support](https://download.nvidia.com/XFree86/Linux-x86_64/580.142/README/powermanagement.html)
+- NVIDIA README: [Direct Rendering Manager Kernel Modesetting](https://download.nvidia.com/XFree86/Linux-x86_64/580.142/README/kms.html)

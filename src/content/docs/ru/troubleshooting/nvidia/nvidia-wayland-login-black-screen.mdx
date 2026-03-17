@@ -1,0 +1,75 @@
+---
+title: "Wayland не запускается или black screen при логине"
+description: "Что делать, если Wayland-сессия с NVIDIA не стартует в Arch Linux: nvidia_drm.modeset=1, fbdev=1, проверка драйвера и fallback на X11."
+sidebar:
+  order: 4
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Если после ввода пароля сессия Wayland не стартует или вы видите чёрный экран — обычно проблема в конфигурации DRM KMS для NVIDIA.
+
+## Базовые причины
+
+- Не включён `nvidia_drm.modeset=1`
+- В некоторых конфигурациях не включён `nvidia_drm.fbdev=1`
+- Старый/нестабильный драйвер NVIDIA
+
+## Что проверить
+
+```bash
+sudo cat /sys/module/nvidia_drm/parameters/modeset
+sudo cat /sys/module/nvidia_drm/parameters/fbdev
+nvidia-smi
+```
+
+Если `modeset` не `Y`, добавьте параметр в GRUB и перезагрузитесь.
+
+<Aside type="note" title="Если файла нет или значение не `Y`">
+Файлы в `/sys/module/...` создаются ядром автоматически при загрузке модуля и не редактируются вручную. Если файла нет, обычно модуль `nvidia_drm` не загружен. Чтобы получить `Y`, задайте параметры `nvidia_drm.modeset=1 nvidia_drm.fbdev=1` (через GRUB или modprobe), затем перезагрузитесь.
+</Aside>
+
+## Как включить параметры в GRUB
+
+В `/etc/default/grub` добавьте в `GRUB_CMDLINE_LINUX_DEFAULT`:
+
+```bash
+nvidia_drm.modeset=1 nvidia_drm.fbdev=1
+```
+
+Затем:
+
+```bash
+sudo update-grub
+sudo reboot
+```
+
+### Альтернатива через modprobe
+
+Если хотите задавать параметры не через GRUB, создайте файл `/etc/modprobe.d/nvidia-kms.conf`:
+
+```bash
+options nvidia_drm modeset=1 fbdev=1
+```
+
+После этого обновите initramfs и перезагрузитесь:
+
+```bash
+sudo mkinitcpio -P
+sudo reboot
+```
+
+<Aside type="note" title="Важно">
+Для Wayland на NVIDIA параметр `modeset=1` является обязательным условием в официальной документации.
+</Aside>
+
+## Если Wayland всё ещё не поднимается
+
+1. Войдите через X11-сессию
+2. Проверьте обновления драйвера NVIDIA
+3. Повторно протестируйте Wayland после перезагрузки
+
+## Источник
+
+- NVIDIA README: [Direct Rendering Manager Kernel Modesetting](https://download.nvidia.com/XFree86/Linux-x86_64/580.142/README/kms.html)
+- NVIDIA README: [Wayland Known Issues](https://download.nvidia.com/XFree86/Linux-x86_64/580.142/README/wayland-issues.html)

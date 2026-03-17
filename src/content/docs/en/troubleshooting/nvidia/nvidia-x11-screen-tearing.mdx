@@ -1,0 +1,42 @@
+---
+title: "Screen tearing on X11 — how to fix"
+description: "Fixing screen tearing on X11 in Arch Linux: ForceCompositionPipeline and ForceFullCompositionPipeline, with pros and cons."
+sidebar:
+  order: 5
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+If you see tearing artifacts on X11, this is a typical NVIDIA scenario.
+
+## What helps most often
+
+Enable **ForceCompositionPipeline**.
+
+Create or edit `/etc/X11/xorg.conf.d/20-nvidia.conf`:
+
+```txt
+Section "Screen"
+    Identifier "Screen0"
+    Option "ForceCompositionPipeline" "On"
+EndSection
+```
+
+If this is not enough, try:
+
+```txt
+Option "ForceFullCompositionPipeline" "On"
+```
+
+## Verification
+
+1. Restart the X11 session (or reboot)
+2. Check whether tearing is gone in scrolling/video/games
+
+<Aside type="caution" title="Downside">
+`ForceFullCompositionPipeline` can add input lag. If responsiveness matters, start with regular `ForceCompositionPipeline`.
+</Aside>
+
+## Source
+
+- NVIDIA README: [X Config Options](https://download.nvidia.com/XFree86/Linux-x86_64/580.142/README/xconfigoptions.html)

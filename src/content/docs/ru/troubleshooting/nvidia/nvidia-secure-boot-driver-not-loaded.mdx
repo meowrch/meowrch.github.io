@@ -1,0 +1,41 @@
+---
+title: "Драйвер не загружается при Secure Boot (nvidia-smi error)"
+description: "Как исправить проблему, когда модуль NVIDIA не загружается при включенном Secure Boot: module signing, dmesg и выбор правильного пакета драйвера."
+sidebar:
+  order: 6
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+После обновления ядра/драйвера `nvidia-smi` может перестать работать, если включён Secure Boot и модуль NVIDIA не подписан доверенным ключом.
+
+## Симптомы
+
+- `nvidia-smi` показывает ошибку
+- Система использует fallback-графику
+- В `dmesg` есть сообщения про `verification`/`lockdown`
+
+## Что проверить
+
+```bash
+nvidia-smi
+dmesg | grep -iE 'nvidia|secure|verification|lockdown'
+```
+
+## Почему это происходит
+
+При включённом Secure Boot неподписанные модули ядра могут блокироваться. Это напрямую касается модуля NVIDIA.
+
+## Что делать
+
+1. Сначала выберите и установите корректный пакет драйвера для вашей видеокарты и ядра: [Как выбрать драйвер для видеокарты NVIDIA в Arch Linux](/ru/troubleshooting/nvidia/driver-selection-arch-linux/)
+2. Если используете Secure Boot, настройте подписание модуля NVIDIA и загрузку ключа в прошивку
+3. Перезагрузите систему и проверьте `nvidia-smi`
+
+<Aside type="note" title="Коротко">
+Secure Boot + неподписанный модуль NVIDIA = драйвер может не загрузиться вообще.
+</Aside>
+
+## Источник
+
+- NVIDIA README: [Signing the NVIDIA Kernel Module](https://download.nvidia.com/XFree86/Linux-x86_64/580.142/README/installdriver.html#modulesigning)

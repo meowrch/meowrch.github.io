@@ -135,6 +135,12 @@ export default defineConfig({
 							collapsed: true,
 							translations: { ru: 'Двойная загрузка' },
 							autogenerate: { directory: 'troubleshooting/dualboot' }
+						},
+						{
+							label: 'NVIDIA',
+							collapsed: true,
+							translations: { ru: 'NVIDIA' },
+							autogenerate: { directory: 'troubleshooting/nvidia' }
 						}
 					]
 				}

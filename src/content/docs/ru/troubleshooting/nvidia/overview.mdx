@@ -1,0 +1,42 @@
+---
+title: "Проблемы NVIDIA в Arch Linux: решения для Wayland/X11"
+description: "Раздел по NVIDIA в Arch Linux: черный экран после сна, Wayland black screen, тиринг в X11, Secure Boot и выбор драйвера."
+sidebar:
+  order: 1
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Этот раздел посвящён самым частым проблемам NVIDIA в **Arch Linux**, включая **Wayland** и **X11**.
+
+## Быстрая диагностика NVIDIA в Linux
+
+Перед применением фиксов проверьте базовое состояние драйвера:
+
+```bash
+nvidia-smi
+lsmod | grep -E 'nvidia|nouveau'
+cat /sys/module/nvidia_drm/parameters/modeset
+cat /sys/module/nvidia_drm/parameters/fbdev
+systemctl status nvidia-suspend.service nvidia-resume.service nvidia-hibernate.service --no-pager
+```
+
+## Карта раздела (NVIDIA troubleshooting)
+
+- [Черный экран после suspend/resume (sleep/hibernate)](/ru/troubleshooting/nvidia/nvidia-black-screen-after-suspend-resume/)
+- [Wayland не запускается или black screen при логине](/ru/troubleshooting/nvidia/nvidia-wayland-login-black-screen/)
+- [Разрывы кадров (screen tearing) на X11](/ru/troubleshooting/nvidia/nvidia-x11-screen-tearing/)
+- [Драйвер не загружается при Secure Boot](/ru/troubleshooting/nvidia/nvidia-secure-boot-driver-not-loaded/)
+- [Как выбрать драйвер для видеокарты NVIDIA в Arch Linux](/ru/troubleshooting/nvidia/driver-selection-arch-linux/)
+
+<Aside type="tip" title="Для новичков">
+Начинайте с статьи про вашу конкретную ошибку (black screen, suspend, tearing, secure boot), а не применяйте сразу все фиксы.
+</Aside>
+
+## Официальные источники NVIDIA
+
+- [Power Management Support](https://download.nvidia.com/XFree86/Linux-x86_64/580.142/README/powermanagement.html)
+- [DRM KMS (`nvidia_drm.modeset`)](https://download.nvidia.com/XFree86/Linux-x86_64/580.142/README/kms.html)
+- [Wayland Known Issues](https://download.nvidia.com/XFree86/Linux-x86_64/580.142/README/wayland-issues.html)
+- [X Config Options (`ForceCompositionPipeline`)](https://download.nvidia.com/XFree86/Linux-x86_64/580.142/README/xconfigoptions.html)
+- [Secure Boot / module signing](https://download.nvidia.com/XFree86/Linux-x86_64/580.142/README/installdriver.html#modulesigning)
