@@ -35,6 +35,12 @@ Arch Linux, Hyprland, BSPWM, dotfiles, ricing, customization, optimization, trou
 /en/troubleshooting/dualboot/bluetooth-pairing/
 /en/troubleshooting/dualboot/windows-hibernation/
 /en/troubleshooting/dualboot/windows-time-sync/
+/en/troubleshooting/nvidia/driver-selection-arch-linux/
+/en/troubleshooting/nvidia/nvidia-black-screen-after-suspend-resume/
+/en/troubleshooting/nvidia/nvidia-secure-boot-driver-not-loaded/
+/en/troubleshooting/nvidia/nvidia-wayland-login-black-screen/
+/en/troubleshooting/nvidia/nvidia-x11-screen-tearing/
+/en/troubleshooting/nvidia/overview/
 /en/usage/gaming/base/
 /en/usage/gaming/launchers/lutris/
 /en/usage/gaming/launchers/portproton/
@@ -62,6 +68,12 @@ Arch Linux, Hyprland, BSPWM, dotfiles, ricing, customization, optimization, trou
 /ru/troubleshooting/dualboot/bluetooth-pairing/
 /ru/troubleshooting/dualboot/windows-hibernation/
 /ru/troubleshooting/dualboot/windows-time-sync/
+/ru/troubleshooting/nvidia/driver-selection-arch-linux/
+/ru/troubleshooting/nvidia/nvidia-black-screen-after-suspend-resume/
+/ru/troubleshooting/nvidia/nvidia-secure-boot-driver-not-loaded/
+/ru/troubleshooting/nvidia/nvidia-wayland-login-black-screen/
+/ru/troubleshooting/nvidia/nvidia-x11-screen-tearing/
+/ru/troubleshooting/nvidia/overview/
 /ru/usage/gaming/base/
 /ru/usage/gaming/launchers/lutris/
 /ru/usage/gaming/launchers/portproton/
