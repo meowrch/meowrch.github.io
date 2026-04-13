@@ -102,7 +102,7 @@ For more information and examples, you can refer to the official sxhkd repositor
     </tr>
     <tr>
         <td>Clipboard</td>
-		<td colspan="2" align="center">super + v3</td>
+		<td colspan="2" align="center">super + v</td>
     </tr>
     <tr>
         <td>Open the application menu</td>

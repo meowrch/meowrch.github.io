@@ -102,7 +102,7 @@ button2
     </tr>
     <tr>
         <td>Буфер обмена</td>
-		<td colspan="2" align="center">super + v3</td>
+		<td colspan="2" align="center">super + v</td>
     </tr>
     <tr>
         <td>Открыть меню приложений</td>
